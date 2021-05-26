@@ -1,0 +1,118 @@
+#navbar {
+  display: flex;
+  grid-template-columns: 15% auto 3% 15%;
+  background-color: white;
+  box-shadow: 0 1px 15px lightgray;
+  padding: 0 5%;
+  height: 55px;
+
+  #brand {
+    display: none;
+  }
+
+  .search {
+    height: 55px;
+    width: 70%;
+    min-width: 150px;
+
+    .search-input {
+      width: 80%;
+      height: 30px;
+      margin: 12.5px 0;
+      padding: 10px;
+      border-radius: 7px 0 0 7px;
+      border: 1px solid lightgray;
+      border-right: none;
+      outline: none;
+    }
+    .search-btn {
+      height: 30px;
+      border-radius: 0 7px 7px 0;
+      border: 1px solid lightgray;
+      border-left: none;
+    }
+  }
+
+  .daftar-masuk-button {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  #menuToggle {
+    display: none;
+  }
+
+  #navbar {
+    display: flex;
+    justify-content: space-between;
+    grid-template-columns: 15% auto 3% 15%;
+    background-color: white;
+    box-shadow: 0 1px 15px lightgray;
+    padding: 0 5%;
+    height: 55px;
+
+    #brand {
+      display: block;
+      font-size: 32px;
+      font-weight: 700;
+      // width: 15%;
+      width: 152px;
+      margin: auto 0;
+      padding-bottom: 5px;
+    }
+
+    .search {
+      height: 55px;
+      width: 70%;
+      min-width: 150px;
+
+      .search-input {
+        width: 80%;
+        height: 30px;
+        margin: 12.5px 0;
+        padding: 10px;
+        border-radius: 7px 0 0 7px;
+        border: 1px solid lightgray;
+        border-right: none;
+        outline: none;
+      }
+      .search-btn {
+        height: 30px;
+        border-radius: 0 7px 7px 0;
+        border: 1px solid lightgray;
+        border-left: none;
+      }
+    }
+
+    .daftar-masuk-button {
+      display: flex;
+      justify-content: center;
+      // width: 15%;
+      width: 152px;
+
+      .btn {
+        width: 70px;
+        height: 30px;
+        margin: auto 5px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 30px;
+        border-radius: 7px;
+      }
+
+      .masuk {
+        width: 68px;
+        height: 28px;
+        color: #1c0903;
+        border: 1px solid #1c0903;
+      }
+
+      .daftar {
+        color: white;
+        background-color: #1c0903;
+      }
+    }
+  }
+}

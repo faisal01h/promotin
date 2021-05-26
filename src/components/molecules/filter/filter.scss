@@ -1,0 +1,43 @@
+.filter-container {
+  width: 70%;
+  height: 200px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 1px 1px 7px lightgray;
+
+  .kategori {
+    text-align: start;
+    margin: 0;
+    padding: 10px 0 0 20px;
+  }
+
+  .filter-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .l-side-f {
+      display: flex;
+      margin: auto;
+
+      .menu {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        border-radius: 7px;
+        border: 1px solid rgb(223, 223, 223);
+      }
+    }
+
+    .r-side-f {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 20px;
+      width: 50%;
+
+      div {
+        margin: 15px 0;
+      }
+    }
+  }
+}
