@@ -1,12 +1,22 @@
-import React, { useState } from "react";
-// import { Squash as Hamburger } from "hamburger-react";
+import React, { useEffect, useState } from "react";
+import { Squash as Hamburger } from "hamburger-react";
 import "./header.scss";
-// import useWindowDimensions from "../../hooks";
 
 function Header() {
-  // const [isOpen, setOpen] = useState(false);
-  // const [show, setShow] = useState(false);
-  // const { height, width } = useWindowDimensions();
+  const [isOpen, setOpen] = useState(false);
+  const [isNav, setNav] = useState(false);
+  const [isMenu, setMenu] = useState(false);
+
+  const showHamburger = () => {
+    if (window.innerWidth <= 768) {
+      setNav(true);
+    } else {
+      setNav(false);
+    }
+  };
+
+  useEffect(showHamburger);
+  window.addEventListener("resize", showHamburger);
 
   return (
     <div id="navbar">
@@ -22,7 +32,7 @@ function Header() {
           Search
         </button>
       </div>
-      <div className="pembatas"></div>
+      {/* <div className="pembatas"></div> */}
       <div className="daftar-masuk-button">
         <a className="btn masuk" href="#">
           Masuk
@@ -32,7 +42,22 @@ function Header() {
         </a>
       </div>
 
-      {/* <Hamburger toggled={isOpen} toggle={setOpen} /> */}
+      <div className="burger" onClick={() => setMenu(!isMenu)}>
+        {isNav ? <Hamburger toggled={isOpen} toggle={setOpen} /> : ""}
+      </div>
+
+      {isMenu ? (
+        <ul id="menu">
+          <a href="#">
+            <li>Masuk</li>
+          </a>
+          <a href="#">
+            <li>Daftar</li>
+          </a>
+        </ul>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

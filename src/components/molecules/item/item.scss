@@ -1,13 +1,27 @@
 .item-wrapper {
-  width: 170px;
-  height: 230px;
   border-radius: 7px;
   border: 1px solid rgb(223, 223, 223);
   box-shadow: 1px 1px 7px lightgray;
 
   .item-img {
-    width: 170px;
-    height: 230px;
+    width: 120px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 7px;
+  }
+}
+
+@media (min-width: 768px) {
+  .item-wrapper {
+    border-radius: 7px;
+    border: 1px solid rgb(223, 223, 223);
+    box-shadow: 1px 1px 7px lightgray;
+
+    .item-img {
+      width: 200px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 7px;
+    }
   }
 }
