@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Header } from "../../components/molecules";
 import Home from "../Home";
+import ItemDetail from "../ItemDetail";
 
 function MainApp() {
   return (
@@ -11,6 +12,9 @@ function MainApp() {
       <div className="content-wrapper">
         <Router>
           <Switch>
+            <Route path="/item-detail">
+              <ItemDetail />
+            </Route>
             <Route path="/">
               <Home />
             </Route>

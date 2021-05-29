@@ -1,0 +1,255 @@
+.detail-container {
+  width: 90%;
+  margin: 30px auto;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+
+  .detail-image-wrapper {
+    width: 30%;
+    .detail-image {
+      width: 100%;
+      //   height: 450px;
+    }
+  }
+
+  .info {
+    // background-color: lightskyblue;
+    width: 50%;
+    padding: 5px 20px 20px 30px;
+
+    h1 {
+      margin: 0;
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      width: fit-content;
+      padding-left: 5px;
+      font-size: 9px;
+      color: rgb(75, 75, 75);
+      background-color: rgb(212, 212, 212);
+    }
+
+    span::after {
+      content: "";
+      display: block;
+      position: relative;
+      left: 10px;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+
+      border-left: 10px solid rgb(212, 212, 212);
+    }
+
+    .basic-info {
+      .basic-info-tag {
+        display: flex;
+        border-top: 1px solid lightgrey;
+        border-bottom: 1px solid lightgrey;
+
+        h4 {
+          margin: 10px;
+        }
+      }
+    }
+
+    .benefit {
+      margin-bottom: 20px;
+      .benefit-item {
+        // padding: 0 5px;
+        margin-bottom: 10px;
+        border: 1px solid grey;
+        border-radius: 10px;
+      }
+      .benefit-title {
+        color: white;
+        background-color: #1c0903;
+        height: 27px;
+        margin: auto;
+        padding: 5px 10px;
+        border-radius: 10px 10px 0 0;
+        border-bottom: 1px solid lightgrey;
+      }
+      .benefit-item-detail {
+        padding: 5px 10px;
+        p {
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+
+    .alur {
+      margin-bottom: 20px;
+
+      .detail-alur-wrapper {
+        position: relative;
+        display: flex;
+
+        button {
+          position: absolute;
+          height: 30px;
+          top: 70px;
+        }
+
+        .scroll-left {
+          left: 0;
+        }
+
+        .scroll-right {
+          right: 0;
+        }
+
+        .alur-menu {
+          display: flex;
+          align-items: flex-start;
+          padding: 15px 110px;
+          height: 150px;
+          overflow-x: auto;
+          scroll-behavior: smooth;
+          background-color: rgb(230, 230, 230);
+
+          .detail-alur {
+            min-width: 200px;
+
+            h4 {
+              border-bottom: 2px solid #1c0903;
+              padding-bottom: 5px;
+              margin-bottom: 0;
+              font-size: 14px;
+            }
+
+            p {
+              margin-top: 5px;
+              font-size: 12px;
+            }
+          }
+
+          .detail-alur::before {
+            content: "";
+            display: block;
+            position: relative;
+            width: 1px;
+            height: 1px;
+            top: 47px;
+            left: 20px;
+            border: 4px solid #1c0903;
+            border-radius: 50%;
+          }
+        }
+        .alur-menu::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+
+    .faq {
+      .faq-item {
+        counter-increment: h4;
+      }
+
+      h4::before {
+        content: "#" counter(h4) " ";
+        color: lightsalmon;
+        font-weight: bold;
+      }
+
+      h4 {
+        margin: 10px 0;
+      }
+
+      p {
+        padding-left: 25px;
+        margin: 0 auto 20px auto;
+      }
+    }
+  }
+
+  .item-detail-button {
+    width: 20%;
+    height: fit-content;
+    padding: 0 20px;
+    border: 1px solid lightgrey;
+    box-shadow: 0px 2px 3px lightgray;
+    border-radius: 20px;
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    p {
+      margin-top: 0;
+      padding-left: 13px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #00c20d;
+    }
+
+    p::before {
+      content: "";
+      display: block;
+      position: relative;
+      width: 1px;
+      height: 1px;
+      top: 15px;
+      left: -15px;
+      border: 4px solid #00c20d;
+      border-radius: 50%;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .btn-top {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      margin-top: 30px;
+      padding: 5px;
+      border-top: 1px solid lightgrey;
+      border-bottom: 1px solid lightgrey;
+
+      a {
+        text-align: center;
+        font-size: 12px;
+        width: 40%;
+        color: grey;
+      }
+
+      .pesan {
+        display: flex;
+      }
+
+      .pesan::after {
+        content: "";
+        position: relative;
+        display: block;
+        width: 1px;
+        height: 15px;
+        background: rgb(196, 196, 196);
+        right: -39px;
+        top: 0px;
+      }
+    }
+
+    .daftar-event {
+      display: block;
+      width: 100%;
+      height: 35px;
+      margin: 5px 0 15px 0;
+      padding-top: 7px;
+      color: white;
+      background-color: #00c20d;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+    }
+  }
+}
