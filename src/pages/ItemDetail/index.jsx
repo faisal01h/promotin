@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./ItemDetail.scss";
 import { Gap, Line } from "../../components/atoms";
-import { poster } from "../../assets";
+import { Bronze_fill, Gold_fill, poster, Silver_fill } from "../../assets";
+import { Deskripsi, Detail, Sk } from "../../components/molecules";
 
 function ItemDetail() {
-  const [info, setInfo] = useState(true);
+  const [info, setInfo] = useState("detail");
   const refAlur = React.useRef();
+  const refBenefit = React.useRef();
 
-  const scroll = (scrollOffset) => {
-    refAlur.current.scrollLeft += scrollOffset;
+  const scroll = (ref, scrollOffset) => {
+    ref.current.scrollLeft += scrollOffset;
   };
 
   return (
@@ -24,52 +26,66 @@ function ItemDetail() {
         <Gap height={20} />
         <div className="basic-info">
           <div className="basic-info-tag">
-            <h4 onClick={() => setInfo(true)}>Detail</h4>
-            <h4 onClick={() => setInfo(false)}>Deskripsi</h4>
+            <h4 onClick={() => setInfo("detail")}>Detail</h4>
+            <h4 onClick={() => setInfo("deskripsi")}>Deskripsi</h4>
+            <h4 onClick={() => setInfo("sk")}>Syarat dan Ketentuan</h4>
           </div>
-          {info ? (
-            <div className="detail">
-              <p>Daerah : Sidoarjo</p>
-              <p>Tingkat : Provinsi</p>
-              <p>Tanggal : 20 Agustus 2021</p>
-              <p>Jenis : On Site</p>
-            </div>
-          ) : (
-            <div className="deskripsi">
-              <p>
-                lomba poster adalah Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Quaerat cumque ea consequuntur, totam
-                consequatur inventore tempora. Hic voluptates repellendus
-                quisquam, pariatur non optio reprehenderit commodi ipsum ducimus
-                minus mollitia sequi!
-              </p>
-            </div>
-          )}
         </div>
+
+        {info === "detail" ? (
+          <Detail />
+        ) : info === "deskripsi" ? (
+          <Deskripsi />
+        ) : info === "sk" ? (
+          <Sk />
+        ) : (
+          ""
+        )}
 
         <Line width={100} />
 
         <div className="benefit">
           <h3>Benefit</h3>
-          <div className="benefit-item">
-            <p className="benefit-title">Hadiah Uang</p>
-            <div className="benefit-item-detail">
-              <p>Juara 1: Rp 5.000.000</p>
-              <p>Juara 2: Rp 3.000.000</p>
-              <p>Juara 3: Rp 1.500.000</p>
+          <div className="benefit-scrollbar">
+            <button
+              className="benefit-scroll-left"
+              onClick={() => scroll(refBenefit, -200)}
+            >
+              LEFT
+            </button>
+            <div className="benefit-item" ref={refBenefit}>
+              {/* <p className="benefit-title">Hadiah Uang</p> */}
+              <div
+                className="benefit-item-detail"
+                style={{ backgroundImage: `url(${Gold_fill})` }}
+              >
+                <h5>Juara 1</h5>
+                <p> Uang Rp 5.000.000 </p>
+                <p>Sertifikat</p>
+              </div>
+              <div
+                className="benefit-item-detail"
+                style={{ backgroundImage: `url(${Silver_fill})` }}
+              >
+                <h5>Juara 2</h5>
+                <p> Uang Rp 3.000.000 </p>
+                <p>Sertifikat</p>
+              </div>
+              <div
+                className="benefit-item-detail"
+                style={{ backgroundImage: `url(${Bronze_fill})` }}
+              >
+                <h5>Juara 3</h5>
+                <p> Uang Rp 1.500.000 </p>
+                <p>Sertifikat</p>
+              </div>
             </div>
-          </div>
-          <div className="benefit-item">
-            <p className="benefit-title">Sertifikat</p>
-            <div className="benefit-item-detail">
-              <p>Semua peserta akan mendapat sertifikat peserta</p>
-            </div>
-          </div>
-          <div className="benefit-item">
-            <p className="benefit-title">Merchandise</p>
-            <div className="benefit-item-detail">
-              <p>Semua peserta akan mendapat merchandise</p>
-            </div>
+            <button
+              className="benefit-scroll-right"
+              onClick={() => scroll(refBenefit, 200)}
+            >
+              RIGHT
+            </button>
           </div>
         </div>
 
@@ -79,7 +95,10 @@ function ItemDetail() {
           <h3>Alur</h3>
 
           <div className="detail-alur-wrapper">
-            <button className="scroll-left" onClick={() => scroll(-150)}>
+            <button
+              className="scroll-left"
+              onClick={() => scroll(refAlur, -150)}
+            >
               LEFT
             </button>
             <div className="alur-menu" ref={refAlur}>
@@ -96,7 +115,10 @@ function ItemDetail() {
                 <p>Penetuan dan pengumuman Juara</p>
               </div>
             </div>
-            <button className="scroll-right" onClick={() => scroll(150)}>
+            <button
+              className="scroll-right"
+              onClick={() => scroll(refAlur, 150)}
+            >
               RIGHT
             </button>
           </div>
@@ -122,7 +144,7 @@ function ItemDetail() {
 
       <div className="item-detail-button">
         <h2>Status</h2>
-        <p>Pendaftaran masih dibuka</p>
+        <p className="status">Pendaftaran masih dibuka</p>
 
         <div className="btn-top">
           <a className="btn pesan" href="#">
