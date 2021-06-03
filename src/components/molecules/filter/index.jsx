@@ -1,5 +1,5 @@
 import React from "react";
-import { SubFilter } from "../../atoms";
+import { Dropdown } from "../../atoms";
 import "./filter.scss";
 
 function Filter() {
@@ -13,13 +13,13 @@ function Filter() {
           <div className="menu">Seminar</div>
         </div>
         <div className="r-side-f">
-          <div className="">
-            <SubFilter placeholder={"Tingkatan"} />
-            <SubFilter placeholder={"Pelaksanaan"} />
+          <div className="r1">
+            <Dropdown title={"Tingkatan"} />
+            <Dropdown title={"Pelaksanaan"} />
           </div>
-          <div className="">
-            <SubFilter placeholder={"Daerah"} />
-            <SubFilter placeholder={"Kategori"} />
+          <div className="r2">
+            <Dropdown title={"Daerah"} />
+            <Dropdown title={"Kategori"} />
           </div>
         </div>
       </div>

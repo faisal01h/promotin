@@ -6,7 +6,6 @@ import { Deskripsi, Detail, Sk } from "../../components/molecules";
 
 function ItemDetail() {
   const [info, setInfo] = useState("detail");
-  const refAlur = React.useRef();
   const refBenefit = React.useRef();
 
   const scroll = (ref, scrollOffset) => {
@@ -95,13 +94,7 @@ function ItemDetail() {
           <h3>Alur</h3>
 
           <div className="detail-alur-wrapper">
-            <button
-              className="scroll-left"
-              onClick={() => scroll(refAlur, -150)}
-            >
-              LEFT
-            </button>
-            <div className="alur-menu" ref={refAlur}>
+            <div className="alur-menu">
               <div className="detail-alur">
                 <h4>1 Agustus 2021</h4>
                 <p>pendaftaran</p>
@@ -115,12 +108,6 @@ function ItemDetail() {
                 <p>Penetuan dan pengumuman Juara</p>
               </div>
             </div>
-            <button
-              className="scroll-right"
-              onClick={() => scroll(refAlur, 150)}
-            >
-              RIGHT
-            </button>
           </div>
         </div>
 
@@ -146,18 +133,20 @@ function ItemDetail() {
         <h2>Status</h2>
         <p className="status">Pendaftaran masih dibuka</p>
 
-        <div className="btn-top">
+        <div className="btn-main">
           <a className="btn pesan" href="#">
             Chat
           </a>
-          <a className="btn add-favorit" href="#">
-            ❤ Favorit
+          <a className="btn add-fav" href="#">
+            + Fav
+          </a>
+          <a className="btn daftar-event" href="#">
+            Daftar
           </a>
         </div>
-        <a className="btn daftar-event" href="#">
-          Daftar
-        </a>
       </div>
+
+      <div className="bottom"></div>
     </div>
   );
 }
