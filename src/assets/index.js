@@ -5,6 +5,7 @@ import Silver_fill from "./images/Silver_fill.png";
 import Silver_outline from "./images/Silver_outline.png";
 import Gold_fill from "./images/Gold_fill.png";
 import Gold_outline from "./images/Gold_outline.png";
+import Arrow_down from "./icon/arrow-down.svg";
 
 export {
   poster,
@@ -14,4 +15,5 @@ export {
   Silver_outline,
   Gold_fill,
   Gold_outline,
+  Arrow_down,
 };

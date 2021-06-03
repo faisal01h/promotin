@@ -29,7 +29,7 @@ function Header() {
           aria-label="Search"
         />
         <button className="search-btn" type="submit">
-          Search
+          S
         </button>
       </div>
       {/* <div className="pembatas"></div> */}

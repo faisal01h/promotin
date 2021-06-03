@@ -1,23 +1,25 @@
 .detail-container {
-  width: 90%;
-  margin: 30px auto;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   text-align: left;
 
   .detail-image-wrapper {
-    width: 30%;
+    width: 100%;
+    height: fit-content;
+    box-shadow: 0px 20px 10px -15px lightgray;
     .detail-image {
-      width: 100%;
-      //   height: 450px;
+      width: 90%;
+      object-fit: cover;
+      margin: 20px 5%;
     }
   }
 
   .info {
-    // background-color: lightskyblue;
-    width: 50%;
-    padding: 5px 20px 20px 30px;
-
+    width: 90%;
+    margin-top: 10px;
     h1 {
       margin: 0;
     }
@@ -54,6 +56,7 @@
 
         h4 {
           margin: 10px;
+          cursor: pointer;
         }
       }
     }
@@ -121,44 +124,31 @@
       margin-bottom: 20px;
 
       .detail-alur-wrapper {
-        position: relative;
-        display: flex;
-
-        button {
-          position: absolute;
-          height: 30px;
-          top: 70px;
-        }
-
-        .scroll-left {
-          left: 0;
-        }
-
-        .scroll-right {
-          right: 0;
-        }
-
         .alur-menu {
           display: flex;
-          align-items: flex-start;
-          padding: 15px 110px;
-          height: 150px;
-          overflow-x: auto;
-          scroll-behavior: smooth;
+          flex-direction: column;
+          padding: 3vh 10%;
           background-color: rgb(230, 230, 230);
 
           .detail-alur {
             min-width: 200px;
+            height: fit-content;
+            padding-left: 10px;
+            padding-bottom: 20px;
+            border-left: 3px solid #1c0903;
 
             h4 {
-              border-bottom: 2px solid #1c0903;
-              padding-bottom: 5px;
-              margin-bottom: 0;
-              font-size: 14px;
+              margin: 0;
+              font-size: 16px;
+            }
+
+            h5 {
+              margin: 5px auto;
+              font-weight: 500;
             }
 
             p {
-              margin-top: 5px;
+              margin-top: 0px;
               font-size: 12px;
             }
           }
@@ -169,8 +159,8 @@
             position: relative;
             width: 1px;
             height: 1px;
-            top: 47px;
-            left: 20px;
+            top: 16px;
+            left: -16px;
             border: 4px solid #1c0903;
             border-radius: 50%;
           }
@@ -204,19 +194,22 @@
   }
 
   .item-detail-button {
-    width: 20%;
-    height: fit-content;
-    padding: 0 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 5.5vh;
+    padding: 5px;
     border: 1px solid lightgrey;
-    box-shadow: 0px 2px 3px lightgray;
-    border-radius: 20px;
+    box-shadow: 0px -0.1px 5px 0.1px lightgray;
+    background-color: white;
 
     h2 {
-      margin-bottom: 0;
+      display: none;
     }
 
     .status {
-      margin-top: 0;
+      display: none;
+      margin: 0;
       padding-left: 13px;
       font-size: 14px;
       font-weight: 500;
@@ -239,40 +232,148 @@
       text-decoration: none;
     }
 
-    .btn-top {
+    .btn-main {
       display: flex;
-      justify-content: space-around;
       text-align: center;
-      margin-top: 30px;
-      padding: 5px;
-      border-top: 1px solid lightgrey;
-      border-bottom: 1px solid lightgrey;
+      justify-content: space-between;
+      margin-top: 5px;
+      padding: 0 5px;
 
       a {
         text-align: center;
         font-size: 12px;
-        width: 50%;
+        height: 35px;
         color: grey;
+        border: 1px solid lightgray;
+        border-radius: 5px;
       }
 
-      .pesan {
-        border-right: 1px solid lightgray;
+      .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 5px;
+      }
+
+      .pesan,
+      .add-fav {
+        width: 10%;
+      }
+
+      .daftar-event {
+        width: 100%;
+        height: 35px;
+        color: white;
+        background-color: #00c20d;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.8px;
+      }
+    }
+  }
+  .bottom {
+    height: 8vh;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .detail-container {
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 15px auto;
+
+    .detail-image-wrapper {
+      width: 30%;
+      height: fit-content;
+      box-shadow: none;
+      .detail-image {
+        width: 100%;
       }
     }
 
-    .daftar-event {
-      display: block;
+    .info {
+      width: 60%;
+      padding: 5px 20px 20px 30px;
+    }
+
+    .item-detail-button {
+      height: 7vh;
+    }
+
+    .bottom {
       width: 100%;
-      height: 35px;
-      margin: 5px 0 15px 0;
-      padding-top: 7px;
-      color: white;
-      background-color: #00c20d;
-      border-radius: 5px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 500;
-      letter-spacing: 0.8px;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .detail-container {
+    flex-wrap: nowrap;
+    .detail-image-wrapper {
+      width: 30%;
+      .detail-image {
+        width: 100%;
+      }
+    }
+
+    .info {
+      width: 50%;
+    }
+
+    .item-detail-button {
+      position: relative;
+      width: 20%;
+      height: 30vh;
+      padding: 0 20px;
+      margin: 10px;
+      box-shadow: 0px 2px 3px lightgray;
+      border-radius: 20px;
+
+      h2 {
+        margin: 15px 0 0 0;
+        display: block;
+      }
+
+      .status {
+        display: block;
+        margin-bottom: 15px;
+      }
+
+      .btn-main {
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        a {
+          width: 50%;
+        }
+
+        .btn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 5px;
+        }
+
+        .pesan,
+        .add-fav {
+          width: 49%;
+          margin: 5px 0;
+          border-radius: 0;
+          height: 25px;
+          border-left: none;
+        }
+
+        .add-fav {
+          border-right: none;
+        }
+      }
+    }
+    .bottom {
+      display: none;
     }
   }
 }
