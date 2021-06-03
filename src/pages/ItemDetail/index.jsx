@@ -129,7 +129,7 @@ function ItemDetail() {
         <div className="faq">
           <h3>FAQ</h3>
           <div className="faq-item">
-            <h4>Apakah tidak ada biaya pendaftaram?</h4>
+            <h4>Apakah tidak ada biaya pendaftaran?</h4>
             <p>Lomba poster tidak dipungut biaya pendaftaran</p>
           </div>
           <div className="faq-item">
@@ -151,7 +151,7 @@ function ItemDetail() {
             Chat
           </a>
           <a className="btn add-favorit" href="#">
-            + Favorit
+            ❤ Favorit
           </a>
         </div>
         <a className="btn daftar-event" href="#">
