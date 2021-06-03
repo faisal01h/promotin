@@ -1,29 +1,30 @@
 {
   "files": {
-    "main.css": "/promotin/static/css/main.bf24201a.chunk.css",
-    "main.js": "/promotin/static/js/main.24e58b43.chunk.js",
-    "main.js.map": "/promotin/static/js/main.24e58b43.chunk.js.map",
-    "runtime-main.js": "/promotin/static/js/runtime-main.5e8752f9.js",
-    "runtime-main.js.map": "/promotin/static/js/runtime-main.5e8752f9.js.map",
-    "static/js/2.232a0216.chunk.js": "/promotin/static/js/2.232a0216.chunk.js",
-    "static/js/2.232a0216.chunk.js.map": "/promotin/static/js/2.232a0216.chunk.js.map",
-    "static/js/3.dab8208b.chunk.js": "/promotin/static/js/3.dab8208b.chunk.js",
-    "static/js/3.dab8208b.chunk.js.map": "/promotin/static/js/3.dab8208b.chunk.js.map",
+    "main.css": "/promotin/static/css/main.07af1a8c.chunk.css",
+    "main.js": "/promotin/static/js/main.c25e51ff.chunk.js",
+    "main.js.map": "/promotin/static/js/main.c25e51ff.chunk.js.map",
+    "runtime-main.js": "/promotin/static/js/runtime-main.ee307f1e.js",
+    "runtime-main.js.map": "/promotin/static/js/runtime-main.ee307f1e.js.map",
+    "static/js/2.43d21c42.chunk.js": "/promotin/static/js/2.43d21c42.chunk.js",
+    "static/js/2.43d21c42.chunk.js.map": "/promotin/static/js/2.43d21c42.chunk.js.map",
+    "static/js/3.c4b90158.chunk.js": "/promotin/static/js/3.c4b90158.chunk.js",
+    "static/js/3.c4b90158.chunk.js.map": "/promotin/static/js/3.c4b90158.chunk.js.map",
     "index.html": "/promotin/index.html",
-    "static/css/main.bf24201a.chunk.css.map": "/promotin/static/css/main.bf24201a.chunk.css.map",
-    "static/js/2.232a0216.chunk.js.LICENSE.txt": "/promotin/static/js/2.232a0216.chunk.js.LICENSE.txt",
+    "static/css/main.07af1a8c.chunk.css.map": "/promotin/static/css/main.07af1a8c.chunk.css.map",
+    "static/js/2.43d21c42.chunk.js.LICENSE.txt": "/promotin/static/js/2.43d21c42.chunk.js.LICENSE.txt",
     "static/media/Bronze_fill.2372977f.png": "/promotin/static/media/Bronze_fill.2372977f.png",
     "static/media/Bronze_outline.d43739de.png": "/promotin/static/media/Bronze_outline.d43739de.png",
     "static/media/Gold_fill.589a643a.png": "/promotin/static/media/Gold_fill.589a643a.png",
     "static/media/Gold_outline.5a597c36.png": "/promotin/static/media/Gold_outline.5a597c36.png",
     "static/media/Silver_fill.7013a724.png": "/promotin/static/media/Silver_fill.7013a724.png",
     "static/media/Silver_outline.8ba699c0.png": "/promotin/static/media/Silver_outline.8ba699c0.png",
+    "static/media/dropdown.scss": "/promotin/static/media/arrow-down.68bc9d9a.svg",
     "static/media/poster.095d39ca.jpg": "/promotin/static/media/poster.095d39ca.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.5e8752f9.js",
-    "static/js/2.232a0216.chunk.js",
-    "static/css/main.bf24201a.chunk.css",
-    "static/js/main.24e58b43.chunk.js"
+    "static/js/runtime-main.ee307f1e.js",
+    "static/js/2.43d21c42.chunk.js",
+    "static/css/main.07af1a8c.chunk.css",
+    "static/js/main.c25e51ff.chunk.js"
   ]
 }
