@@ -47,6 +47,7 @@
 
     background-color: white;
     border: 1px solid lightgray;
+    border-radius: 5px;
     list-style-type: none;
 
     transition: all 0.5s;
@@ -55,12 +56,13 @@
       display: flex;
       align-items: center;
       height: 30px;
-      margin: 5px 0;
+      margin: 5px 5px;
       padding-left: 10px;
     }
 
     .dd-item:hover {
       background-color: lightgray;
+      border-radius: 5px;
       transition: all 0.5s;
     }
   }

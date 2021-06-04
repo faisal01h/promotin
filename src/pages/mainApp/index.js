@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Header } from "../../components/molecules";
+import "./mainApp.scss";
 import Home from "../Home";
 import ItemDetail from "../ItemDetail";
 import Login from "../Login";
