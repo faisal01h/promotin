@@ -1,3 +1,5 @@
+@import "../../index.scss";
+
 .login-page-wrapper {
     margin-top: 20px;
     padding: 0 20px;
@@ -45,14 +47,14 @@
 
     .input-form:hover, .input-form:focus{
         
-        border: 1px solid #00c20d;
+        border: 1px solid $color-secondary;
         
     }
 
     .btn {
         
 
-        background:#00c20d;
+        background:$color-secondary;
         color: #fff;
         padding: 10px 20px;
         border: none;
