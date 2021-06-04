@@ -7,20 +7,6 @@ import axios from "axios";
 
 function ItemDetail() {
   const [info, setInfo] = useState("detail");
-  const refBenefit = React.useRef();
-
-  useEffect(() => {
-    axios
-      .get(
-        "http://promotin.herokuapp.com/api/v1/items/view/60af3a97faad3f001547a917"
-      )
-      .then((result) => {
-        console.log("API data ", result);
-      })
-      .catch((error) => {
-        console.log("Error ", error);
-      });
-  });
 
   return (
     <div className="detail-container">
