@@ -3,14 +3,24 @@ import "./ItemDetail.scss";
 import { Gap, Line } from "../../components/atoms";
 import { Bronze_fill, Gold_fill, poster, Silver_fill } from "../../assets";
 import { Deskripsi, Detail, Sk } from "../../components/molecules";
+import axios from "axios";
 
 function ItemDetail() {
   const [info, setInfo] = useState("detail");
   const refBenefit = React.useRef();
 
-  const scroll = (ref, scrollOffset) => {
-    ref.current.scrollLeft += scrollOffset;
-  };
+  useEffect(() => {
+    axios
+      .get(
+        "http://promotin.herokuapp.com/api/v1/items/view/60af3a97faad3f001547a917"
+      )
+      .then((result) => {
+        console.log("API data ", result);
+      })
+      .catch((error) => {
+        console.log("Error ", error);
+      });
+  });
 
   return (
     <div className="detail-container">
