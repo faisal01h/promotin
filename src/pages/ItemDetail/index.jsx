@@ -45,46 +45,31 @@ function ItemDetail() {
 
         <div className="benefit">
           <h3>Benefit</h3>
-          <div className="benefit-scrollbar">
-            <button
-              className="benefit-scroll-left"
-              onClick={() => scroll(refBenefit, -200)}
+          <div className="benefit-list">
+            <div
+              className="benefit-item-detail"
+              style={{ backgroundImage: `url(${Gold_fill})` }}
             >
-              LEFT
-            </button>
-            <div className="benefit-item" ref={refBenefit}>
-              {/* <p className="benefit-title">Hadiah Uang</p> */}
-              <div
-                className="benefit-item-detail"
-                style={{ backgroundImage: `url(${Gold_fill})` }}
-              >
-                <h5>Juara 1</h5>
-                <p> Uang Rp 5.000.000 </p>
-                <p>Sertifikat</p>
-              </div>
-              <div
-                className="benefit-item-detail"
-                style={{ backgroundImage: `url(${Silver_fill})` }}
-              >
-                <h5>Juara 2</h5>
-                <p> Uang Rp 3.000.000 </p>
-                <p>Sertifikat</p>
-              </div>
-              <div
-                className="benefit-item-detail"
-                style={{ backgroundImage: `url(${Bronze_fill})` }}
-              >
-                <h5>Juara 3</h5>
-                <p> Uang Rp 1.500.000 </p>
-                <p>Sertifikat</p>
-              </div>
+              <h5>Juara 1</h5>
+              <p> Uang Rp 5.000.000 </p>
+              <p>Sertifikat</p>
             </div>
-            <button
-              className="benefit-scroll-right"
-              onClick={() => scroll(refBenefit, 200)}
+            <div
+              className="benefit-item-detail"
+              style={{ backgroundImage: `url(${Silver_fill})` }}
             >
-              RIGHT
-            </button>
+              <h5>Juara 2</h5>
+              <p> Uang Rp 3.000.000 </p>
+              <p>Sertifikat</p>
+            </div>
+            <div
+              className="benefit-item-detail"
+              style={{ backgroundImage: `url(${Bronze_fill})` }}
+            >
+              <h5>Juara 3</h5>
+              <p> Uang Rp 1.500.000 </p>
+              <p>Sertifikat</p>
+            </div>
           </div>
         </div>
 

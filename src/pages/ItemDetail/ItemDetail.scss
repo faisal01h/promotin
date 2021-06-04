@@ -1,5 +1,5 @@
 .detail-container {
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -66,10 +66,8 @@
 
         :hover {
           cursor: pointer;
-          color:#00c20d;
+          color: #00c20d;
         }
-
-        
       }
     }
 
@@ -77,33 +75,11 @@
       margin-bottom: 20px;
       position: relative;
 
-      .benefit-scrollbar {
+      .benefit-list {
         display: flex;
         position: relative;
-
-        .benefit-scroll-left,
-        .benefit-scroll-right {
-          position: absolute;
-          height: 20px;
-          z-index: 1;
-          top: 50px;
-        }
-
-        .benefit-scroll-left {
-          left: 0;
-        }
-
-        .benefit-scroll-right {
-          right: 0;
-        }
-
-        .benefit-item {
-          position: relative;
-          display: flex;
-          overflow-x: auto;
-          scroll-behavior: smooth;
-          padding: 0 30px;
-        }
+        flex-direction: column;
+        width: 70%;
 
         .benefit-item-detail {
           height: 100px;
