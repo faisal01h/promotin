@@ -1,3 +1,5 @@
+@import "../../../index.scss";
+
 #navbar {
   display: flex;
   justify-content: space-between;
@@ -116,7 +118,7 @@
 
       .daftar {
         color: white;
-        background-color: #1c0903;
+        background-color: $color-secondary;
       }
     }
   }

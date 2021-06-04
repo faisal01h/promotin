@@ -44,7 +44,6 @@ function ItemDetail() {
           <div className="benefit-list">
             <div
               className="benefit-item-detail"
-              style={{ backgroundImage: `url(${Gold_fill})` }}
             >
               <h5>Juara 1</h5>
               <p> Uang Rp 5.000.000 </p>
@@ -52,7 +51,6 @@ function ItemDetail() {
             </div>
             <div
               className="benefit-item-detail"
-              style={{ backgroundImage: `url(${Silver_fill})` }}
             >
               <h5>Juara 2</h5>
               <p> Uang Rp 3.000.000 </p>
@@ -60,7 +58,6 @@ function ItemDetail() {
             </div>
             <div
               className="benefit-item-detail"
-              style={{ backgroundImage: `url(${Bronze_fill})` }}
             >
               <h5>Juara 3</h5>
               <p> Uang Rp 1.500.000 </p>
