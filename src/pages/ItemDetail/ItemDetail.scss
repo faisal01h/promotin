@@ -1,3 +1,5 @@
+@import "../../index.scss";
+
 .detail-container {
   width: 90%;
   display: flex;
@@ -66,7 +68,7 @@
 
         :hover {
           cursor: pointer;
-          color: #00c20d;
+          color: $color-secondary;
         }
       }
     }
@@ -88,7 +90,8 @@
           color: white;
           margin: 10px;
           border-radius: 10px;
-
+          background: $color-benefit;
+          
           h5 {
             font-size: 24px;
             padding-top: 5px;
@@ -166,7 +169,7 @@
 
       h4::before {
         content: "#" counter(h4) " ";
-        color: lightsalmon;
+        color: $color-secondary;
         font-weight: bold;
       }
 
@@ -201,7 +204,7 @@
       padding-left: 13px;
       font-size: 14px;
       font-weight: 500;
-      color: #00c20d;
+      color: $color-secondary;
     }
 
     .status::before {
@@ -212,7 +215,7 @@
       height: 1px;
       top: 15px;
       left: -15px;
-      border: 4px solid #00c20d;
+      border: 4px solid $color-secondary;
       border-radius: 50%;
     }
 
@@ -252,7 +255,7 @@
         width: 100%;
         height: 35px;
         color: white;
-        background-color: #00c20d;
+        background-color: $color-secondary;
         border-radius: 5px;
         text-align: center;
         font-size: 18px;
