@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
-import { Link, Router } from 'react-router-dom';
+import { Link, Router } from "react-router-dom";
 import "./header.scss";
 
 function Header() {
@@ -21,7 +21,9 @@ function Header() {
 
   return (
     <div id="navbar">
-      <a id="brand" href={"/"}>Promotin</a>
+      <a id="brand" href={"/"}>
+        Promotno
+      </a>
       <div className="search">
         <input
           className="search-input"
@@ -49,7 +51,7 @@ function Header() {
 
       {isMenu ? (
         <ul id="menu">
-          <a href={'/login'}>
+          <a href={"/login"}>
             <li>Masuk</li>
           </a>
           <a href="/register">

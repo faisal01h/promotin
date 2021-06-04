@@ -21,11 +21,12 @@
     .l-side-f {
       display: flex;
       margin: auto 10px;
+      min-width: 45%;
 
       .menu {
-        width: 50px;
-        height: 50px;
-        margin: 20px 10px 0 10px;
+        width: 60px;
+        height: 60px;
+        margin: 10px;
         border-radius: 7px;
         border: 1px solid rgb(223, 223, 223);
       }
@@ -35,9 +36,9 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      // column-gap: 20px;
-      width: 100%;
+      margin-top: 10px;
       height: 90px;
+      min-width: 45%;
 
       .r1,
       .r2 {
@@ -50,7 +51,8 @@
 
       .dropdown-wrapper {
         height: 35px;
-        width: 50%;
+        width: 120px;
+        margin: 5px 10px;
       }
     }
   }
@@ -59,51 +61,18 @@
 @media screen and (min-width: 420px) {
   .filter-container {
     width: 70%;
-    height: fit-content;
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 1px 1px 7px lightgray;
-
-    .kategori {
-      text-align: start;
-      margin: 0;
-      padding: 10px 0 0 20px;
-    }
 
     .filter-wrapper {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-
       .l-side-f {
-        display: flex;
-        margin: auto 10px;
-
         .menu {
-          width: 50px;
-          height: 50px;
-          margin: 20px 10px 0 10px;
-          border-radius: 7px;
-          border: 1px solid rgb(223, 223, 223);
+          min-width: 65px;
+          height: 65px;
         }
       }
 
       .r-side-f {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        column-gap: 20px;
-        width: 50%;
-        height: 90px;
-        margin: 5px 15px;
-
-        div {
-          margin: 15px 15px;
-        }
-
-        #filter {
-          height: 30px;
-          width: 100px;
+        .dropdown-wrapper {
+          width: 130px;
         }
       }
     }
@@ -112,51 +81,19 @@
 
 @media (min-width: 768px) {
   .filter-container {
-    width: 70%;
-    height: fit-content;
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 1px 1px 7px lightgray;
-
-    .kategori {
-      text-align: start;
-      margin: 0;
-      padding: 10px 0 0 20px;
-    }
-
     .filter-wrapper {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-
       .l-side-f {
-        display: flex;
-        margin: auto 10px;
-
         .menu {
-          width: 100px;
+          min-width: 100px;
           height: 100px;
-          margin: 10px;
-          border-radius: 7px;
-          border: 1px solid rgb(223, 223, 223);
         }
       }
 
       .r-side-f {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        column-gap: 20px;
-        width: 80%;
-        margin: 20px 10px;
+        height: 90px;
 
-        div {
-          margin: 15px 0px;
-        }
-
-        #filter {
-          height: 40px;
-          width: 200px;
+        .dropdown-wrapper {
+          min-width: 150px;
         }
       }
     }

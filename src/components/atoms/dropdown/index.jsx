@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdown.scss";
 
-function Dropdown({ title }) {
+function Dropdown({ title, items = [] }) {
   const [open, setOpen] = useState(false);
-  //   const [showOptionsList, setShowOptionsList] = useState(false);
+  const [selection, setSelection] = useState();
   const node = useRef();
 
   useEffect(() => {
@@ -17,11 +17,14 @@ function Dropdown({ title }) {
     };
   }, [open]);
 
+  function handleOnClick(item) {
+    setSelection([item]);
+  }
+
   const handleClickOutside = (e) => {
     if (node && node.current && node.current.contains(e.target)) {
       // inside click
       setOpen(!open);
-      // console.log(node.current);
     }
     // outside click
     setOpen(false);
@@ -34,9 +37,16 @@ function Dropdown({ title }) {
       </div>
       {/* {isComponentVisible && ( */}
       <ul className={`dd-list ${open ? "open" : ""}`} ref={node}>
-        <li className="dd-item">siji</li>
-        <li className="dd-item">loro</li>
-        <li className="dd-item">telu</li>
+        {items.map((item) => (
+          <li
+            className="dd-item"
+            key={item.id}
+            onClick={() => handleOnClick(item)}
+          >
+            <span className="item-value"></span>
+            {item.value}
+          </li>
+        ))}
       </ul>
       {/* )} */}
     </div>
