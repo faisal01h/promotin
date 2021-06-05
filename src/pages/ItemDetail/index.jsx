@@ -13,7 +13,7 @@ function ItemDetail() {
 
   useEffect(() => {
     axios
-      .get(`http://promotin.herokuapp.com/api/v1/items/view/${id}`)
+      .get(`https://promotin.herokuapp.com/api/v1/items/view/${id}`)
       .then((result) => {
         const responseAPI = result.data;
         setItemData(responseAPI.data);
