@@ -74,11 +74,10 @@ function ItemDetail() {
         <div className="benefit">
           <h3>Benefit</h3>
           <div className="benefit-list">
-            {itemDesc ? console.log(itemDesc) : "nul gan"}
             {itemDesc
               ? itemDesc.benefits.map((benefit) => {
                   return (
-                    <div className="benefit-item-detail">
+                    <div className="benefit-item-detail" key={benefit.title+benefit.description}>
                       <h5>{benefit.title}</h5>
                       <p>{benefit.description} </p>
                       <p>Sertifikat</p>
@@ -99,7 +98,7 @@ function ItemDetail() {
               {itemDesc
                 ? itemDesc.alur.map((alur) => {
                     return (
-                      <div className="detail-alur">
+                      <div className="detail-alur" key={alur.date+alur.description}>
                         <h4>{alur.date}</h4>
                         <p>{alur.description}</p>
                       </div>
