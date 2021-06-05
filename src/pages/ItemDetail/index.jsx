@@ -113,17 +113,16 @@ function ItemDetail() {
 
         <div className="faq">
           <h3>FAQ</h3>
-          <div className="faq-item">
-            <h4>Apakah tidak ada biaya pendaftaran?</h4>
-            <p>Lomba poster tidak dipungut biaya pendaftaran</p>
-          </div>
-          <div className="faq-item">
-            <h4>Apakah peserta wajib membawa peralatan sendiri?</h4>
-            <p>
-              Pihak panitia hanya menyediakan kertas untuk poster, untuk
-              peralatan lain yang diperlukan silahkan membawa sendiri
-            </p>
-          </div>
+            {itemDesc ? itemDesc.faq.map((faq) => {
+              return (
+                <div className="faq-item" key={faq.question+faq.answer}>
+                  <h4>{faq.question}</h4>
+                  <p>{faq.answer}</p>
+                </div>
+              )
+            })
+          : ""}
+          
         </div>
       </div>
 
