@@ -15,7 +15,6 @@ function Home() {
         const responseAPI = result.data;
 
         setDataItem(responseAPI.data);
-        console.log(dataItem);
       })
       .catch((err) => {
         console.log("Error ", err);
@@ -32,15 +31,7 @@ function Home() {
       <h1>Populer saat ini</h1>
       <div className="item-container">
         {dataItem.map((item) => {
-          return (
-            <Item
-              key={item._id}
-              title={item.title}
-              tingkatan={item.tingkatan}
-              daerah={item.daerah}
-              desc={item.description.desc}
-            />
-          );
+          return <Item key={item._id} id={item._id} />;
         })}
       </div>
     </div>

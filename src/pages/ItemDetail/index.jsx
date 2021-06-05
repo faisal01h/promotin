@@ -1,12 +1,29 @@
 import React, { useEffect, useState } from "react";
 import "./ItemDetail.scss";
 import { Gap, Line } from "../../components/atoms";
-import { Bronze_fill, Gold_fill, poster, Silver_fill } from "../../assets";
-import { Deskripsi, Detail, Sk } from "../../components/molecules";
+import { poster } from "../../assets";
 import axios from "axios";
+import { useParams } from "react-router";
 
 function ItemDetail() {
   const [info, setInfo] = useState("detail");
+  const [itemData, setItemData] = useState([]);
+  const [itemDesc, setItemDesc] = useState(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    axios
+      .get(`http://promotin.herokuapp.com/api/v1/items/view/${id}`)
+      .then((result) => {
+        const responseAPI = result.data;
+        setItemData(responseAPI.data);
+        setItemDesc(responseAPI.data.description);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+  // console.log(itemDesc.rewards);
 
   return (
     <div className="detail-container">
@@ -15,7 +32,7 @@ function ItemDetail() {
       </div>
 
       <div className="info">
-        <h1>Lomba Poster</h1>
+        <h1>{itemData.title}</h1>
         <span>Desain Grafis</span>
 
         <Gap height={20} />
@@ -25,44 +42,50 @@ function ItemDetail() {
             <h4 onClick={() => setInfo("deskripsi")}>Deskripsi</h4>
             <h4 onClick={() => setInfo("sk")}>Syarat dan Ketentuan</h4>
           </div>
-        </div>
 
-        {info === "detail" ? (
-          <Detail />
-        ) : info === "deskripsi" ? (
-          <Deskripsi />
-        ) : info === "sk" ? (
-          <Sk />
-        ) : (
-          ""
-        )}
+          <div className="basic-info-desc">
+            <div className={`detail ${info === "detail" ? "visible" : ""}`}>
+              <p>Daerah : {itemData.daerah}</p>
+              <p>Tingkat : {itemData.tingkatan}</p>
+              <p>Tanggal : 20 Agustus 2021</p>
+              <p>Jenis : On Site</p>
+            </div>
+
+            <div
+              className={`deskripsi ${info === "deskripsi" ? "visible" : ""}`}
+            >
+              <p>{itemDesc ? itemDesc.desc : ""}</p>
+            </div>
+
+            <div className={`sk ${info === "sk" ? "visible" : ""}`}>
+              <p>Syarat dan Ketentuan</p>
+              <ul>
+                <li>Usia antara 13 - 16 tahun</li>
+                <li>Berstatus siswa/i SMP</li>
+                <li>Dilarang membawa gambar contoh</li>
+                <li>Desain yang akan dibuat harus Original</li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
         <Line width={100} />
 
         <div className="benefit">
           <h3>Benefit</h3>
           <div className="benefit-list">
-            <div
-              className="benefit-item-detail"
-            >
-              <h5>Juara 1</h5>
-              <p> Uang Rp 5.000.000 </p>
-              <p>Sertifikat</p>
-            </div>
-            <div
-              className="benefit-item-detail"
-            >
-              <h5>Juara 2</h5>
-              <p> Uang Rp 3.000.000 </p>
-              <p>Sertifikat</p>
-            </div>
-            <div
-              className="benefit-item-detail"
-            >
-              <h5>Juara 3</h5>
-              <p> Uang Rp 1.500.000 </p>
-              <p>Sertifikat</p>
-            </div>
+            {itemDesc ? console.log(itemDesc) : "nul gan"}
+            {itemDesc
+              ? itemDesc.benefits.map((benefit) => {
+                  return (
+                    <div className="benefit-item-detail">
+                      <h5>{benefit.title}</h5>
+                      <p>{benefit.description} </p>
+                      <p>Sertifikat</p>
+                    </div>
+                  );
+                })
+              : ""}
           </div>
         </div>
 
@@ -73,18 +96,16 @@ function ItemDetail() {
 
           <div className="detail-alur-wrapper">
             <div className="alur-menu">
-              <div className="detail-alur">
-                <h4>1 Agustus 2021</h4>
-                <p>pendaftaran</p>
-              </div>
-              <div className="detail-alur">
-                <h4>10 Agustus 2021</h4>
-                <p>Seleksi 1</p>
-              </div>
-              <div className="detail-alur">
-                <h4>20 Agustus 2021</h4>
-                <p>Penetuan dan pengumuman Juara</p>
-              </div>
+              {itemDesc
+                ? itemDesc.alur.map((alur) => {
+                    return (
+                      <div className="detail-alur">
+                        <h4>{alur.date}</h4>
+                        <p>{alur.description}</p>
+                      </div>
+                    );
+                  })
+                : ""}
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ function MainApp() {
       <div className="content-wrapper">
         <Router>
           <Switch>
-            <Route path="/item-detail">
+            <Route path="/item-detail/:id">
               <ItemDetail />
             </Route>
             <Route path="/login">

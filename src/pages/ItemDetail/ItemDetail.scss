@@ -16,8 +16,11 @@
       width: 90%;
       object-fit: cover;
       margin: 20px 5%;
+      transform: scale(100%);
+      transition: transform 0.5s;
     }
     :hover {
+      z-index: 1;
       cursor: pointer;
       transform: scale(110%);
       transition: transform 500ms;
@@ -56,6 +59,8 @@
     }
 
     .basic-info {
+      position: relative;
+
       .basic-info-tag {
         display: flex;
         border-top: 1px solid lightgrey;
@@ -69,6 +74,25 @@
         :hover {
           cursor: pointer;
           color: $color-secondary;
+        }
+      }
+
+      .basic-info-desc {
+        position: relative;
+        min-height: 200px;
+
+        .detail,
+        .deskripsi,
+        .sk {
+          opacity: 0;
+          height: fit-content;
+          height: 0;
+        }
+
+        .visible {
+          opacity: 1;
+          height: fit-content;
+          transition: all 1s;
         }
       }
     }
@@ -91,7 +115,7 @@
           margin: 10px;
           border-radius: 10px;
           background: $color-benefit;
-          
+
           h5 {
             font-size: 24px;
             padding-top: 5px;

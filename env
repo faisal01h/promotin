@@ -1,4 +1,4 @@
 PORT=5000
-MONGO_DB_DSN=mongodb+srv://system:pWe5%40C2%23yraQgqGXEL@event.x54n9.mongodb.net/event?retryWrites=true&w=majority
+MONGO_DB_DSN=mongodb+srv://node-promotno:M7mhub1tDMrW1gWV@promotno.moid9.mongodb.net/promotno?retryWrites=true&w=majority
 BCRYPT_SALTROUNDS=10
 KEY=confidential
