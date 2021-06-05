@@ -13,7 +13,7 @@ function ItemDetail() {
 
   useEffect(() => {
     axios
-      .get(`http://promotin.herokuapp.com/api/v1/items/view/${id}`)
+      .get(`https://promotin.herokuapp.com/api/v1/items/view/${id}`)
       .then((result) => {
         const responseAPI = result.data;
         setItemData(responseAPI.data);
@@ -74,11 +74,10 @@ function ItemDetail() {
         <div className="benefit">
           <h3>Benefit</h3>
           <div className="benefit-list">
-            {itemDesc ? console.log(itemDesc) : "nul gan"}
             {itemDesc
               ? itemDesc.benefits.map((benefit) => {
                   return (
-                    <div className="benefit-item-detail">
+                    <div className="benefit-item-detail" key={benefit.title+benefit.description}>
                       <h5>{benefit.title}</h5>
                       <p>{benefit.description} </p>
                       <p>Sertifikat</p>
@@ -99,7 +98,7 @@ function ItemDetail() {
               {itemDesc
                 ? itemDesc.alur.map((alur) => {
                     return (
-                      <div className="detail-alur">
+                      <div className="detail-alur" key={alur.date+alur.description}>
                         <h4>{alur.date}</h4>
                         <p>{alur.description}</p>
                       </div>
@@ -114,17 +113,16 @@ function ItemDetail() {
 
         <div className="faq">
           <h3>FAQ</h3>
-          <div className="faq-item">
-            <h4>Apakah tidak ada biaya pendaftaran?</h4>
-            <p>Lomba poster tidak dipungut biaya pendaftaran</p>
-          </div>
-          <div className="faq-item">
-            <h4>Apakah peserta wajib membawa peralatan sendiri?</h4>
-            <p>
-              Pihak panitia hanya menyediakan kertas untuk poster, untuk
-              peralatan lain yang diperlukan silahkan membawa sendiri
-            </p>
-          </div>
+            {itemDesc ? itemDesc.faq.map((faq) => {
+              return (
+                <div className="faq-item" key={faq.question+faq.answer}>
+                  <h4>{faq.question}</h4>
+                  <p>{faq.answer}</p>
+                </div>
+              )
+            })
+          : ""}
+          
         </div>
       </div>
 

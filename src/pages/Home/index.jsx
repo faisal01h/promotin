@@ -9,7 +9,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://promotin.herokuapp.com/api/v1/items/all/filter")
+      .get("https://promotin.herokuapp.com/api/v1/items/all/filter")
       .then((result) => {
         console.log("data API,", result);
         const responseAPI = result.data;
