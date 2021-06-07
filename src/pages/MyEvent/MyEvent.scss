@@ -1,0 +1,158 @@
+.myevent-wrapper {
+  margin-top: 20px;
+  padding: 0 10px;
+  width: 100%;
+
+  .title {
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 20px;
+    height: 30px;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .myevent-item {
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px 1px lightgrey;
+
+    .poster-img {
+      width: 100px;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .detail-item {
+      width: 100%;
+      padding: 0 10px;
+      text-align: left;
+      position: relative;
+
+      .poster-title {
+        margin: 5px 0 0 0;
+        text-align: left;
+        font-size: 12px;
+      }
+
+      .detail {
+        font-size: 8px;
+      }
+
+      .pendaftar {
+        display: flex;
+        margin: 20px 0 10px 0;
+        font-size: 8px;
+
+        p {
+          margin-right: 5%;
+        }
+
+        a {
+          color: #1b9ab4;
+          text-decoration: none;
+        }
+      }
+
+      .btn-wrapper {
+        display: flex;
+
+        .button {
+          margin: 10px 10px 10px 0;
+          width: 50px;
+          height: 25px;
+          font-size: 10px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 420px) {
+  .myevent-wrapper {
+    width: 85%;
+    .myevent-item {
+      .poster-img {
+        width: 170px;
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .detail-item {
+        padding: 0 15px;
+        .poster-title {
+          font-size: 16px;
+        }
+
+        .detail {
+          font-size: 10px;
+        }
+
+        .pendaftar {
+          margin: 50px 0 10px 0;
+          font-size: 10px;
+        }
+
+        .btn-wrapper {
+          .button {
+            margin: 10px 10px 10px 0;
+            width: 60px;
+            height: 30px;
+            font-size: 11px;
+            line-height: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .myevent-wrapper {
+    width: 80%;
+
+    .title {
+      margin-bottom: 20px;
+      text-align: left;
+      font-size: 20px;
+      height: 40px;
+      width: 100%;
+      font-size: 28px;
+      border-bottom: 1px solid lightgray;
+    }
+
+    .myevent-item {
+      .poster-img {
+        width: 180px;
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .detail-item {
+        .poster-title {
+          font-size: 18px;
+        }
+
+        .detail {
+          font-size: 12px;
+        }
+
+        .pendaftar {
+          margin: 50px 0 10px 0;
+          font-size: 12px;
+        }
+
+        .btn-wrapper {
+          .button {
+            margin: 10px 10px 10px 0;
+            width: 70px;
+            height: 35px;
+            font-size: 12px;
+            line-height: 35px;
+          }
+        }
+      }
+    }
+  }
+}

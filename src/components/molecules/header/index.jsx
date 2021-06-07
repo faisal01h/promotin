@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
-import { Link, Router } from "react-router-dom";
 import "./header.scss";
 
 function Header() {
   const [isOpen, setOpen] = useState(false);
   const [isNav, setNav] = useState(false);
   const [isMenu, setMenu] = useState(false);
+  const [isLogin, setLogin] = useState(false);
 
   const showHamburger = () => {
     if (window.innerWidth <= 768) {
@@ -49,18 +49,38 @@ function Header() {
         {isNav ? <Hamburger toggled={isOpen} toggle={setOpen} /> : ""}
       </div>
 
-      {isMenu ? (
-        <ul id="menu">
-          <a href={"/login"}>
-            <li>Masuk</li>
+      <div className={`menu + ${isOpen ? "menu-visible" : ""}`}>
+        {isLogin ? (
+          <div className="menu-head">
+            <img src="" alt="gambar" />
+            <h2>Nama</h2>
+          </div>
+        ) : (
+          <div className="menu-head">
+            <a className="btn masuk" href={"/login"}>
+              Masuk
+            </a>
+            <a className="btn daftar" href="/register">
+              Daftar
+            </a>
+          </div>
+        )}
+
+        <div className="menu-body">
+          <a href="/myevent" className="menu-body-list">
+            My Event
           </a>
-          <a href="/register">
-            <li>Daftar</li>
+          <a href="/registered-event" className="menu-body-list">
+            Registered Event
           </a>
-        </ul>
-      ) : (
-        ""
-      )}
+          <a href="/saved-event" className="menu-body-list">
+            Saved Event
+          </a>
+          <a href="" className="menu-body-list">
+            Setting
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

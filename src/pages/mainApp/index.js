@@ -5,6 +5,9 @@ import "./mainApp.scss";
 import Home from "../Home";
 import ItemDetail from "../ItemDetail";
 import Login from "../Login";
+import MyEvent from "../MyEvent";
+import SavedEvent from "../SavedEvent";
+import RegisteredEvent from "../RegisteredEvent";
 
 function MainApp() {
   return (
@@ -14,6 +17,15 @@ function MainApp() {
       <div className="content-wrapper">
         <Router>
           <Switch>
+            <Route path="/registered-event">
+              <RegisteredEvent />
+            </Route>
+            <Route path="/saved-event">
+              <SavedEvent />
+            </Route>
+            <Route path="/myevent">
+              <MyEvent />
+            </Route>
             <Route path="/item-detail/:id">
               <ItemDetail />
             </Route>

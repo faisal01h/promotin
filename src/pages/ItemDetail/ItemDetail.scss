@@ -20,11 +20,12 @@
       margin: 20px 5%;
       transform: scale(100%);
       transition: transform 0.5s;
-    }
-    :hover {
-      cursor: pointer;
-      transform: scale(110%);
-      transition: transform 500ms;
+
+      :hover {
+        cursor: pointer;
+        transform: scale(110%);
+        transition: transform 500ms;
+      }
     }
   }
 
@@ -35,7 +36,7 @@
       margin: 0;
     }
 
-    span {
+    .tag {
       display: flex;
       align-items: center;
       width: fit-content;
@@ -45,7 +46,7 @@
       background-color: rgb(212, 212, 212);
     }
 
-    span::after {
+    .tag::after {
       content: "";
       display: block;
       position: relative;
@@ -88,6 +89,16 @@
           opacity: 0;
           height: fit-content;
           height: 0;
+        }
+
+        .detail {
+          p {
+            display: flex;
+            span {
+              margin-left: 10px;
+            }
+            // justify-content: space-around;
+          }
         }
 
         .visible {

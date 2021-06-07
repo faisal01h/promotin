@@ -22,8 +22,7 @@ function ItemDetail() {
       .catch((error) => {
         console.log(error);
       });
-  });
-  // console.log(itemDesc.rewards);
+  }, []);
 
   return (
     <div className="detail-container">
@@ -33,7 +32,7 @@ function ItemDetail() {
 
       <div className="info">
         <h1>{itemData.title}</h1>
-        <span>Desain Grafis</span>
+        <p className="tag">Desain Grafis</p>
 
         <Gap height={20} />
         <div className="basic-info">
@@ -77,7 +76,10 @@ function ItemDetail() {
             {itemDesc
               ? itemDesc.benefits.map((benefit) => {
                   return (
-                    <div className="benefit-item-detail" key={benefit.title+benefit.description}>
+                    <div
+                      className="benefit-item-detail"
+                      key={benefit.title + benefit.description}
+                    >
                       <h5>{benefit.title}</h5>
                       <p>{benefit.description} </p>
                       <p>Sertifikat</p>
@@ -98,7 +100,10 @@ function ItemDetail() {
               {itemDesc
                 ? itemDesc.alur.map((alur) => {
                     return (
-                      <div className="detail-alur" key={alur.date+alur.description}>
+                      <div
+                        className="detail-alur"
+                        key={alur.date + alur.description}
+                      >
                         <h4>{alur.date}</h4>
                         <p>{alur.description}</p>
                       </div>
@@ -113,16 +118,16 @@ function ItemDetail() {
 
         <div className="faq">
           <h3>FAQ</h3>
-            {itemDesc ? itemDesc.faq.map((faq) => {
-              return (
-                <div className="faq-item" key={faq.question+faq.answer}>
-                  <h4>{faq.question}</h4>
-                  <p>{faq.answer}</p>
-                </div>
-              )
-            })
-          : ""}
-          
+          {itemDesc
+            ? itemDesc.faq.map((faq) => {
+                return (
+                  <div className="faq-item" key={faq.question + faq.answer}>
+                    <h4>{faq.question}</h4>
+                    <p>{faq.answer}</p>
+                  </div>
+                );
+              })
+            : ""}
         </div>
       </div>
 
