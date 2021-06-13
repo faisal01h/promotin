@@ -2,26 +2,24 @@
   border-radius: 7px;
   border: 1px solid rgb(223, 223, 223);
   box-shadow: 1px 1px 7px lightgray;
+  width: 40vw;
 
   .item-img {
-    width: 120px;
-    height: 200px;
+    width: 40vw;
+    height: 55vw;
     object-fit: cover;
     border-radius: 7px;
   }
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 480px) {
   .item-wrapper {
-    border-radius: 7px;
-    border: 1px solid rgb(223, 223, 223);
-    box-shadow: 1px 1px 7px lightgray;
+    margin: 0;
+    width: 192px;
 
     .item-img {
-      width: 180px;
-      height: 255px;
-      object-fit: cover;
-      border-radius: 7px;
+      width: 192px;
+      height: 264px;
     }
   }
 }

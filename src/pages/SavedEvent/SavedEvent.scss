@@ -14,10 +14,12 @@
     margin: auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-between;
 
     .item-wrapper {
       margin: 0 5px 20px 5px;
+      width: fit-content;
+
       .item-img {
         width: 150px;
         height: 220px;

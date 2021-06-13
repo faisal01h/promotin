@@ -11,7 +11,6 @@ function Home() {
     axios
       .get("https://promotin.herokuapp.com/api/v1/items/all/filter")
       .then((result) => {
-        console.log("data API,", result);
         const responseAPI = result.data;
 
         setDataItem(responseAPI.data);
