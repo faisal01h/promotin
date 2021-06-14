@@ -12,16 +12,25 @@ function ItemDetail() {
   const { id } = useParams();
 
   useEffect(() => {
+    let mounted = false;
+
     axios
       .get(`https://promotin.herokuapp.com/api/v1/items/view/${id}`)
       .then((result) => {
-        const responseAPI = result.data;
-        setItemData(responseAPI.data);
-        setItemDesc(responseAPI.data.description);
+        if (!mounted) {
+          setItemData(result.data.data);
+          setItemDesc(result.data.data.description);
+        }
       })
       .catch((error) => {
-        console.log(error);
+        if (!mounted) {
+          console.log(error);
+        }
       });
+
+    return () => {
+      mounted = true;
+    };
   }, []);
 
   return (

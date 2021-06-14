@@ -15,28 +15,26 @@ function MainApp() {
       <Header />
 
       <div className="content-wrapper">
-        <Router>
-          <Switch>
-            <Route path="/registered-event">
-              <RegisteredEvent />
-            </Route>
-            <Route path="/saved-event">
-              <SavedEvent />
-            </Route>
-            <Route path="/myevent">
-              <MyEvent />
-            </Route>
-            <Route path="/item-detail/:id">
-              <ItemDetail />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </Router>
+        <Switch>
+          <Route path="/registered-event">
+            <RegisteredEvent />
+          </Route>
+          <Route path="/saved-event">
+            <SavedEvent />
+          </Route>
+          <Route path="/myevent">
+            <MyEvent />
+          </Route>
+          <Route path="/item-detail/:id">
+            <ItemDetail />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
     </div>
   );

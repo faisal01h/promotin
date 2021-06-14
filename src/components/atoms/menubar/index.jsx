@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import "./menubar.scss";
+import { useHistory } from "react-router-dom";
 
 function Menubar({ login }) {
   const [isOpen, setOpen] = useState(false);
   const [selection, setSelection] = useState();
   const node = useRef();
+  const history = useHistory();
 
   useEffect(() => {
     if (isOpen) {
@@ -52,23 +54,32 @@ function Menubar({ login }) {
           </div>
         ) : (
           <div className="menubar-head">
-            <a className="btn masuk" href={"/login"}>
+            <a className="btn masuk" onClick={() => history.push("/login")}>
               Masuk
             </a>
-            <a className="btn daftar" href="/register">
+            <a className="btn daftar" onClick={() => history.push("/register")}>
               Daftar
             </a>
           </div>
         )}
 
         <div className="menubar-body">
-          <a href="/myevent" className="menubar-body-list">
+          <a
+            onClick={() => history.push("/myevent")}
+            className="menubar-body-list"
+          >
             My Event
           </a>
-          <a href="/registered-event" className="menubar-body-list">
+          <a
+            onClick={() => history.push("/registered-event")}
+            className="menubar-body-list"
+          >
             Registered Event
           </a>
-          <a href="/saved-event" className="menubar-body-list">
+          <a
+            onClick={() => history.push("/saved-event")}
+            className="menubar-body-list"
+          >
             Saved Event
           </a>
           <a href="" className="menubar-body-list">

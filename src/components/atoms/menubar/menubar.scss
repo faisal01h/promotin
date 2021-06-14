@@ -93,5 +93,10 @@
     top: 55px;
     right: 4%;
     width: 30%;
+
+    .menubar-head {
+      box-shadow: none;
+      border-bottom: 1px solid lightgray;
+    }
   }
 }
