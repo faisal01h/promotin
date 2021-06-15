@@ -35,7 +35,7 @@ const Login = () => {
               Lupa kata sandi?
             </a>
             <Button title={"Masuk"} />
-            <a href="#" className="buat-akun">
+            <a href="/register" className="buat-akun">
               Buat akun
             </a>
           </div>

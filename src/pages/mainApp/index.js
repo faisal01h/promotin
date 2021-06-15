@@ -8,6 +8,7 @@ import Login from "../Login";
 import MyEvent from "../MyEvent";
 import SavedEvent from "../SavedEvent";
 import RegisteredEvent from "../RegisteredEvent";
+import Register from "../register";
 
 function MainApp() {
   return (
@@ -30,6 +31,9 @@ function MainApp() {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
           </Route>
           <Route exact path="/">
             <Home />
