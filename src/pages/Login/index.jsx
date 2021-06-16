@@ -6,7 +6,7 @@ import { Button } from "../../components/atoms";
 const Login = () => {
   function sendLoginData() {
     console.log("attempting to login...");
-    AuthenticationService.signin("test", "yes");
+    AuthenticationService.signin("admin@gmail.com", "password");
   }
 
   if (AuthenticationService.getCurrentUser()) {
