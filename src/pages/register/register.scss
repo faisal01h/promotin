@@ -3,16 +3,16 @@
   display: none;
 }
 
-.login-page-wrapper {
+.register-page-wrapper {
   width: 100%;
   height: 100vh;
 
-  .login-card {
+  .register-card {
     width: 80%;
-    margin: 18vh auto;
+    margin: 14vh auto;
 
     .form-title {
-      margin-bottom: 3vh;
+      margin-bottom: 7vh;
     }
 
     .inner-form {
@@ -56,8 +56,10 @@
 
       .form-options {
         width: 100%;
+        height: 50vh;
         display: flex;
         flex-direction: column;
+        position: relative;
 
         a {
           text-decoration: none;
@@ -65,9 +67,18 @@
           font-weight: 400;
         }
 
-        .lupa-sandi {
-          align-self: flex-end;
-          font-size: 12px;
+        .snk {
+          text-align: left;
+          padding-left: 5px;
+
+          label {
+            padding-left: 5px;
+            font-size: 12px;
+          }
+        }
+
+        .snk {
+          margin-top: 20px;
         }
 
         .button {
@@ -75,7 +86,16 @@
           height: 40px;
           font-size: 20px;
           font-weight: 500;
-          margin: 35px 0 10px 0;
+          margin: 10px 0 10px 0;
+        }
+
+        .login {
+          position: absolute;
+          bottom: 0;
+          left: 27%;
+          display: flex;
+          justify-content: center;
+          font-size: 12px;
         }
       }
     }
@@ -87,28 +107,41 @@
     display: flex;
   }
 
-  .login-page-wrapper {
+  .register-page-wrapper {
     height: calc(100vh - 55px);
     background-color: rgb(235, 235, 235);
     display: flex;
     justify-content: center;
     align-items: center;
 
-    .login-card {
+    .register-card {
       background-color: white;
       width: 337px;
-      height: 398px;
-      padding: 50px 50px;
-      margin-top: 17vh;
+      height: 470px;
+      padding: 30px 50px;
+      margin-top: 15vh;
+
+      .form-title {
+        margin-bottom: 5vh;
+      }
+
+      .inner-form {
+        .form-options {
+          height: 20vh;
+          .login {
+            left: 22%;
+          }
+        }
+      }
     }
   }
 }
 @media screen and (min-width: 768px) {
   .content-wrapper {
-    .login-page-wrapper {
-      .login-card {
+    .register-page-wrapper {
+      .register-card {
         width: 345px;
-        height: 420px;
+        height: 470px;
       }
     }
   }

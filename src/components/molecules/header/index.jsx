@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Menubar } from "../../atoms";
 import "./header.scss";
 
 function Header() {
-  const [isLogin, setLogin] = useState(true);
+  const history = useHistory();
+  const [isLogin, setLogin] = useState(false);
 
   return (
     <div id="navbar">
-      <a id="brand" href={"/"}>
+      <a id="brand" onClick={() => history.push("/")}>
         Promotno
       </a>
       <div className="search">
@@ -26,10 +28,18 @@ function Header() {
         ""
       ) : (
         <div className="daftar-masuk-button">
-          <a className="btn masuk" href={"/login"}>
+          <a
+            className="btn masuk"
+            // href={"/login"}
+            onClick={() => history.push("/login")}
+          >
             Masuk
           </a>
-          <a className="btn daftar" href="/register">
+          <a
+            className="btn daftar"
+            // href="/register"
+            onClick={() => history.push("/register")}
+          >
             Daftar
           </a>
         </div>

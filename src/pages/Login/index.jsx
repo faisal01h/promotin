@@ -24,26 +24,40 @@ const Login = () => {
                 <div className="form-title">
                     <h1>Masuk</h1>
                 </div>
-                <div className="inner-form">
-                    <div className="form-group">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" name="email" className="input-form" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Kata sandi</label>
-                        <input type="password" name="password" className="input-form" />
-                    </div>
-                    <div className="form-options">
-                        <Button 
-                            title={"Masuk"}
-                            onClick={sendLoginData}
-                        />
-                        <a href="#">Lupa kata sandi?</a>
-                    </div>
-                </div>
-            </div>
+        <div class="inner-form email">
+          <div className="form-group">
+            {/* <label htmlFor="email">Email</label> */}
+            <i class="fas fa-envelope"></i>
+            <input
+              type="email"
+              name="email"
+              className="input-form"
+              placeholder="Input your email address"
+            />
+          </div>
+          <div className="form-group password">
+            {/* <label htmlFor="password">Kata sandi</label> */}
+            <i class="fas fa-key"></i>
+            <input
+              type="password"
+              name="password"
+              className="input-form"
+              placeholder="Input your password"
+            />
+          </div>
+          <div className="form-options">
+            <a href="#" className="lupa-sandi">
+              Lupa kata sandi?
+            </a>
+            <Button title={"Masuk"} />
+            <a href="/register" className="buat-akun">
+              Buat akun
+            </a>
+          </div>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
 export default Login;
