@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 
 function Menubar({ login }) {
   const [isOpen, setOpen] = useState(false);
-  const [selection, setSelection] = useState();
   const node = useRef();
   const history = useHistory();
 
@@ -19,10 +18,6 @@ function Menubar({ login }) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isOpen]);
-
-  function handleOnClick(item) {
-    setSelection([item]);
-  }
 
   const handleClickOutside = (e) => {
     if (node && node.current && node.current.contains(e.target)) {

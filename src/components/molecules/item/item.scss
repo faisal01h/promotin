@@ -1,14 +1,19 @@
 .item-wrapper {
+  width: 40vw;
+
   border-radius: 7px;
   border: 1px solid rgb(223, 223, 223);
+
   box-shadow: 1px 1px 7px lightgray;
-  width: 40vw;
 
   .item-img {
     width: 40vw;
     height: 55vw;
+
     object-fit: cover;
     border-radius: 7px;
+
+    cursor: pointer;
   }
 }
 

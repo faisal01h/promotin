@@ -3,14 +3,16 @@
   height: fit-content;
   margin: auto;
   padding-bottom: 10px;
+
   border-radius: 10px;
   box-shadow: 1px 1px 7px lightgray;
 
   .kategori {
-    text-align: start;
     margin: 0;
     padding: 10px 0 0 20px;
+
     font-size: 22px;
+    text-align: start;
   }
 
   .filter-wrapper {
@@ -20,13 +22,17 @@
 
     .l-side-f {
       display: flex;
+
       margin: auto 10px;
       min-width: 45%;
+
+      cursor: pointer;
 
       .menu {
         width: 60px;
         height: 60px;
         margin: 10px;
+
         border-radius: 7px;
         border: 1px solid rgb(223, 223, 223);
       }
@@ -36,6 +42,7 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
+
       margin-top: 10px;
       height: 90px;
       min-width: 45%;
@@ -45,6 +52,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
         width: 45%;
         padding: 0;
       }

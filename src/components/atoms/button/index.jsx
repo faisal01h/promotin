@@ -1,17 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router";
 import "./button.scss";
 
 function Button({ title, redirect, ...rest }) {
-  const history = useHistory();
-
   return (
     <div>
-      <button
-        className="button"
-        {...rest}
-        // onClick={() => history.push(`${redirect}`)}
-      >
+      <button className="button" {...rest}>
         {title}
       </button>
     </div>

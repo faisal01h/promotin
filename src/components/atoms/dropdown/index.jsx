@@ -3,7 +3,7 @@ import "./dropdown.scss";
 
 function Dropdown({ title, items = [] }) {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState();
+  const [selection, setSelection] = useState(title);
   const node = useRef();
 
   useEffect(() => {
@@ -33,22 +33,23 @@ function Dropdown({ title, items = [] }) {
   return (
     <div className="dropdown-wrapper">
       <div className="dd-header" role="button" onClick={() => setOpen(!open)}>
-        {title}
+        {selection}
+        <i
+          className={`fas fa-chevron-down ${open ? "arrow-u" : "arrow-d"}`}
+        ></i>
       </div>
-      {/* {isComponentVisible && ( */}
       <ul className={`dd-list ${open ? "open" : ""}`} ref={node}>
         {items.map((item) => (
           <li
             className="dd-item"
             key={item.id}
-            onClick={() => handleOnClick(item)}
+            onClick={() => handleOnClick(item.value)}
           >
             <span className="item-value"></span>
             {item.value}
           </li>
         ))}
       </ul>
-      {/* )} */}
     </div>
   );
 }

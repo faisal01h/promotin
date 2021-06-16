@@ -7,9 +7,9 @@
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     height: 100%;
-    // width: 100%;
     padding: 0 10px;
 
     border: 1px solid lightgray;
@@ -19,51 +19,50 @@
     text-align: left;
 
     cursor: pointer;
-  }
 
-  .dd-header::after {
-    content: "";
-    background: url("../../../assets/icon/arrow-down.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    position: absolute;
+    .arrow-d {
+      transition: all 0.5s;
+    }
 
-    height: 100%;
-    width: 32px;
-    right: 3px;
-    top: 0px;
-
-    transition: all ease-in;
+    .arrow-u {
+      transform: rotateX(180deg);
+      transition: all 0.5s;
+    }
   }
 
   .dd-list {
     position: absolute;
     top: 50px;
-
     opacity: 0;
+
     height: 0;
     width: 170px;
     padding: 0;
 
+    list-style-type: none;
+    border-radius: 5px;
+
     background-color: white;
     border: 1px solid lightgray;
-    border-radius: 5px;
-    list-style-type: none;
 
     transition: all 0.5s;
 
     .dd-item {
       display: flex;
       align-items: center;
+
       height: 30px;
       margin: 5px 5px;
       padding-left: 10px;
+
+      cursor: pointer;
     }
 
-    .dd-item:hover {
-      background-color: lightgray;
+    :hover {
       border-radius: 5px;
       transition: all 0.5s;
+
+      background-color: lightgray;
     }
   }
 
