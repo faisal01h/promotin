@@ -10,7 +10,7 @@ function Button({ title, redirect, ...rest }) {
       <button
         className="button"
         {...rest}
-        onClick={() => history.push(`${redirect}`)}
+        // onClick={() => history.push(`${redirect}`)}
       >
         {title}
       </button>

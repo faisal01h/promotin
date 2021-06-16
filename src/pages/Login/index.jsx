@@ -1,33 +1,30 @@
-import React, { useState } from 'react';
-import './login.scss';
-import AuthenticationService from '../auth';
-import { Button } from '../../components/atoms';
-
-function sendLoginData() {
-    console.log("attempting to login...");
-    AuthenticationService.signin("test", "yes");
-}
-
-if(AuthenticationService.getCurrentUser()) {
-    console.log("Already logged in");
-    // redirect jal
-}
-else console.log("require log in");
-
-//TODO: Button onclick, panggil AuthenticationService.signin
+import React, { useState } from "react";
+import "./login.scss";
+import AuthenticationService from "../auth";
+import { Button } from "../../components/atoms";
 
 const Login = () => {
+  function sendLoginData() {
+    console.log("attempting to login...");
+    AuthenticationService.signin("test", "yes");
+  }
 
-    return (
-        <div className="login-page-wrapper">
-            <div className="login-card">
-                <div className="form-title">
-                    <h1>Masuk</h1>
-                </div>
-        <div class="inner-form email">
+  if (AuthenticationService.getCurrentUser()) {
+    console.log("Already logged in");
+    // redirect jal
+  } else console.log("require log in");
+
+  //TODO: Button onclick, panggil AuthenticationService.signin
+
+  return (
+    <div className="login-page-wrapper">
+      <div className="login-card">
+        <div className="form-title">
+          <h1>Masuk</h1>
+        </div>
+        <div className="inner-form email">
           <div className="form-group">
-            {/* <label htmlFor="email">Email</label> */}
-            <i class="fas fa-envelope"></i>
+            <i className="fas fa-envelope"></i>
             <input
               type="email"
               name="email"
@@ -36,8 +33,7 @@ const Login = () => {
             />
           </div>
           <div className="form-group password">
-            {/* <label htmlFor="password">Kata sandi</label> */}
-            <i class="fas fa-key"></i>
+            <i className="fas fa-key"></i>
             <input
               type="password"
               name="password"
@@ -49,7 +45,7 @@ const Login = () => {
             <a href="#" className="lupa-sandi">
               Lupa kata sandi?
             </a>
-            <Button title={"Masuk"} />
+            <Button title={"Masuk"} onClick={sendLoginData} />
             <a href="/register" className="buat-akun">
               Buat akun
             </a>
