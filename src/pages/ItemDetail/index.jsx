@@ -5,6 +5,17 @@ import { poster } from "../../assets";
 import axios from "axios";
 import { useParams } from "react-router";
 
+axios.interceptors.request.use( config => {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if(user && user.accessToken){
+    const token = user.accessToken;
+    config.headers.Authorization =  token;
+  }
+
+  return config;
+});
+
 function ItemDetail() {
   const [info, setInfo] = useState("detail");
   const [itemData, setItemData] = useState([]);
