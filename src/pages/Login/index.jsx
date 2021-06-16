@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import "./login.scss";
 import AuthenticationService from "../auth";
 import { Button } from "../../components/atoms";
 
 const Login = () => {
+  const emailInput = useRef();
+  const passInput = useRef();
+
   function sendLoginData() {
     console.log("attempting to login...");
-    AuthenticationService.signin("admin@gmail.com", "password");
+    AuthenticationService.signin(
+      emailInput.current.value,
+      passInput.current.value
+    );
   }
 
   if (AuthenticationService.getCurrentUser()) {
@@ -26,6 +32,7 @@ const Login = () => {
           <div className="form-group">
             <i className="fas fa-envelope"></i>
             <input
+              ref={emailInput}
               type="email"
               name="email"
               className="input-form"
@@ -35,6 +42,7 @@ const Login = () => {
           <div className="form-group password">
             <i className="fas fa-key"></i>
             <input
+              ref={passInput}
               type="password"
               name="password"
               className="input-form"

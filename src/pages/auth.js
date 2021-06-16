@@ -2,15 +2,16 @@ import axios from "axios";
 
 class AuthenticationService {
   signin = (email, password) => {
-      return axios.post("//localhost:5000/api/v1/auth/login", {email, password})
-        .then(response => {
-            console.log(response.data);
+      return axios
+        .post("//promotin.herokuapp.com/api/v1/auth/login", { email, password })
+        .then((response) => {
+          console.log(response.data);
           if (response.data.token) {
             localStorage.setItem("user", JSON.stringify(response.data));
           }
           return response.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           throw err;
         });
