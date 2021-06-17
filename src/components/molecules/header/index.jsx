@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Menubar } from "../../atoms";
+import AuthenticationService from "../../../pages/auth";
 import "./header.scss";
 
 function Header() {
   const history = useHistory();
   const [isLogin, setLogin] = useState(false);
+
+  useEffect(() => {
+    AuthenticationService.getCurrentUser() ? setLogin(true) : setLogin(false);
+  }, [isLogin]);
 
   return (
     <div id="navbar">

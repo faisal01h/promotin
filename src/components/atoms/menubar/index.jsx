@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
+import AuthenticationService from "../../../pages/auth";
 import "./menubar.scss";
 import { useHistory } from "react-router-dom";
 
@@ -79,6 +80,14 @@ function Menubar({ login }) {
           </a>
           <a href="" className="menubar-body-list">
             Setting
+          </a>
+
+          <a
+            href=""
+            className="menubar-body-list"
+            onClick={() => AuthenticationService.signOut()}
+          >
+            Logout
           </a>
         </div>
       </div>

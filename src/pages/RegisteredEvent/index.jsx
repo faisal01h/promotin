@@ -1,7 +1,6 @@
 import React from "react";
 import "./RegisteredEvent.scss";
 import { poster } from "../../assets";
-import { Button } from "../../components/atoms";
 
 function RegisteredEvent() {
   return (

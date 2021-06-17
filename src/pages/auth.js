@@ -8,6 +8,7 @@ class AuthenticationService {
         console.log(response.data);
         if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data));
+          window.location.href = "/";
         }
         return response.data;
       })
@@ -19,6 +20,7 @@ class AuthenticationService {
 
   signOut() {
     localStorage.removeItem("user");
+    window.location.href = "/";
   }
 
   register = async (name, email, password) => {
