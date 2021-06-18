@@ -2,8 +2,11 @@ import React from "react";
 import "./MyEvent.scss";
 import { poster } from "../../assets";
 import { Button } from "../../components/atoms";
+import { useHistory } from "react-router";
 
 function MyEvent() {
+  const history = useHistory();
+
   return (
     <div className="myevent-wrapper">
       <h1 className="title">My Event</h1>
@@ -23,11 +26,7 @@ function MyEvent() {
           </div>
           <div className="btn-wrapper">
             <Button title={"Edit"} />
-            <Button
-              title={"Hapus"}
-              redirect={"item-detail/60bb681c6a55066de83bc051"}
-              style={{ backgroundColor: "#ee1443" }}
-            />
+            <Button title={"Hapus"} style={{ backgroundColor: "#ee1443" }} />
           </div>
         </div>
       </div>
@@ -56,6 +55,12 @@ function MyEvent() {
           </div>
         </div>
       </div>
+
+      <Button
+        title={"Create New Event"}
+        addClass="create-event"
+        onClick={() => history.push("/create-event")}
+      />
     </div>
   );
 }

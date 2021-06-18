@@ -1,0 +1,15 @@
+.add-new-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  margin: 100px 0;
+  background-color: plum;
+
+  .item-wrapper {
+    background-color: powderblue;
+
+    .detail-wrapper {
+      background-color: pink;
+    }
+  }
+}

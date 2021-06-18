@@ -1,10 +1,10 @@
 import React from "react";
 import "./button.scss";
 
-function Button({ title, redirect, ...rest }) {
+function Button({ title, addClass, ...rest }) {
   return (
     <div>
-      <button className="button" {...rest}>
+      <button className={`button ${addClass}`} {...rest}>
         {title}
       </button>
     </div>

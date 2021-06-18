@@ -2,10 +2,8 @@ import React, { useRef } from "react";
 import "./login.scss";
 import AuthenticationService from "../auth";
 import { Button } from "../../components/atoms";
-import { useHistory } from "react-router-dom";
 
 const Login = () => {
-  const history = useHistory();
   const emailInput = useRef();
   const passInput = useRef();
 

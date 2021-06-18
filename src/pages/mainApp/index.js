@@ -9,6 +9,7 @@ import MyEvent from "../MyEvent";
 import SavedEvent from "../SavedEvent";
 import RegisteredEvent from "../RegisteredEvent";
 import Register from "../register";
+import CreateEvent from "../createEvent";
 
 function MainApp() {
   return (
@@ -22,6 +23,9 @@ function MainApp() {
           </Route>
           <Route path="/saved-event">
             <SavedEvent />
+          </Route>
+          <Route path="/create-event">
+            <CreateEvent />
           </Route>
           <Route path="/myevent">
             <MyEvent />
