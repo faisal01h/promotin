@@ -10,6 +10,8 @@ import SavedEvent from "../SavedEvent";
 import RegisteredEvent from "../RegisteredEvent";
 import Register from "../register";
 import CreateEvent from "../createEvent";
+import Footer from "../../components/molecules/footer"
+import ChatWindow from "../../components/molecules/chatWindow"
 
 function MainApp() {
   return (
@@ -44,6 +46,8 @@ function MainApp() {
           </Route>
         </Switch>
       </div>
+      <ChatWindow />
+      <Footer />
     </div>
   );
 }

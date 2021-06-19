@@ -1,0 +1,24 @@
+@import "../../../index.scss";
+
+.footer-wrapper {
+    border-top: solid 1px #EEE;
+    margin-top: 20px;
+    background: #FFF;
+    color: #000;
+    padding-top:20px;
+    padding-bottom:20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: left;
+}
+
+a {
+    color: #000;
+}
+
+@media (max-width: 720px) {
+    .footer-wrapper {
+        display: none;
+    }
+}

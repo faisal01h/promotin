@@ -26,7 +26,7 @@ function Register() {
         <div className="form-title">
           <h1>Daftar</h1>
         </div>
-        <div class="inner-form name">
+        <div className="inner-form name">
           <div className="form-group">
             {/* <label htmlFor="email">Email</label> */}
             <i class="fas fa-user"></i>
