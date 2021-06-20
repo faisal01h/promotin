@@ -9,8 +9,8 @@ import AuthenticationService from "../auth"
 axios.interceptors.request.use( config => {
   const user = JSON.parse(localStorage.getItem('user'));
 
-  if(user && user.accessToken){
-    const token = user.accessToken;
+  if(user && user.token){
+    const token = user.token;
     config.headers.Authorization =  token;
   }
 
@@ -25,7 +25,9 @@ function ItemDetail() {
 
   function handleFavClick() {
     if(AuthenticationService.getCurrentUser()) {
-      axios.post("//promotin.herokuapp.com/api/v1/event/fav")
+      axios.post("//promotin.herokuapp.com/api/v1/event/fav", {
+        itemId: id
+      })
     } else window.location.href="/login";
   }
 

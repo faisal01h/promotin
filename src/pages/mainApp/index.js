@@ -13,6 +13,7 @@ import CreateEvent from "../createEvent";
 import Footer from "../../components/molecules/footer"
 import ChatWindow from "../../components/molecules/chatWindow"
 import TermsOfService from "../tos";
+import About from "../aboutUs";
 
 function MainApp() {
   return (
@@ -21,6 +22,9 @@ function MainApp() {
 
       <div className="content-wrapper">
         <Switch>
+          <Route path="/aboutus">
+            <About />
+          </Route>
           <Route path="/termsofservice">
             <TermsOfService />
           </Route>
