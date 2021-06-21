@@ -1,0 +1,21 @@
+.tos-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 90vw;
+}
+
+.tos-content {
+    text-align: left;
+}
+
+.tos-head {
+    height: 100vh;
+
+    @media (min-width: 720px) {
+
+        .tos-head-lead {
+            font-size: 8rem;
+            
+        }
+    }
+}
