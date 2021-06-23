@@ -10,7 +10,7 @@ function AddFaq({ faqValue }) {
   function handleAddfaq(e) {
     e.preventDefault();
 
-    if (faq) {
+    if (faq && detail) {
       const newfaq = {
         id: new Date().getTime(),
         text: faq,
@@ -25,13 +25,19 @@ function AddFaq({ faqValue }) {
     }
   }
 
+  function deleteItem(id) {
+    const updateItem = [...allFaq].filter((item) => item.id !== id);
+
+    setAllFaq(updateItem);
+  }
+
   return (
     <div className="add-new-wrapper">
       <div className="item-wrapper">
         <label htmlFor="faq-title">Pertanyaan</label>
         <input
           type="text"
-          placeholder="Juara 1"
+          placeholder="Apakah peralatan disediakan panitia?"
           className="faq-title"
           name="faq-title"
           value={faq}
@@ -43,21 +49,29 @@ function AddFaq({ faqValue }) {
 
           <input
             type="text"
-            placeholder="Rp 1.000.000"
+            placeholder="Peralatan akan disediakan panitia"
             className="faq-detail"
             name="detail-faq"
             value={detail}
             onChange={(e) => setDetail(e.target.value)}
           />
         </div>
+
+        <button className="input-btn" onClick={handleAddfaq}>
+          tambah faq
+        </button>
       </div>
-      <button onClick={handleAddfaq}>tambah faq</button>
 
       <div className="detail-added">
         {allFaq.map((faq) => (
           <div className="faq" key={faq.id}>
-            {faq.text}
-            <div>{faq.detail}</div>
+            <p className="faq-t">
+              {faq.text}
+              <span className="del" onClick={() => deleteItem(faq.id)}>
+                x
+              </span>
+            </p>
+            <div className="faq-d">{faq.detail}</div>
           </div>
         ))}
       </div>

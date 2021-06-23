@@ -6,6 +6,7 @@ function AddBenefit({ benefitValue }) {
   const [benefit, setBenefit] = useState("");
   const [details, setDetails] = useState([]);
   const [detail, setDetail] = useState("");
+  const [inputed, setInputed] = useState(false);
 
   function handleAddDetail(e) {
     e.preventDefault();
@@ -17,10 +18,11 @@ function AddBenefit({ benefitValue }) {
 
     setDetails([...details].concat(newDetail));
     setDetail("");
+    setInputed(true);
   }
 
   function handleAddBenefit() {
-    if (benefit) {
+    if (benefit && inputed) {
       const newBenefit = {
         id: new Date().getTime(),
         text: benefit,
@@ -35,7 +37,7 @@ function AddBenefit({ benefitValue }) {
   function handleNewBenefit(e) {
     e.preventDefault();
 
-    if (benefit) {
+    if (benefit && inputed) {
       handleAddBenefit();
       setDetails([]);
       console.log(benefits);
@@ -44,10 +46,16 @@ function AddBenefit({ benefitValue }) {
     }
   }
 
+  function deleteItem(id) {
+    const updateItem = [...benefits].filter((item) => item.id !== id);
+
+    setBenefits(updateItem);
+  }
+
   return (
     <div className="add-new-wrapper">
       <div className="item-wrapper">
-        <label htmlFor="benefit-title">Nama Beneftit yang Didapatkan</label>
+        <label htmlFor="benefit-title">Beneftit yang Didapatkan</label>
         <input
           type="text"
           placeholder="Juara 1"
@@ -74,18 +82,26 @@ function AddBenefit({ benefitValue }) {
             </div>
           ))}
 
-          <button onClick={handleAddDetail}>tambah detail</button>
+          <p onClick={handleAddDetail}>+ tambah detail</p>
         </div>
+
+        <button className="input-btn" onClick={handleNewBenefit}>
+          tambah benefit
+        </button>
       </div>
-      <button onClick={handleNewBenefit}>tambah benefit</button>
 
       <div className="benefit-added">
         {benefits.map((benefit) => (
           <div className="benefit" key={benefit.id}>
-            {benefit.text}
+            <p className="b-text">
+              {benefit.text}
+              <span className="del" onClick={() => deleteItem(benefit.id)}>
+                x
+              </span>
+            </p>
             {benefit.detail.map((detail) => (
               <div className="detail" key={detail.id}>
-                {detail.text}
+                <li className="b-detail">{detail.text}</li>
               </div>
             ))}
           </div>

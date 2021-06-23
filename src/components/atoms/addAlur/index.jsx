@@ -10,7 +10,7 @@ function AddAlur({ alurValue }) {
   function handleAddAlur(e) {
     e.preventDefault();
 
-    if (alur) {
+    if (alur && detail) {
       const newAlur = {
         id: new Date().getTime(),
         text: alur,
@@ -25,13 +25,19 @@ function AddAlur({ alurValue }) {
     }
   }
 
+  function deleteItem(id) {
+    const updateItem = [...allAlur].filter((item) => item.id !== id);
+
+    setAllAlur(updateItem);
+  }
+
   return (
     <div className="add-new-wrapper">
       <div className="item-wrapper">
         <label htmlFor="alur-title">Judul Alur</label>
         <input
           type="text"
-          placeholder="Juara 1"
+          placeholder="Pendaftaran"
           className="alur-title"
           name="alur-title"
           value={alur}
@@ -43,21 +49,28 @@ function AddAlur({ alurValue }) {
 
           <input
             type="date"
-            placeholder="Rp 1.000.000"
             className="alur-detail"
             name="detail-alur"
             value={detail}
             onChange={(e) => setDetail(e.target.value)}
           />
         </div>
+
+        <button className="input-btn" onClick={handleAddAlur}>
+          tambah Alur
+        </button>
       </div>
-      <button onClick={handleAddAlur}>tambah Alur</button>
 
       <div className="detail-added">
         {allAlur.map((alur) => (
           <div className="alur" key={alur.id}>
-            {alur.text}
-            <div>{alur.detail}</div>
+            <p className="a-t">
+              {alur.text}
+              <span className="del" onClick={() => deleteItem(alur.id)}>
+                x
+              </span>
+            </p>
+            <div className="a-d">{alur.detail}</div>
           </div>
         ))}
       </div>

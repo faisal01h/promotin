@@ -9,32 +9,47 @@ function AddSk({ skValue }) {
   function handleAddSk(e) {
     e.preventDefault();
 
-    const newSK = {
-      id: new Date().getTime(),
-      text: sk,
-    };
+    if (sk) {
+      const newSK = {
+        id: new Date().getTime(),
+        text: sk,
+      };
 
-    setAllSk([...allsk].concat(newSK));
-    setSk("");
-    skValue(allsk);
+      setAllSk([...allsk].concat(newSK));
+      setSk("");
+      skValue(allsk);
+    }
+  }
+
+  function deleteItem(id) {
+    const updateItem = [...allsk].filter((item) => item.id !== id);
+
+    setAllSk(updateItem);
   }
 
   return (
     <div className="add-sk-wrapper">
-      <input
-        type="text"
-        placeholder="usia minimal 13 tahun"
-        className="sk"
-        name="sk"
-        value={sk}
-        onChange={(e) => setSk(e.target.value)}
-      />
+      <div className="input-field">
+        <input
+          type="text"
+          placeholder="usia minimal 13 tahun"
+          className="sk"
+          name="sk"
+          value={sk}
+          onChange={(e) => setSk(e.target.value)}
+        />
 
-      <button onClick={handleAddSk}>Add SK</button>
+        <button onClick={handleAddSk} className="sk-btn">
+          Add SK
+        </button>
+      </div>
 
       {allsk.map((sk) => (
         <div className="sk-item" key={sk.id}>
-          <p>{sk.text}</p>
+          <p>{sk.text}</p>{" "}
+          <span className="del" onClick={() => deleteItem(sk.id)}>
+            x
+          </span>
         </div>
       ))}
     </div>
