@@ -64,19 +64,13 @@ function Menubar({ login }) {
             onClick={() => history.push("/myevent")}
             className="menubar-body-list"
           >
-            My Event
-          </a>
-          <a
-            onClick={() => history.push("/registered-event")}
-            className="menubar-body-list"
-          >
-            Registered Event
+            Event Saya
           </a>
           <a
             onClick={() => history.push("/saved-event")}
             className="menubar-body-list"
           >
-            Saved Event
+            Event Favorit saya
           </a>
           <a href="" className="menubar-body-list">
             Setting

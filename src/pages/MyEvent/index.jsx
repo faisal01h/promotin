@@ -9,7 +9,7 @@ function MyEvent() {
 
   return (
     <div className="myevent-wrapper">
-      <h1 className="title">My Event</h1>
+      <h1 className="title">Event Saya</h1>
       <div className="myevent-item">
         <img src={poster} alt="" className="poster-img" />
         <div className="detail-item">

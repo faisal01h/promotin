@@ -7,11 +7,10 @@ import ItemDetail from "../ItemDetail";
 import Login from "../Login";
 import MyEvent from "../MyEvent";
 import SavedEvent from "../SavedEvent";
-import RegisteredEvent from "../RegisteredEvent";
 import Register from "../register";
 import CreateEvent from "../createEvent";
-import Footer from "../../components/molecules/footer"
-import ChatWindow from "../../components/molecules/chatWindow"
+import Footer from "../../components/molecules/footer";
+import ChatWindow from "../../components/molecules/chatWindow";
 import TermsOfService from "../tos";
 import About from "../aboutUs";
 
@@ -27,9 +26,6 @@ function MainApp() {
           </Route>
           <Route path="/termsofservice">
             <TermsOfService />
-          </Route>
-          <Route path="/registered-event">
-            <RegisteredEvent />
           </Route>
           <Route path="/saved-event">
             <SavedEvent />

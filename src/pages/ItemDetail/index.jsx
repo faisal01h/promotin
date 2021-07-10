@@ -4,14 +4,14 @@ import { Gap, Line } from "../../components/atoms";
 import { poster } from "../../assets";
 import axios from "axios";
 import { useParams } from "react-router";
-import AuthenticationService from "../auth"
+import AuthenticationService from "../auth";
 
-axios.interceptors.request.use( config => {
-  const user = JSON.parse(localStorage.getItem('user'));
+axios.interceptors.request.use((config) => {
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  if(user && user.token){
+  if (user && user.token) {
     const token = user.token;
-    config.headers.Authorization =  token;
+    config.headers.Authorization = token;
   }
 
   return config;
@@ -24,11 +24,11 @@ function ItemDetail() {
   const { id } = useParams();
 
   function handleFavClick() {
-    if(AuthenticationService.getCurrentUser()) {
+    if (AuthenticationService.getCurrentUser()) {
       axios.post("//promotin.herokuapp.com/api/v1/event/fav", {
-        itemId: id
-      })
-    } else window.location.href="/login";
+        itemId: id,
+      });
+    } else window.location.href = "/login";
   }
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function ItemDetail() {
 
       <div className="info">
         <h1>{itemData.title}</h1>
-        {itemDesc ? <p className="tag">{itemDesc.tag}</p>: ""}
+        {itemDesc ? <p className="tag">{itemDesc.tag}</p> : ""}
 
         <Gap height={20} />
         <div className="basic-info">
@@ -75,7 +75,10 @@ function ItemDetail() {
             <div className={`detail ${info === "detail" ? "visible" : ""}`}>
               <p>Daerah : {itemData.daerah}</p>
               <p>Tingkat : {itemData.tingkatan}</p>
-              <p>Tanggal : {itemDesc ? itemDesc.alur[0].date: "Tidak ditentukan"}</p>
+              <p>
+                Tanggal :{" "}
+                {itemDesc ? itemDesc.alur[0].date : "Tidak ditentukan"}
+              </p>
               <p>Jenis : {itemDesc ? itemDesc.lokasi : "Tidak ditentukan"}</p>
             </div>
 
