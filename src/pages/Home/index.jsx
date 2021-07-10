@@ -33,6 +33,7 @@ function Home() {
           return <Item key={item._id} id={item._id} />;
         })}
       </div>
+      <Gap height={70} />
     </div>
   );
 }

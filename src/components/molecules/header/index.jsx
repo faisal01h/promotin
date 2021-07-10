@@ -15,7 +15,7 @@ function Header() {
   return (
     <div id="navbar">
       <a id="brand" onClick={() => history.push("/")}>
-        Promotno
+        PromotBox
       </a>
       <div className="search">
         <input

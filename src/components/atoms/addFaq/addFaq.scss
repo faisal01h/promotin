@@ -1,6 +1,7 @@
 .add-new-wrapper {
   .detail-added {
     .faq {
+      padding: 5px 0;
       margin: 10px 0;
 
       font-weight: 500;
@@ -39,6 +40,10 @@
         padding-left: 10px;
         font-weight: 400;
         font-size: 14px;
+      }
+      .faq-d::before {
+        content: "# ";
+        color: orange;
       }
     }
   }

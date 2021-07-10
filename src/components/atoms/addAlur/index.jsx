@@ -7,14 +7,74 @@ function AddAlur({ alurValue }) {
   const [alur, setAlur] = useState("");
   const [detail, setDetail] = useState("");
 
+  function handleChangeMonth(v) {
+    switch (v) {
+      case "01":
+        return "Januari";
+        break;
+
+      case "02":
+        return "Februari";
+        break;
+
+      case "03":
+        return "Maret";
+        break;
+
+      case "04":
+        return "April";
+        break;
+
+      case "05":
+        return "Mei";
+        break;
+
+      case "06":
+        return "Juni";
+        break;
+
+      case "07":
+        return "Juli";
+        break;
+
+      case "08":
+        return "Agustus";
+        break;
+
+      case "09":
+        return "September";
+        break;
+
+      case "10":
+        return "Oktober";
+        break;
+
+      case "11":
+        return "November";
+        break;
+
+      case "12":
+        return "Desember";
+        break;
+
+      default:
+        break;
+    }
+  }
+
   function handleAddAlur(e) {
     e.preventDefault();
 
     if (alur && detail) {
+      let updateDetail = detail.split("-");
+      updateDetail[1] = handleChangeMonth(updateDetail[1]);
+      updateDetail = updateDetail.reverse().join(" ");
+
+      console.log(updateDetail);
       const newAlur = {
         id: new Date().getTime(),
         text: alur,
-        detail: detail,
+        detail: updateDetail,
       };
 
       setAllAlur([...allAlur].concat(newAlur));

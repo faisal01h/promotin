@@ -3,18 +3,29 @@ import { Dropdown } from "../../atoms";
 import "./filter.scss";
 
 function Filter() {
-  const items = [
+  const pelaksanaan = [
     {
       id: 1,
-      value: "random",
+      value: "On Site/Offline",
     },
     {
       id: 2,
-      value: "acak",
+      value: "Online",
+    },
+  ];
+
+  const tingkatan = [
+    {
+      id: 1,
+      value: "SD/SMP/SMA/K",
+    },
+    {
+      id: 2,
+      value: "Perguruan Tinggi",
     },
     {
       id: 3,
-      value: "coba",
+      value: "Umum",
     },
   ];
 
@@ -29,12 +40,12 @@ function Filter() {
         </div>
         <div className="r-side-f">
           <div className="r1">
-            <Dropdown title={"Tingkatan"} />
-            <Dropdown title={"Pelaksanaan"} />
+            <Dropdown title={"Tingkatan"} items={tingkatan} />
+            <Dropdown title={"Pelaksanaan"} items={pelaksanaan} />
           </div>
           <div className="r2">
             <Dropdown title={"Daerah"} />
-            <Dropdown title={"Kategori"} items={items} />
+            <Dropdown title={"Kategori"} />
           </div>
         </div>
       </div>

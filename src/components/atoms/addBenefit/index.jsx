@@ -11,14 +11,16 @@ function AddBenefit({ benefitValue }) {
   function handleAddDetail(e) {
     e.preventDefault();
 
-    const newDetail = {
-      id: new Date().getTime(),
-      text: detail,
-    };
+    if (detail) {
+      const newDetail = {
+        id: new Date().getTime(),
+        text: detail,
+      };
 
-    setDetails([...details].concat(newDetail));
-    setDetail("");
-    setInputed(true);
+      setDetails([...details].concat(newDetail));
+      setDetail("");
+      setInputed(true);
+    }
   }
 
   function handleAddBenefit() {
@@ -52,8 +54,34 @@ function AddBenefit({ benefitValue }) {
     setBenefits(updateItem);
   }
 
+  function deleteDet(id) {
+    const updateItem = [...details].filter((item) => item.id !== id);
+
+    setDetails(updateItem);
+  }
+
   return (
     <div className="add-new-wrapper">
+      <div className="benefit-added">
+        {benefits.map((benefit) => (
+          <div className="benefit" key={benefit.id}>
+            <p className="b-text">
+              {benefit.text}
+              <span className="del" onClick={() => deleteItem(benefit.id)}>
+                hapus
+              </span>
+            </p>
+            <div className="detail">
+              {benefit.detail.map((detail) => (
+                <li className="b-detail" key={detail.id}>
+                  {detail.text}
+                </li>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="item-wrapper">
         <label htmlFor="benefit-title">Beneftit yang Didapatkan</label>
         <input
@@ -67,45 +95,39 @@ function AddBenefit({ benefitValue }) {
 
         <div className="detail-wrapper">
           <label htmlFor="benefit-detail">Detail dari Benefit</label>
-          <input
-            type="text"
-            placeholder="Rp 1.000.000"
-            className="benefit-detail"
-            name="detail-benefit"
-            value={detail}
-            onChange={(e) => setDetail(e.target.value)}
-          />
+          <div className="add-detail-wrapper">
+            <input
+              type="text"
+              placeholder="Rp 1.000.000"
+              className="benefit-detail"
+              name="detail-benefit"
+              value={detail}
+              onChange={(e) => setDetail(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.keyCode === 13) handleAddDetail(e);
+              }}
+            />
+            <button
+              className="add-detail-btn"
+              onClick={(e) => handleAddDetail(e)}
+            >
+              Tambahkan
+            </button>
+          </div>
 
           {details.map((detail) => (
-            <div className="detail" key={detail.id}>
-              {detail.text}
+            <div className="raw-detail" key={detail.id}>
+              <p>{detail.text}</p>{" "}
+              <span className="del" onClick={() => deleteDet(detail.id)}>
+                hapus
+              </span>
             </div>
           ))}
-
-          <p onClick={handleAddDetail}>+ tambah detail</p>
         </div>
 
         <button className="input-btn" onClick={handleNewBenefit}>
-          tambah benefit
+          Tambah Benefit
         </button>
-      </div>
-
-      <div className="benefit-added">
-        {benefits.map((benefit) => (
-          <div className="benefit" key={benefit.id}>
-            <p className="b-text">
-              {benefit.text}
-              <span className="del" onClick={() => deleteItem(benefit.id)}>
-                x
-              </span>
-            </p>
-            {benefit.detail.map((detail) => (
-              <div className="detail" key={detail.id}>
-                <li className="b-detail">{detail.text}</li>
-              </div>
-            ))}
-          </div>
-        ))}
       </div>
     </div>
   );

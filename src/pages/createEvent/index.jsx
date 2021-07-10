@@ -20,12 +20,12 @@ function CreateEvent() {
   const [alurValue, setAlurValue] = useState([]);
   const [faqValue, setFaqValue] = useState([]);
 
-  useEffect(() => {
-    console.log(skValue);
-    console.log(benefitValue);
-    console.log(alurValue);
-    console.log(faqValue);
-  }, [skValue, benefitValue, alurValue, faqValue]);
+  // useEffect(() => {
+  //   console.log(skValue);
+  //   console.log(benefitValue);
+  //   console.log(alurValue);
+  //   console.log(faqValue);
+  // }, [skValue, benefitValue, alurValue, faqValue]);
 
   function handleImagePreview(e) {
     setPreviewImg(URL.createObjectURL(e.target.files[0]));
@@ -168,7 +168,7 @@ function CreateEvent() {
           </div>
 
           <div className="f-wp">
-            <h2 className="sub-title">Benefit</h2>
+            <h2 className="sub-title">Benefit (optional)</h2>
             <AddBenefit benefitValue={(data) => setBenefitValue(data)} />
           </div>
 
