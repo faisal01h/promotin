@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
@@ -14,7 +15,7 @@ import {
 import "./createEvent.scss";
 
 function CreateEvent() {
-  const [privewImg, setPreviewImg] = useState(Blank_img);
+  const [previewImg, setPreviewImg] = useState(Blank_img);
   const [skValue, setSkValue] = useState([]);
   const [benefitValue, setBenefitValue] = useState([]);
   const [alurValue, setAlurValue] = useState([]);
@@ -27,6 +28,29 @@ function CreateEvent() {
   //   console.log(faqValue);
   // }, [skValue, benefitValue, alurValue, faqValue]);
 
+  function submitPoster(itemId) {
+    let formData = new formData();
+    let img = document.querySelector('input[type="file"]').files[0];
+    formData.append('itemId', itemId);
+    formData.append('image', img);
+
+    axios.post('//promotin.herokuapp.com/api/v1/items/new/image', formData)
+    .then(result => {
+
+    })
+  }
+
+  function handleSubmitClick() {
+    axios.post('//promotin.herokuapp.com/api/v1/items/new', {
+
+    })
+    .then(result => {
+      console.log(result);
+      submitPoster();
+    })
+    
+  }
+
   function handleImagePreview(e) {
     setPreviewImg(URL.createObjectURL(e.target.files[0]));
   }
@@ -37,13 +61,13 @@ function CreateEvent() {
       <Line width={100} />
 
       <div className="form-wrapper">
-        <form action="">
+        <form>
           <div className="f-wp">
             <h2 className="sub-title">Upload Poster</h2>
             <div className="form-input poster-image">
               <label htmlFor="poster-img">
                 <img
-                  src={privewImg}
+                  src={previewImg}
                   alt=""
                   className="preview-img"
                   onDrop={handleImagePreview}
@@ -134,7 +158,7 @@ function CreateEvent() {
                   value="onsite-offline-luring"
                 />
                 <label htmlFor="onsite-offline-luring">
-                  On Site/Offline/Luring
+                  On Site/Offline
                 </label>
               </div>
 
@@ -146,7 +170,7 @@ function CreateEvent() {
                   value="offsite-online-daring"
                 />
                 <label htmlFor="offsite-online-daring">
-                  Off Site/Online/Daring
+                  Online
                 </label>
               </div>
             </div>
@@ -182,7 +206,7 @@ function CreateEvent() {
             <AddFaq faqValue={(data) => setFaqValue(data)} />
           </div>
 
-          <Button title={"Daftarkan Event"} />
+          <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />
         </form>
       </div>
     </div>
