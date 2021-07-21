@@ -18,7 +18,7 @@
     align-items: center;
     justify-content: left;
 
-    form {
+    .form-inner {
       width: 100%;
       margin: auto;
 
@@ -142,7 +142,7 @@
 @media screen and (min-width: 480px) {
   .create-event-wrapper {
     .form-wrapper {
-      form {
+      .form-inner {
         .f-wp {
           box-shadow: 0px 1px 5px lightgrey;
         }
@@ -160,7 +160,7 @@
     width: 80%;
 
     .form-wrapper {
-      form {
+      .form-inner {
         .poster-image {
           .preview-img {
             width: 30%;
