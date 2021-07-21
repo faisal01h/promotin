@@ -28,6 +28,7 @@ function Menubar({ login }) {
     // outside click
     setOpen(false);
   };
+  console.log(AuthenticationService.getCurrentUser().data.name)
 
   return (
     <div>
@@ -35,7 +36,7 @@ function Menubar({ login }) {
         <Hamburger toggled={isOpen} toggle={setOpen} />
         {login ? (
           <div className="menubar-btn" onClick={() => setOpen(!isOpen)}>
-            Username
+            {AuthenticationService.getCurrentUser().data.name}
           </div>
         ) : (
           ""
@@ -46,7 +47,7 @@ function Menubar({ login }) {
         {login ? (
           <div className="menubar-head">
             <img src="" alt="gambar" />
-            <h2>Nama</h2>
+            <h2>{AuthenticationService.getCurrentUser().data.name}</h2>
           </div>
         ) : (
           <div className="menubar-head">
@@ -71,9 +72,6 @@ function Menubar({ login }) {
             className="menubar-body-list"
           >
             Event Favorit saya
-          </a>
-          <a href="" className="menubar-body-list">
-            Setting
           </a>
 
           <a

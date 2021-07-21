@@ -1,6 +1,7 @@
 import React from "react";
 import { Dropdown } from "../../atoms";
 import "./filter.scss";
+import axios from 'axios';
 
 function Filter() {
   const pelaksanaan = [
@@ -28,6 +29,16 @@ function Filter() {
       value: "Umum",
     },
   ];
+
+  var filterTingkatan, filterDaerah, filterJenis, filterKategori;
+  const filterResult = () => {
+    axios.post("//promotin.herokuapp.com/api/v1/items/all/filter", {
+      tingkatan: filterTingkatan,
+      daerah: filterDaerah,
+      jenis: filterJenis,
+      kategori: filterKategori 
+    });
+  }
 
   return (
     <div className="filter-container">

@@ -58,6 +58,10 @@
       border-right: none;
       outline: none;
     }
+    .search-input:focus {
+      border: 1px solid $color-secondary;
+      box-shadow: 3px 5px 3px 5px rgba(27, 155, 180, 0.075)
+    }
     .search-btn {
       height: 30px;
       width: 40px;
