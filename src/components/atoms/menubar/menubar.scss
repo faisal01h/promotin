@@ -1,5 +1,12 @@
 @import "../../../index.scss";
 
+.menubar-container {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
 .hamburger-react {
   -webkit-transform: scale(0.8);
   -moz-transform: scale(0.8);
@@ -123,6 +130,7 @@
     .menubar-head {
       box-shadow: none;
       border-bottom: 1px solid lightgray;
+      padding-top: 1.5rem;
     }
   }
 }
