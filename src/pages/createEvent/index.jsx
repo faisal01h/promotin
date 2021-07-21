@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -29,7 +29,7 @@ function CreateEvent() {
   }, [skValue, benefitValue, alurValue, faqValue]);
 
   function submitPoster(itemId) {
-    let formData = new formData();
+    let formData = new FormData();
     let img = document.querySelector('input[type="file"]').files[0];
     formData.append('itemId', itemId);
     formData.append('image', img);
@@ -40,14 +40,35 @@ function CreateEvent() {
     })
   }
 
+  var eventTingkatan, eventJenis;
+  const onTingkatanValueChange = (evt) => {
+    eventTingkatan = evt.target.value;
+    console.log(eventTingkatan);
+  }
+  const onJenisValueChange = (evt) => {
+    eventJenis = evt.target.value;
+    console.log(eventJenis);
+  }
+
+  const eventTitle = useRef();
+  const eventDate = useRef();
+  const eventProvince = useRef();
+  const eventCity = useRef();
+  const eventAddress = useRef();
+  const eventLevel = useRef();
+  const eventDescription = useRef();
+
   function handleSubmitClick() {
+
+    console.log(eventTitle.current.value ,eventDate.current.value, eventAddress.current.value, skValue);
+/*
     axios.post('//promotin.herokuapp.com/api/v1/items/new', {
 
     })
     .then(result => {
       console.log(result);
-      submitPoster();
-    })
+      submitPoster(result.itemId);
+    })*/
     
   }
 
@@ -61,7 +82,7 @@ function CreateEvent() {
       <Line width={100} />
 
       <div className="form-wrapper">
-        <form>
+        <div className="form-inner">
           <div className="f-wp">
             <h2 className="sub-title">Upload Poster</h2>
             <div className="form-input poster-image">
@@ -85,6 +106,7 @@ function CreateEvent() {
             <div className="form-input judul">
               <label htmlFor="judul">Judul Event</label>
               <input
+                ref={eventTitle}
                 type="text"
                 name="judul"
                 id="judul"
@@ -98,7 +120,7 @@ function CreateEvent() {
 
             <div className="form-input tanggal">
               <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
-              <input type="date" name="tanggal" id="tanggal" />
+              <input type="date" name="tanggal" id="tanggal" ref={eventDate} />
             </div>
 
             <div className="form-tempat">
@@ -116,10 +138,10 @@ function CreateEvent() {
 
             <div className="form-input alamat">
               <label htmlFor="alamat">Alamat Event</label>
-              <input type="text" name="alamat" id="alamat" />
+              <input type="text" name="alamat" id="alamat" ref={eventAddress} />
             </div>
 
-            <div className="form-input tingkatan">
+            <div className="form-input tingkatan" onChange={onTingkatanValueChange}>
               <p>Tingkatan</p>
               <div className="radio-option">
                 <input
@@ -147,7 +169,7 @@ function CreateEvent() {
               </div>
             </div>
 
-            <div className="form-input jenis">
+            <div className="form-input jenis" onChange={onJenisValueChange}>
               <p>Jenis</p>
 
               <div className="radio-option">
@@ -182,6 +204,7 @@ function CreateEvent() {
                 id="deskripsi"
                 cols="30"
                 rows="10"
+                ref={eventDescription}
               ></textarea>
             </div>
           </div>
@@ -207,7 +230,7 @@ function CreateEvent() {
           </div>
 
           <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />
-        </form>
+        </div>
       </div>
     </div>
   );
