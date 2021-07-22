@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdown.scss";
 
-function Dropdown({ title, items = [], provinsiValue }) {
+function Dropdown({ title, items = [], dropdownValue }) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState(title);
   const [data, setData] = useState([]);
@@ -19,13 +19,15 @@ function Dropdown({ title, items = [], provinsiValue }) {
   }, [open]);
 
   function handleData(item) {
+    dropdownValue(item);
     setSelection(item);
     setData(item);
   }
 
   useEffect(() => {
-    provinsiValue(data);
-    console.log(provinsiValue);
+    //provinsiValue(data);
+    console.log('dropdown value (child): '+data);
+    console.log(items)
     // provinsiValue(selection);
   }, [selection]);
 

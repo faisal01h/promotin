@@ -62,7 +62,7 @@ function CreateEvent() {
   }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue]);
 
   useEffect(() => {
-    console.log(provinsiValue);
+    console.log('pvalue parent '+provinsiValue);
   }, [provinsiValue]);
 
   function submitPoster(itemId) {
@@ -161,8 +161,10 @@ function CreateEvent() {
                 <Dropdown
                   title={"Provinsi"}
                   items={provinsi}
-                  onChange={console.log("ganti")}
-                  provinsiValue={(data) => setProvinsiValue(data)}
+                  onChange={() => {
+                    console.log("ganti provinsi "+provinsiValue)
+                  }}
+                  dropdownValue={(data) => setProvinsiValue(data)}
                   // <AddSk skValue={(data) => setSkValue(data)} />
                 />
               </div>
