@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "../../atoms";
 import "./filter.scss";
 import axios from 'axios';
 
 function Filter() {
+  const [tingkatanValue, setTingkatanValue] = useState([]);
+  const [pelaksanaanValue, setPelaksanaanValue] = useState([]);
+  const [daerahValue, setDaerahValue] = useState([]);
+  const [kategoriValue, setKategoriValue] = useState([]);
+
   const pelaksanaan = [
     {
       id: 1,
@@ -30,14 +35,20 @@ function Filter() {
     },
   ];
 
-  var filterTingkatan, filterDaerah, filterJenis, filterKategori;
+  useEffect(() => {
+    filterResult();
+  })
+
   const filterResult = () => {
     axios.post("//promotin.herokuapp.com/api/v1/items/all/filter", {
-      tingkatan: filterTingkatan,
-      daerah: filterDaerah,
-      jenis: filterJenis,
-      kategori: filterKategori 
-    });
+      tingkatan: tingkatanValue,
+      daerah: daerahValue,
+      pelaksanaan: pelaksanaanValue,
+      kategori: kategoriValue 
+    })
+    .then(result => {
+      console.log(result)
+    })
   }
 
   return (
@@ -51,12 +62,12 @@ function Filter() {
         </div>
         <div className="r-side-f">
           <div className="r1">
-            <Dropdown title={"Tingkatan"} items={tingkatan} />
-            <Dropdown title={"Pelaksanaan"} items={pelaksanaan} />
+            <Dropdown title={"Tingkatan"} items={tingkatan} dropdownValue={(data) => setTingkatanValue(data)} />
+            <Dropdown title={"Pelaksanaan"} items={pelaksanaan} dropdownValue={(data) => setPelaksanaanValue(data)} />
           </div>
           <div className="r2">
-            <Dropdown title={"Daerah"} />
-            <Dropdown title={"Kategori"} />
+            <Dropdown title={"Daerah"} dropdownValue={(data) => setDaerahValue(data)} />
+            <Dropdown title={"Kategori"} dropdownValue={(data) => setKategoriValue(data)} />
           </div>
         </div>
       </div>
