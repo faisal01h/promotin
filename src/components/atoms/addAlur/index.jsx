@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import "./addAlur.scss";
 
@@ -58,7 +59,6 @@ function AddAlur({ alurValue }) {
       updateDetail[1] = handleChangeMonth(updateDetail[1]);
       updateDetail = updateDetail.reverse().join(" ");
 
-      console.log(updateDetail);
       const newAlur = {
         id: new Date().getTime(),
         text: alur,
@@ -68,10 +68,12 @@ function AddAlur({ alurValue }) {
       setAllAlur([...allAlur].concat(newAlur));
       setAlur("");
       setDetail("");
-
-      alurValue(allAlur);
     }
   }
+
+  useEffect(() => {
+    alurValue(allAlur);
+  }, [allAlur]);
 
   function deleteItem(id) {
     const updateItem = [...allAlur].filter((item) => item.id !== id);

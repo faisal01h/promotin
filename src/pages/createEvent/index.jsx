@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -20,57 +20,84 @@ function CreateEvent() {
   const [benefitValue, setBenefitValue] = useState([]);
   const [alurValue, setAlurValue] = useState([]);
   const [faqValue, setFaqValue] = useState([]);
+  const [provinsiValue, setProvinsiValue] = useState([]);
+  const [kabKotValue, setKabKotValue] = useState([]);
 
-  // useEffect(() => {
-  //   console.log(skValue);
-  //   console.log(benefitValue);
-  //   console.log(alurValue);
-  //   console.log(faqValue);
-  // }, [skValue, benefitValue, alurValue, faqValue]);
+  const provinsi = [
+    {
+      id: 1,
+      value: "jawa timur",
+    },
+    {
+      id: 2,
+      value: "bali",
+    },
+  ];
+
+  const [form, setForm] = useState({
+    judul: "",
+    tanggal: "",
+    provinsi: [],
+    kabkot: [],
+    alamat: "",
+    tingkatan: "",
+    jenis: "",
+    deskripsi: "",
+    sk: [],
+    benefit: [],
+    alur: [],
+    faq: [],
+  });
+
+  useEffect(() => {
+    setForm({
+      ...form,
+      provinsi: provinsiValue,
+      kabkot: kabKotValue,
+      sk: skValue,
+      benefit: benefitValue,
+      alur: alurValue,
+      faq: faqValue,
+    });
+  }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue]);
+
+  useEffect(() => {
+    console.log(provinsiValue);
+  }, [provinsiValue]);
 
   function submitPoster(itemId) {
-    let formData = new FormData();
+    let formData = new formData();
     let img = document.querySelector('input[type="file"]').files[0];
-    formData.append('itemId', itemId);
-    formData.append('image', img);
+    formData.append("itemId", itemId);
+    formData.append("image", img);
 
-    axios.post('//promotin.herokuapp.com/api/v1/items/new/image', formData)
-    .then(result => {
-
-    })
+    axios
+      .post("//promotin.herokuapp.com/api/v1/items/new/image", formData)
+      .then((result) => {});
   }
-
-  var eventTingkatan, eventJenis;
-  const onTingkatanValueChange = (evt) => {
-    eventTingkatan = evt.target.value;
-    console.log(eventTingkatan);
-  }
-  const onJenisValueChange = (evt) => {
-    eventJenis = evt.target.value;
-    console.log(eventJenis);
-  }
-
-  const eventTitle = useRef();
-  const eventDate = useRef();
-  const eventProvince = useRef();
-  const eventCity = useRef();
-  const eventAddress = useRef();
-  const eventLevel = useRef();
-  const eventDescription = useRef();
 
   function handleSubmitClick() {
-
-    console.log(eventTitle.current.value ,eventDate.current.value, eventAddress.current.value, skValue);
-/*
-    axios.post('//promotin.herokuapp.com/api/v1/items/new', {
-
-    })
-    .then(result => {
-      console.log(result);
-      submitPoster(result.itemId);
-    })*/
-    
+    console.log(form);
+    // axios
+    //   .post("//promotin.herokuapp.com/api/v1/items/new", {})
+    //   .then((result) => {
+    //     console.log(result);
+    //     submitPoster();
+    //   });
   }
+
+  const handleChange = (e) => {
+    const target = e.target;
+    // console.log(target.value);
+    // console.log(target.name);
+    const value = target.name === "sebuahtest" ? target.checked : target.value;
+    const name = target.name;
+
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
 
   function handleImagePreview(e) {
     setPreviewImg(URL.createObjectURL(e.target.files[0]));
@@ -106,10 +133,10 @@ function CreateEvent() {
             <div className="form-input judul">
               <label htmlFor="judul">Judul Event</label>
               <input
-                ref={eventTitle}
                 type="text"
                 name="judul"
                 id="judul"
+                onChange={handleChange}
                 placeholder="Seminar IT"
               />
             </div>
@@ -120,13 +147,24 @@ function CreateEvent() {
 
             <div className="form-input tanggal">
               <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
-              <input type="date" name="tanggal" id="tanggal" ref={eventDate} />
+              <input
+                type="date"
+                name="tanggal"
+                id="tanggal"
+                onChange={handleChange}
+              />
             </div>
 
             <div className="form-tempat">
               <div className="form-input provinsi">
                 <label htmlFor="provinsi">Provinsi</label>
-                <Dropdown title={"Provinsi"} />
+                <Dropdown
+                  title={"Provinsi"}
+                  items={provinsi}
+                  onChange={console.log("ganti")}
+                  provinsiValue={(data) => setProvinsiValue(data)}
+                  // <AddSk skValue={(data) => setSkValue(data)} />
+                />
               </div>
 
               <div className="form-input kab-kot">
@@ -138,10 +176,15 @@ function CreateEvent() {
 
             <div className="form-input alamat">
               <label htmlFor="alamat">Alamat Event</label>
-              <input type="text" name="alamat" id="alamat" ref={eventAddress} />
+              <input
+                type="text"
+                name="alamat"
+                id="alamat"
+                onChange={handleChange}
+              />
             </div>
 
-            <div className="form-input tingkatan" onChange={onTingkatanValueChange}>
+            <div className="form-input tingkatan">
               <p>Tingkatan</p>
               <div className="radio-option">
                 <input
@@ -149,6 +192,7 @@ function CreateEvent() {
                   name="tingkatan"
                   id="sd-smp-sma-k"
                   value="sd-smp-sma-k"
+                  onChange={handleChange}
                 />
                 <label htmlFor="sd-smp-sma-k">SD/SMP/SMA/K</label>
               </div>
@@ -159,41 +203,46 @@ function CreateEvent() {
                   name="tingkatan"
                   id="perguruan-tinggi"
                   value="perguruan-tinggi"
+                  onChange={handleChange}
                 />
                 <label htmlFor="perguruan-tinggi">Perguruan Tinggi</label>
               </div>
 
               <div className="radio-option">
-                <input type="radio" name="tingkatan" id="umum" value="umum" />
+                <input
+                  type="radio"
+                  name="tingkatan"
+                  id="umum"
+                  value="umum"
+                  onChange={handleChange}
+                />
                 <label htmlFor="umum">Umum</label>
               </div>
             </div>
 
-            <div className="form-input jenis" onChange={onJenisValueChange}>
+            <div className="form-input jenis">
               <p>Jenis</p>
 
               <div className="radio-option">
                 <input
                   type="radio"
                   name="jenis"
-                  id="onsite-offline-luring"
-                  value="onsite-offline-luring"
+                  id="onsite-offline"
+                  value="onsite-offline"
+                  onChange={handleChange}
                 />
-                <label htmlFor="onsite-offline-luring">
-                  On Site/Offline
-                </label>
+                <label htmlFor="onsite-offline">On Site/Offline</label>
               </div>
 
               <div className="radio-option">
                 <input
                   type="radio"
                   name="jenis"
-                  id="offsite-online-daring"
-                  value="offsite-online-daring"
+                  id="online"
+                  value="online"
+                  onChange={handleChange}
                 />
-                <label htmlFor="offsite-online-daring">
-                  Online
-                </label>
+                <label htmlFor="online">Online</label>
               </div>
             </div>
 
@@ -204,7 +253,7 @@ function CreateEvent() {
                 id="deskripsi"
                 cols="30"
                 rows="10"
-                ref={eventDescription}
+                onChange={handleChange}
               ></textarea>
             </div>
           </div>

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdown.scss";
 
-function Dropdown({ title, items = [] }) {
+function Dropdown({ title, items = [], provinsiValue }) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState(title);
+  const [data, setData] = useState([]);
   const node = useRef();
 
   useEffect(() => {
@@ -17,9 +18,16 @@ function Dropdown({ title, items = [] }) {
     };
   }, [open]);
 
-  function handleOnClick(item) {
-    setSelection([item]);
+  function handleData(item) {
+    setSelection(item);
+    setData(item);
   }
+
+  useEffect(() => {
+    provinsiValue(data);
+    console.log(provinsiValue);
+    // provinsiValue(selection);
+  }, [selection]);
 
   const handleClickOutside = (e) => {
     if (node && node.current && node.current.contains(e.target)) {
@@ -43,7 +51,7 @@ function Dropdown({ title, items = [] }) {
           <li
             className="dd-item"
             key={item.id}
-            onClick={() => handleOnClick(item.value)}
+            onClick={() => handleData(item.value)}
           >
             <span className="item-value"></span>
             {item.value}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import "./addSk.scss";
 
@@ -17,9 +18,12 @@ function AddSk({ skValue }) {
 
       setAllSk([...allsk].concat(newSK));
       setSk("");
-      skValue(allsk);
     }
   }
+
+  useEffect(() => {
+    skValue(allsk);
+  }, [allsk]);
 
   function deleteItem(id) {
     const updateItem = [...allsk].filter((item) => item.id !== id);

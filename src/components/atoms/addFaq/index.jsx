@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import "./addFaq.scss";
 
@@ -20,10 +21,12 @@ function AddFaq({ faqValue }) {
       setAllFaq([...allFaq].concat(newfaq));
       setFaq("");
       setDetail("");
-
-      faqValue(allFaq);
     }
   }
+
+  useEffect(() => {
+    faqValue(allFaq);
+  }, [allFaq]);
 
   function deleteItem(id) {
     const updateItem = [...allFaq].filter((item) => item.id !== id);

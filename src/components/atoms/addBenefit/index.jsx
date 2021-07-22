@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import "./addBenefit.scss";
 
 function AddBenefit({ benefitValue }) {
@@ -47,6 +48,10 @@ function AddBenefit({ benefitValue }) {
       benefitValue(benefits);
     }
   }
+
+  useEffect(() => {
+    benefitValue(benefits);
+  }, [benefits]);
 
   function deleteItem(id) {
     const updateItem = [...benefits].filter((item) => item.id !== id);
