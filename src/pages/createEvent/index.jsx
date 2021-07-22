@@ -163,6 +163,7 @@ function CreateEvent() {
                   items={provinsi}
                   onChange={console.log("ganti")}
                   provinsiValue={(data) => setProvinsiValue(data)}
+                  test={"oi"}
                   // <AddSk skValue={(data) => setSkValue(data)} />
                 />
               </div>
