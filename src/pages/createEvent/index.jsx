@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
+import { Daerah } from "../../daerah"
 import {
   Button,
   Line,
@@ -23,16 +24,6 @@ function CreateEvent() {
   const [provinsiValue, setProvinsiValue] = useState([]);
   const [kabKotValue, setKabKotValue] = useState([]);
 
-  const provinsi = [
-    {
-      id: 1,
-      value: "jawa timur",
-    },
-    {
-      id: 2,
-      value: "bali",
-    },
-  ];
 
   const [form, setForm] = useState({
     judul: "",
@@ -99,13 +90,23 @@ function CreateEvent() {
     });
   };
 
+  var availableKabKot = [];
+
+  function handleProvinsiChange(data) {
+    return Daerah.filter((e) => {
+      if(e.value === data) {
+        return e.data
+      }
+    })
+  }
+
   function handleImagePreview(e) {
     setPreviewImg(URL.createObjectURL(e.target.files[0]));
   }
 
   return (
     <div className="create-event-wrapper">
-      <h1 className="title">Create Event</h1>
+      <h1 className="title">Buat Event Baru</h1>
       <Line width={100} />
 
       <div className="form-wrapper">
@@ -160,11 +161,14 @@ function CreateEvent() {
                 <label htmlFor="provinsi">Provinsi</label>
                 <Dropdown
                   title={"Provinsi"}
-                  items={provinsi}
+                  items={Daerah}
                   onChange={() => {
                     console.log("ganti provinsi "+provinsiValue)
                   }}
-                  dropdownValue={(data) => setProvinsiValue(data)}
+                  dropdownValue={(data) => {
+                    setProvinsiValue(data)
+                    handleProvinsiChange(data)
+                  }}
                   // <AddSk skValue={(data) => setSkValue(data)} />
                 />
               </div>
@@ -172,7 +176,15 @@ function CreateEvent() {
               <div className="form-input kab-kot">
                 <label htmlFor="kab-kot">Kabupaten/Kota</label>
 
-                <Dropdown title={"Kabupaten/Kota"} />
+                <Dropdown 
+                  title={"Kabupaten/Kota"} 
+                  items={handleProvinsiChange(provinsiValue)[0].data}
+                  onChange={() => {
+                    console.log("ganti kabkot "+kabKotValue)
+                  }}
+                  dropdownValue={(data) => setKabKotValue(data)}
+                
+                />
               </div>
             </div>
 
@@ -192,11 +204,33 @@ function CreateEvent() {
                 <input
                   type="radio"
                   name="tingkatan"
-                  id="sd-smp-sma-k"
-                  value="sd-smp-sma-k"
+                  id="sd"
+                  value="SD"
                   onChange={handleChange}
                 />
-                <label htmlFor="sd-smp-sma-k">SD/SMP/SMA/K</label>
+                <label htmlFor="sd">SD</label>
+              </div>
+
+              <div className="radio-option">
+                <input
+                  type="radio"
+                  name="tingkatan"
+                  id="smp"
+                  value="SMP"
+                  onChange={handleChange}
+                />
+                <label htmlFor="smp">SMP</label>
+              </div>
+
+              <div className="radio-option">
+                <input
+                  type="radio"
+                  name="tingkatan"
+                  id="sma"
+                  value="SMA/K"
+                  onChange={handleChange}
+                />
+                <label htmlFor="sma">SMA/K</label>
               </div>
 
               <div className="radio-option">
@@ -215,7 +249,7 @@ function CreateEvent() {
                   type="radio"
                   name="tingkatan"
                   id="umum"
-                  value="umum"
+                  value="Umum"
                   onChange={handleChange}
                 />
                 <label htmlFor="umum">Umum</label>

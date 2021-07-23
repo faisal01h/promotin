@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button } from "../../components";
 import "./register.scss";
 import AuthenticationService from "../auth";
@@ -9,15 +9,32 @@ function Register() {
   const emailInput = useRef();
   const passInput = useRef();
   const confirmPassInput = useRef();
+  const snk = useRef();
+
+  const [ pwdMismatch, setPwdMismatch ] = useState(false);
+  const [ disagreement, setDisagreement ] = useState(false);
+  const [ pwdTooShort, setPwdTooShort ] = useState(false);
+
+  function toggleCheckbox() {
+    if(snk.current.value == "1") snk.current.value = "0"
+    else snk.current.value = "1"
+  }
 
   function handleOnClick() {
-    if(passInput.current.value === confirmPassInput.current.value) {
-      AuthenticationService.register(
-        nameInput.current.value,
-        emailInput.current.value,
-        passInput.current.value
-      )
-    }
+    if(snk.current.value == "1") {
+      setDisagreement(false);
+      if(passInput.current.value === confirmPassInput.current.value) {
+        setPwdMismatch(false)
+        if(passInput.current.value.length >= 8) {
+          setPwdTooShort(false)
+          AuthenticationService.register(
+            nameInput.current.value,
+            emailInput.current.value,
+            passInput.current.value
+          )
+        } else setPwdTooShort(true)
+      } else setPwdMismatch(true)
+    } else setDisagreement(true);
   }
 
   return (
@@ -29,60 +46,82 @@ function Register() {
         <div className="inner-form name">
           <div className="form-group">
             {/* <label htmlFor="email">Email</label> */}
-            <i class="fas fa-user"></i>
+            <i className="fas fa-user"></i>
             <input
               type="text"
               name="name"
               className="input-form"
-              placeholder="Enter your full name"
+              placeholder="Nama lengkap"
               ref={nameInput}
             />
           </div>
         </div>
-        <div class="inner-form email">
+        <div className="inner-form email">
           <div className="form-group">
             {/* <label htmlFor="email">Email</label> */}
-            <i class="fas fa-envelope"></i>
+            <i className="fas fa-envelope"></i>
             <input
               type="email"
               name="email"
               className="input-form"
-              placeholder="Enter your email address"
+              placeholder="Email"
               ref={emailInput}
             />
           </div>
           <div className="form-group password">
             {/* <label htmlFor="password">Kata sandi</label> */}
-            <i class="fas fa-key"></i>
+            <i className="fas fa-key"></i>
             <input
               type="password"
               name="password"
               className="input-form"
-              placeholder="Enter new password"
+              placeholder="Password"
               ref={passInput}
             />
           </div>
+          {
+            pwdTooShort ?
+            <div className="form-error">
+              <p>Panjang password minimal 8 karakter!</p>
+            </div>
+            : ""
+          }
           <div className="form-group password">
             {/* <label htmlFor="password">Kata sandi</label> */}
-            <i class="fas fa-key"></i>
+            <i className="fas fa-key"></i>
             <input
               type="password"
               name="password"
               className="input-form"
-              placeholder="Confirm password"
+              placeholder="Konfirmasi password"
               ref={confirmPassInput}
             />
           </div>
+          {
+            pwdMismatch ?
+            <div className="form-error">
+              <p>Isi kolom password harus sama dengan kolom konfirmasi password!</p>
+            </div>
+            : ""
+          }
           <div className="form-options">
             <div className="snk">
               <input
                 type="checkbox"
                 name="snk"
                 id="snk"
-                value="Setuju dengan syarat dan ketentuan"
+                onChange={toggleCheckbox}
+                ref={snk}
               />
-              <label htmlFor="snk">Saya setuju dengan <a>syarat dan ketentuan</a></label>
+              <label htmlFor="snk">Saya setuju dengan <a>syarat dan ketentuan</a> serta <a>kebijakan privasi</a> PromotBox.</label>
             </div>
+            {
+            disagreement ? 
+            <div className="form-error">
+              <p>Untuk mendaftar, anda harus setuju dengan syarat dan ketentuan serta kebijakan privasi PromotBox!</p>
+            </div>: 
+            ""
+            }
             <Button 
               title={"Daftar"} 
               onClick={handleOnClick}
