@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "../../atoms";
 import "./filter.scss";
+import { Daerah, Kategori } from '../../../daerah'
 
 function Filter({ selectedFilter, search }) {
   const [tipeValue, setTipeValue] = useState("");
@@ -32,14 +33,22 @@ function Filter({ selectedFilter, search }) {
   const tingkatan = [
     {
       id: 1,
-      value: "SD/SMP/SMA/K",
+      value: "SD",
     },
     {
       id: 2,
-      value: "Perguruan Tinggi",
+      value: "SMP",
     },
     {
       id: 3,
+      value: "SMA/K",
+    },
+    {
+      id: 4,
+      value: "Perguruan Tinggi",
+    },
+    {
+      id: 5,
       value: "Umum",
     },
   ];
@@ -98,10 +107,12 @@ function Filter({ selectedFilter, search }) {
           <div className="r2">
             <Dropdown
               title={"Daerah"}
+              items={Daerah}
               dropdownValue={(data) => setDaerahValue(data)}
             />
             <Dropdown
               title={"Kategori"}
+              items={Kategori}
               dropdownValue={(data) => setKategoriValue(data)}
             />
           </div>
