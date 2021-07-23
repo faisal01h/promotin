@@ -40,6 +40,7 @@ function ItemDetail() {
         if (!mounted) {
           setItemData(result.data.data);
           setItemDesc(result.data.data.description);
+          console.log(result.data.data);
         }
       })
       .catch((error) => {
@@ -73,13 +74,12 @@ function ItemDetail() {
 
           <div className="basic-info-desc">
             <div className={`detail ${info === "detail" ? "visible" : ""}`}>
-              <p>Daerah : {itemData.daerah}</p>
               <p>Tingkat : {itemData.tingkatan}</p>
+              <p>Daerah : {itemData.daerah}</p>
               <p>
-                Tanggal :{" "}
-                {itemDesc ? itemDesc.alur[0].date : "Tidak ditentukan"}
+                Tanggal : {itemDesc ? itemDesc.tanggal : "Tidak ditentukan"}
               </p>
-              <p>Jenis : {itemDesc ? itemDesc.lokasi : "Tidak ditentukan"}</p>
+              <p>Jenis : {itemData ? itemData.jenis : "Tidak ditentukan"}</p>
             </div>
 
             <div
@@ -89,12 +89,12 @@ function ItemDetail() {
             </div>
 
             <div className={`sk ${info === "sk" ? "visible" : ""}`}>
-              <p>Syarat dan Ketentuan</p>
               <ul>
-                <li>Usia antara 13 - 16 tahun</li>
-                <li>Berstatus siswa/i SMP</li>
-                <li>Dilarang membawa gambar contoh</li>
-                <li>Desain yang akan dibuat harus Original</li>
+                {itemDesc
+                  ? itemDesc.sk.map((sk) => {
+                      return <li key={sk.id}>{sk.text}</li>;
+                    })
+                  : ""}
               </ul>
             </div>
           </div>
@@ -108,13 +108,11 @@ function ItemDetail() {
             {itemDesc
               ? itemDesc.benefits.map((benefit) => {
                   return (
-                    <div
-                      className="benefit-item-detail"
-                      key={benefit.title + benefit.description}
-                    >
-                      <h5>{benefit.title}</h5>
-                      <p>{benefit.description} </p>
-                      <p>Sertifikat</p>
+                    <div className="benefit-item-detail" key={benefit.id}>
+                      <h5>{benefit.text}</h5>
+                      {benefit.detail.map((detail) => {
+                        return <p key={detail.id}>{benefit.text} </p>;
+                      })}
                     </div>
                   );
                 })
@@ -132,12 +130,9 @@ function ItemDetail() {
               {itemDesc
                 ? itemDesc.alur.map((alur) => {
                     return (
-                      <div
-                        className="detail-alur"
-                        key={alur.date + alur.description}
-                      >
-                        <h4>{alur.date}</h4>
-                        <p>{alur.description}</p>
+                      <div className="detail-alur" key={alur.id}>
+                        <h4>{alur.text}</h4>
+                        <p>{alur.detail}</p>
                       </div>
                     );
                   })
@@ -153,9 +148,9 @@ function ItemDetail() {
           {itemDesc
             ? itemDesc.faq.map((faq) => {
                 return (
-                  <div className="faq-item" key={faq.question + faq.answer}>
-                    <h4>{faq.question}</h4>
-                    <p>{faq.answer}</p>
+                  <div className="faq-item" key={faq.id}>
+                    <h4>{faq.text}</h4>
+                    <p>{faq.detail}</p>
                   </div>
                 );
               })
@@ -163,7 +158,7 @@ function ItemDetail() {
         </div>
 
         <div className="item-detail-button">
-          <button className="daftar-event" href="#">
+          <button className="daftar-event" onClick={handleFavClick}>
             Tambahkan ke Favorit
           </button>
         </div>
