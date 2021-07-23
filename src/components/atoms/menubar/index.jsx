@@ -28,7 +28,6 @@ function Menubar({ login }) {
     // outside click
     setOpen(false);
   };
-  console.log(AuthenticationService.getCurrentUser().data.name)
 
   return (
     <div>
