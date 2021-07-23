@@ -26,25 +26,27 @@ function CreateEvent() {
 
 
   const [form, setForm] = useState({
-    judul: "",
-    tanggal: "",
-    provinsi: [],
-    kabkot: [],
-    alamat: "",
+    title: "",
+    daerah: "",
+    pelaksanaan: "",
+    description: {
+      desc: "",
+      benefits: [],
+      alur: [],
+      faq: [],
+      tag: "",
+      sk: [],
+      tanggal: "",
+      alamat: "",
+    },
     tingkatan: "",
     jenis: "",
-    deskripsi: "",
-    sk: [],
-    benefit: [],
-    alur: [],
-    faq: [],
   });
 
   useEffect(() => {
     setForm({
       ...form,
-      provinsi: provinsiValue,
-      kabkot: kabKotValue,
+      daerah: kabKotValue+', '+provinsiValue,
       sk: skValue,
       benefit: benefitValue,
       alur: alurValue,
@@ -90,14 +92,17 @@ function CreateEvent() {
     });
   };
 
-  var availableKabKot = [];
-
   function handleProvinsiChange(data) {
-    return Daerah.filter((e) => {
+    if(provinsiValue.length > 0) return Daerah.filter((e) => {
       if(e.value === data) {
         return e.data
       }
     })
+    else return [{
+      id: 0,
+      value: "-",
+      data: [{id: 0, value: ""}]
+    }]
   }
 
   function handleImagePreview(e) {
