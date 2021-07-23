@@ -13,6 +13,12 @@ function MyEvent() {
   const [isLogin, setLogin] = useState([]);
   const [user, setUser] = useState("");
 
+  function deleteEvent(id) {
+    axios.put("//promotin.herokuapp.com/api/v1/items/unlist/"+id, {
+
+    }).then(console.log)
+  }
+
   useEffect(() => {
     if (AuthenticationService.getCurrentUser()) {
       setLogin(true);
@@ -58,6 +64,7 @@ function MyEvent() {
                 <Button
                   title={"Hapus"}
                   style={{ backgroundColor: "#ee1443" }}
+                  onClick={() => deleteEvent(event.id)}
                 />
               </div>
             </div>
