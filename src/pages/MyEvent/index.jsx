@@ -1,60 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./MyEvent.scss";
 import { poster } from "../../assets";
 import { Button } from "../../components/atoms";
 import { useHistory } from "react-router";
+import { useState } from "react";
+import axios from "axios";
+import AuthenticationService from "../auth";
 
 function MyEvent() {
   const history = useHistory();
+  const [myevent, setMyevent] = useState([]);
+  const [isLogin, setLogin] = useState([]);
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    if (AuthenticationService.getCurrentUser()) {
+      setLogin(true);
+      setUser(AuthenticationService.getCurrentUser().data.id);
+    } else setLogin(false);
+  }, [isLogin]);
+
+  useEffect(() => {
+    axios
+      .post("//promotin.herokuapp.com/api/v1/items/all/filter", {
+        authorId: user,
+      })
+      .then((result) => {
+        if (result) {
+          const responseAPI = result.data;
+          console.log(result.data);
+
+          setMyevent(responseAPI.data);
+        }
+      })
+      .catch((err) => {
+        console.log("Error ", err);
+      });
+  }, [user]);
 
   return (
     <div className="myevent-wrapper">
       <h1 className="title">Event Saya</h1>
-      <div className="myevent-item">
-        <img src={poster} alt="" className="poster-img" />
-        <div className="detail-item">
-          <h1 className="poster-title">Judul Poster</h1>
-          <div className="detail">
-            <p>Daerah : Sidoarjo</p>
-            <p>Tingkat : SMA</p>
-            <p>Tanggal : 20 Agustus 2021</p>
-            <p>Jenis : On Site</p>
+      {myevent.map((event) => {
+        return (
+          <div className="myevent-item" key={event.id}>
+            <img src={poster} alt="" className="poster-img" />
+            <div className="detail-item">
+              <h1 className="poster-title">{event.title}</h1>
+              <div className="detail">
+                <p>Tingkat : {event.tingkatan}</p>
+                <p>Daerah : {event.daerah}</p>
+                <p>Tanggal : {event.description.tanggal}</p>
+                <p>Jenis : {event.jenis}</p>
+              </div>
+              <div className="btn-wrapper">
+                <Button title={"Edit"} />
+                <Button
+                  title={"Hapus"}
+                  style={{ backgroundColor: "#ee1443" }}
+                />
+              </div>
+            </div>
           </div>
-          <div className="pendaftar">
-            <p>Pendaftar : 10</p>
-            <a href="">Cek Pendaftar</a>
-          </div>
-          <div className="btn-wrapper">
-            <Button title={"Edit"} />
-            <Button title={"Hapus"} style={{ backgroundColor: "#ee1443" }} />
-          </div>
-        </div>
-      </div>
-
-      <div className="myevent-item">
-        <img src={poster} alt="" className="poster-img" />
-        <div className="detail-item">
-          <h1 className="poster-title">Judul Poster</h1>
-          <div className="detail">
-            <p>Daerah : Sidoarjo</p>
-            <p>Tingkat : SMA</p>
-            <p>Tanggal : 20 Agustus 2021</p>
-            <p>Jenis : On Site</p>
-          </div>
-          <div className="pendaftar">
-            <p>Pendaftar : 10</p>
-            <a href="">Cek Pendaftar</a>
-          </div>
-          <div className="btn-wrapper">
-            <Button title={"Edit"} />
-            <Button
-              title={"Hapus"}
-              redirect={"item-detail/60bb681c6a55066de83bc051"}
-              style={{ backgroundColor: "#ee1443" }}
-            />
-          </div>
-        </div>
-      </div>
+        );
+      })}
 
       <Button
         title={"Create New Event"}
