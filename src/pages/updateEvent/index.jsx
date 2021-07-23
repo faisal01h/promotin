@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import { useParams } from 'react-router-dom'
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
-import { Daerah } from "../../daerah"
+import { Daerah } from "../../daerah";
 
 import {
   Button,
@@ -27,14 +27,28 @@ function CreateEvent() {
   const [kabKotValue, setKabKotValue] = useState([]);
   const { id } = useParams();
 
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState();
+  useEffect(() => {
+    axios
+      .get("//promotin.herokuapp.com/api/v1/items/view/" + id)
+      .then((result) => {
+        let getData = result.data.data;
+        console.log(getData);
 
-  axios.get("//promotin.herokuapp.com/api/v1/items/view/"+id)
-  .then((result) => {
-    setTitle(result.data.data.title)
-    setDate(result.data.data.description.tanggal)
-  })
+        setForm({
+          ...form,
+          title: getData.title,
+          daerah: getData.daerah,
+          description: getData.description,
+          tingkatan: getData.tingkatan,
+          jenis: getData.jenis,
+        });
+
+        setSkValue(getData.description.sk);
+        setBenefitValue(getData.description.benefits);
+        setAlurValue(getData.description.alur);
+        setFaqValue(getData.description.faq);
+      });
+  }, [id]);
 
   const [form, setForm] = useState({
     title: "",
@@ -56,19 +70,18 @@ function CreateEvent() {
   useEffect(() => {
     setForm({
       ...form,
-      daerah: kabKotValue+', '+provinsiValue,
+      daerah: kabKotValue + ", " + provinsiValue,
       description: {
         sk: skValue,
         benefits: benefitValue,
         alur: alurValue,
         faq: faqValue,
-      }
-      
+      },
     });
   }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue]);
 
   useEffect(() => {
-    console.log('pvalue parent '+provinsiValue);
+    console.log("pvalue parent " + provinsiValue);
   }, [provinsiValue]);
 
   function submitPoster(itemId) {
@@ -76,22 +89,24 @@ function CreateEvent() {
     let img = document.querySelector('input[type="file"]').files[0];
     formdata.append("itemId", itemId);
     formdata.append("image", img);
-    console.log(formdata)
+    console.log(formdata);
 
     axios
-      .post("//promotin.herokuapp.com/api/v1/items/edit/image/"+id, formdata)
-      .then((result) => {console.log(result)});
+      .post("//promotin.herokuapp.com/api/v1/items/edit/image/" + id, formdata)
+      .then((result) => {
+        console.log(result);
+      });
   }
 
   function handleSubmitClick() {
     console.log(form);
-     axios
-       .put("//promotin.herokuapp.com/api/v1/items/view/"+id, form)
-       .then((result) => {
-         console.log(result);
-         submitPoster(result.data.data.itemId);
-       })
-       .catch(console.log)
+    axios
+      .put("//promotin.herokuapp.com/api/v1/items/view/" + id, form)
+      .then((result) => {
+        console.log(result);
+        submitPoster(result.data.data.itemId);
+      })
+      .catch(console.log);
   }
 
   const handleChange = (e) => {
@@ -118,23 +133,29 @@ function CreateEvent() {
       ...form,
       description: {
         [name]: value,
-      }
-      
+      },
     });
   };
-  
+
+  // function handleChangeValue(e) {
+  //   console.log(e);
+  // }
 
   function handleProvinsiChange(data) {
-    if(provinsiValue.length > 0) return Daerah.filter((e) => {
-      if(e.value === data) {
-        return e.data
-      }
-    })
-    else return [{
-      id: 0,
-      value: "-",
-      data: [{id: 0, value: ""}]
-    }]
+    if (provinsiValue.length > 0)
+      return Daerah.filter((e) => {
+        if (e.value === data) {
+          return e.data;
+        }
+      });
+    else
+      return [
+        {
+          id: 0,
+          value: "-",
+          data: [{ id: 0, value: "" }],
+        },
+      ];
   }
 
   function handleImagePreview(e) {
@@ -143,7 +164,7 @@ function CreateEvent() {
 
   return (
     <div className="create-event-wrapper">
-      <h1 className="title">Edit Event {title}</h1>
+      <h1 className="title">Edit Event {form.title}</h1>
       <Line width={100} />
 
       <div className="form-wrapper">
@@ -175,7 +196,8 @@ function CreateEvent() {
                 name="title"
                 id="title"
                 onChange={handleChange}
-                placeholder={title}
+                // placeholder={title}
+                value={form.title}
               />
             </div>
           </div>
@@ -190,6 +212,7 @@ function CreateEvent() {
                 name="tanggal"
                 id="tanggal"
                 onChange={handleInDescChange}
+                value={form.description.tanggal}
               />
             </div>
 
@@ -200,11 +223,11 @@ function CreateEvent() {
                   title={"Provinsi"}
                   items={Daerah}
                   onChange={() => {
-                    console.log("ganti provinsi "+provinsiValue)
+                    console.log("ganti provinsi " + provinsiValue);
                   }}
                   dropdownValue={(data) => {
-                    setProvinsiValue(data)
-                    handleProvinsiChange(data)
+                    setProvinsiValue(data);
+                    handleProvinsiChange(data);
                   }}
                   // <AddSk skValue={(data) => setSkValue(data)} />
                 />
@@ -213,14 +236,13 @@ function CreateEvent() {
               <div className="form-input kab-kot">
                 <label htmlFor="kab-kot">Kabupaten/Kota</label>
 
-                <Dropdown 
-                  title={"Kabupaten/Kota"} 
+                <Dropdown
+                  title={"Kabupaten/Kota"}
                   items={handleProvinsiChange(provinsiValue)[0].data}
                   onChange={() => {
-                    console.log("ganti kabkot "+kabKotValue)
+                    console.log("ganti kabkot " + kabKotValue);
                   }}
                   dropdownValue={(data) => setKabKotValue(data)}
-                
                 />
               </div>
             </div>
@@ -232,6 +254,7 @@ function CreateEvent() {
                 name="alamat"
                 id="alamat"
                 onChange={handleInDescChange}
+                value={form.daerah}
               />
             </div>
 
@@ -327,28 +350,45 @@ function CreateEvent() {
                 cols="30"
                 rows="10"
                 onChange={handleInDescChange}
+                value={form.description.desc}
               ></textarea>
             </div>
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">Syarat dan Ketentuan</h2>
-            <AddSk skValue={(data) => setSkValue(data)} />
+            <AddSk
+              skValue={(data) => setSkValue(data)}
+              updateValue={skValue}
+              isUpdate={true}
+            />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">Benefit (optional)</h2>
-            <AddBenefit benefitValue={(data) => setBenefitValue(data)} />
+            <AddBenefit
+              benefitValue={(data) => setBenefitValue(data)}
+              updateValue={benefitValue}
+              isUpdate={true}
+            />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">Alur</h2>
-            <AddAlur alurValue={(data) => setAlurValue(data)} />
+            <AddAlur
+              alurValue={(data) => setAlurValue(data)}
+              updateValue={alurValue}
+              isUpdate={true}
+            />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">FAQ</h2>
-            <AddFaq faqValue={(data) => setFaqValue(data)} />
+            <AddFaq
+              faqValue={(data) => setFaqValue(data)}
+              updateValue={faqValue}
+              isUpdate={true}
+            />
           </div>
 
           <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />

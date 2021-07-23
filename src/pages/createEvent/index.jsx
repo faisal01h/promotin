@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
-import { Daerah, Kategori } from "../../daerah"
+import { Daerah, Kategori } from "../../daerah";
 
 import {
   Button,
@@ -35,7 +35,7 @@ function CreateEvent() {
     sk: [],
     tanggal: "",
     alamat: "",
-    kategori: ""
+    kategori: "",
   });
 
   const [form, setForm] = useState({
@@ -50,8 +50,8 @@ function CreateEvent() {
   useEffect(() => {
     setForm({
       ...form,
-      daerah: kabKotValue+', '+provinsiValue,
-      description: descForm
+      daerah: kabKotValue + ", " + provinsiValue,
+      description: descForm,
     });
     setDescForm({
       ...descForm,
@@ -59,9 +59,17 @@ function CreateEvent() {
       benefits: benefitValue,
       alur: alurValue,
       faq: faqValue,
-      kategori: kategoriValue
-    })
-  }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue, kategoriValue]);
+      kategori: kategoriValue,
+    });
+  }, [
+    provinsiValue,
+    kabKotValue,
+    skValue,
+    benefitValue,
+    alurValue,
+    faqValue,
+    kategoriValue,
+  ]);
 
   useEffect(() => {
     console.log("pvalue parent " + provinsiValue);
@@ -72,25 +80,25 @@ function CreateEvent() {
     let img = document.querySelector('input[type="file"]').files[0];
     formdata.append("itemId", itemId);
     formdata.append("image", img);
-    console.log(formdata)
+    console.log(formdata);
 
     axios
       .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
       .then((result) => {
-        console.log(result)
-        window.location.href = '/item-detail/'+itemId
+        console.log(result);
+        window.location.href = "/item-detail/" + itemId;
       });
   }
 
   function handleSubmitClick() {
     console.log(form);
-     axios
-       .post("//promotin.herokuapp.com/api/v1/items/new", form)
-       .then((result) => {
-         console.log(result);
-         submitPoster(result.data.data.itemId);
-       })
-       .catch(console.log)
+    axios
+      .post("//promotin.herokuapp.com/api/v1/items/new", form)
+      .then((result) => {
+        console.log(result);
+        submitPoster(result.data.data.itemId);
+      })
+      .catch(console.log);
   }
 
   const handleChange = (e) => {
@@ -115,22 +123,25 @@ function CreateEvent() {
 
     setDescForm({
       ...descForm,
-      [name]: value,  
+      [name]: value,
     });
   };
-  
 
   function handleProvinsiChange(data) {
-    if(provinsiValue.length > 0) return Daerah.filter((e) => {
-      if(e.value === data) {
-        return e.data
-      }
-    })
-    else return [{
-      id: 0,
-      value: "-",
-      data: [{id: 0, value: ""}]
-    }]
+    if (provinsiValue.length > 0)
+      return Daerah.filter((e) => {
+        if (e.value === data) {
+          return e.data;
+        }
+      });
+    else
+      return [
+        {
+          id: 0,
+          value: "-",
+          data: [{ id: 0, value: "" }],
+        },
+      ];
   }
 
   function handleImagePreview(e) {
@@ -190,19 +201,17 @@ function CreateEvent() {
             </div>
 
             <div className="form-input kategori">
-                <label htmlFor="provinsi">Kategori</label>
-                <Dropdown
-                  title={"Provinsi"}
-                  items={Kategori}
-                  onChange={() => {
-                    
-                  }}
-                  dropdownValue={(data) => {
-                    setKategoriValue(data)
-                  }}
-                  // <AddSk skValue={(data) => setSkValue(data)} />
-                />
-              </div>
+              <label htmlFor="provinsi">Kategori</label>
+              <Dropdown
+                title={"Provinsi"}
+                items={Kategori}
+                onChange={() => {}}
+                dropdownValue={(data) => {
+                  setKategoriValue(data);
+                }}
+                // <AddSk skValue={(data) => setSkValue(data)} />
+              />
+            </div>
 
             <div className="form-tempat">
               <div className="form-input provinsi">
@@ -214,8 +223,8 @@ function CreateEvent() {
                     console.log("ganti provinsi " + provinsiValue);
                   }}
                   dropdownValue={(data) => {
-                    setProvinsiValue(data)
-                    handleProvinsiChange(data)
+                    setProvinsiValue(data);
+                    handleProvinsiChange(data);
                   }}
                   // <AddSk skValue={(data) => setSkValue(data)} />
                 />
@@ -224,14 +233,13 @@ function CreateEvent() {
               <div className="form-input kab-kot">
                 <label htmlFor="kab-kot">Kabupaten/Kota</label>
 
-                <Dropdown 
-                  title={"Kabupaten/Kota"} 
+                <Dropdown
+                  title={"Kabupaten/Kota"}
                   items={handleProvinsiChange(provinsiValue)[0].data}
                   onChange={() => {
-                    console.log("ganti kabkot "+kabKotValue)
+                    console.log("ganti kabkot " + kabKotValue);
                   }}
                   dropdownValue={(data) => setKabKotValue(data)}
-                
                 />
               </div>
             </div>
@@ -344,22 +352,38 @@ function CreateEvent() {
 
           <div className="f-wp">
             <h2 className="sub-title">Syarat dan Ketentuan</h2>
-            <AddSk skValue={(data) => setSkValue(data)} />
+            <AddSk
+              skValue={(data) => setSkValue(data)}
+              updateValue={[]}
+              isUpdate={false}
+            />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">Benefit (optional)</h2>
-            <AddBenefit benefitValue={(data) => setBenefitValue(data)} />
+            <AddBenefit
+              benefitValue={(data) => setBenefitValue(data)}
+              updateValue={[]}
+              isUpdate={false}
+            />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">Alur</h2>
-            <AddAlur alurValue={(data) => setAlurValue(data)} />
+            <AddAlur
+              alurValue={(data) => setAlurValue(data)}
+              updateValue={[]}
+              isUpdate={false}
+            />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">FAQ</h2>
-            <AddFaq faqValue={(data) => setFaqValue(data)} />
+            <AddFaq
+              faqValue={(data) => setFaqValue(data)}
+              updateValue={[]}
+              isUpdate={false}
+            />
           </div>
 
           <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />

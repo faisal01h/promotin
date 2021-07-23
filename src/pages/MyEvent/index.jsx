@@ -28,7 +28,6 @@ function MyEvent() {
       .then((result) => {
         if (result) {
           const responseAPI = result.data;
-          console.log(result.data);
 
           setMyevent(responseAPI.data);
         }
@@ -43,7 +42,7 @@ function MyEvent() {
       <h1 className="title">Event Saya</h1>
       {myevent.map((event) => {
         return (
-          <div className="myevent-item" key={event.id}>
+          <div className="myevent-item" key={event._id}>
             <img src={poster} alt="" className="poster-img" />
             <div className="detail-item">
               <h1 className="poster-title">{event.title}</h1>
@@ -54,7 +53,10 @@ function MyEvent() {
                 <p>Jenis : {event.jenis}</p>
               </div>
               <div className="btn-wrapper">
-                <Button title={"Edit"} />
+                <Button
+                  title={"Edit"}
+                  onClick={() => history.push(`/edit/${event._id}`)}
+                />
                 <Button
                   title={"Hapus"}
                   style={{ backgroundColor: "#ee1443" }}
