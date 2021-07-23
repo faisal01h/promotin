@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
 import { Daerah } from "../../daerah"
+import FD from 'form-data'
 import {
   Button,
   Line,
@@ -28,7 +29,6 @@ function CreateEvent() {
   const [form, setForm] = useState({
     title: "",
     daerah: "",
-    pelaksanaan: "",
     description: {
       desc: "",
       benefits: [],
@@ -47,10 +47,13 @@ function CreateEvent() {
     setForm({
       ...form,
       daerah: kabKotValue+', '+provinsiValue,
-      sk: skValue,
-      benefit: benefitValue,
-      alur: alurValue,
-      faq: faqValue,
+      description: {
+        sk: skValue,
+        benefits: benefitValue,
+        alur: alurValue,
+        faq: faqValue,
+      }
+      
     });
   }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue]);
 
@@ -59,24 +62,26 @@ function CreateEvent() {
   }, [provinsiValue]);
 
   function submitPoster(itemId) {
-    let formData = new formData();
+    let formdata = new FormData();
     let img = document.querySelector('input[type="file"]').files[0];
-    formData.append("itemId", itemId);
-    formData.append("image", img);
+    formdata.append("itemId", itemId);
+    formdata.append("image", img);
+    console.log(formdata)
 
     axios
-      .post("//promotin.herokuapp.com/api/v1/items/new/image", formData)
-      .then((result) => {});
+      .post("//localhost:5000/api/v1/items/new/image", formdata)
+      .then((result) => {console.log(result)});
   }
 
   function handleSubmitClick() {
     console.log(form);
-    // axios
-    //   .post("//promotin.herokuapp.com/api/v1/items/new", {})
-    //   .then((result) => {
-    //     console.log(result);
-    //     submitPoster();
-    //   });
+     axios
+       .post("//localhost:5000/api/v1/items/new", form)
+       .then((result) => {
+         console.log(result);
+         submitPoster(result.data.data.itemId);
+       })
+       .catch(console.log)
   }
 
   const handleChange = (e) => {
@@ -91,6 +96,23 @@ function CreateEvent() {
       [name]: value,
     });
   };
+
+  const handleInDescChange = (e) => {
+    const target = e.target;
+    // console.log(target.value);
+    // console.log(target.name);
+    const value = target.name === "sebuahtest" ? target.checked : target.value;
+    const name = target.name;
+
+    setForm({
+      ...form,
+      description: {
+        [name]: value,
+      }
+      
+    });
+  };
+  
 
   function handleProvinsiChange(data) {
     if(provinsiValue.length > 0) return Daerah.filter((e) => {
@@ -140,8 +162,8 @@ function CreateEvent() {
               <label htmlFor="judul">Judul Event</label>
               <input
                 type="text"
-                name="judul"
-                id="judul"
+                name="title"
+                id="title"
                 onChange={handleChange}
                 placeholder="Seminar IT"
               />
@@ -157,7 +179,7 @@ function CreateEvent() {
                 type="date"
                 name="tanggal"
                 id="tanggal"
-                onChange={handleChange}
+                onChange={handleInDescChange}
               />
             </div>
 
@@ -199,7 +221,7 @@ function CreateEvent() {
                 type="text"
                 name="alamat"
                 id="alamat"
-                onChange={handleChange}
+                onChange={handleInDescChange}
               />
             </div>
 
@@ -290,11 +312,11 @@ function CreateEvent() {
             <div className="form-input deskripsi">
               <label htmlFor="deskripsi">Deskripsi</label>
               <textarea
-                name="deskripsi"
+                name="desc"
                 id="deskripsi"
                 cols="30"
                 rows="10"
-                onChange={handleChange}
+                onChange={handleInDescChange}
               ></textarea>
             </div>
           </div>
