@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Header } from "../../components/molecules";
 import "./mainApp.scss";
@@ -15,9 +15,10 @@ import TermsOfService from "../tos";
 import About from "../aboutUs";
 
 function MainApp() {
+  const [search, setSearch] = useState("");
   return (
     <div className="main-app wrapper">
-      <Header />
+      <Header search={(data) => setSearch(data)} />
 
       <div className="content-wrapper">
         <Switch>
@@ -46,7 +47,7 @@ function MainApp() {
             <Register />
           </Route>
           <Route exact path="/">
-            <Home />
+            <Home search={search} />
           </Route>
         </Switch>
       </div>

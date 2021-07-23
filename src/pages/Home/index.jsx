@@ -4,26 +4,32 @@ import { Gap, Line } from "../../components/atoms";
 import { Filter, Item } from "../../components/molecules";
 import "./home.scss";
 
-function Home() {
+function Home({ search }) {
   const [dataItem, setDataItem] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState([]);
 
   useEffect(() => {
     axios
-      .get("https://promotin.herokuapp.com/api/v1/items/all/filter")
+      .post("//promotin.herokuapp.com/api/v1/items/all/filter", selectedFilter)
       .then((result) => {
-        const responseAPI = result.data;
+        if (result) {
+          const responseAPI = result.data;
 
-        setDataItem(responseAPI.data);
+          setDataItem(responseAPI.data);
+        }
       })
       .catch((err) => {
         console.log("Error ", err);
       });
-  });
+  }, [selectedFilter]);
 
   return (
     <div className="home">
       <Gap height={20} />
-      <Filter />
+      <Filter
+        selectedFilter={(data) => setSelectedFilter(data)}
+        search={search}
+      />
       <Gap height={10} />
       <Line />
       <Gap height={10} />

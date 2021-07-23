@@ -161,26 +161,14 @@ function ItemDetail() {
               })
             : ""}
         </div>
-      </div>
 
-      <div className="item-detail-button">
-        <h2>Status</h2>
-        <p className="status">Pendaftaran masih dibuka</p>
-
-        <div className="btn-main">
-          <a className="btn pesan" href="#">
-            Chat
-          </a>
-          <a className="btn add-fav" href="#" onClick={handleFavClick}>
-            + Fav
-          </a>
-          <a className="btn daftar-event" href="#">
-            Daftar
-          </a>
+        <div className="item-detail-button">
+          <button className="daftar-event" href="#">
+            Tambahkan ke Favorit
+          </button>
         </div>
       </div>
-
-      <div className="bottom"></div>
+      {/* <div className="bottom"></div> */}
     </div>
   );
 }

@@ -24,10 +24,6 @@ function Dropdown({ title, items = [], dropdownValue }) {
     setData(item);
   }
 
-  useEffect(() => {
-    console.log("dropdown value (child): " + data);
-  }, [selection]);
-
   const handleClickOutside = (e) => {
     if (node && node.current && node.current.contains(e.target)) {
       // inside click

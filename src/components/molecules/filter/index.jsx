@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "../../atoms";
 import "./filter.scss";
-import axios from "axios";
 
-function Filter() {
-  const [tingkatanValue, setTingkatanValue] = useState([]);
-  const [pelaksanaanValue, setPelaksanaanValue] = useState([]);
-  const [daerahValue, setDaerahValue] = useState([]);
-  const [kategoriValue, setKategoriValue] = useState([]);
-  const [tipeValue, setTipeValue] = useState([]);
+function Filter({ selectedFilter, search }) {
+  const [tipeValue, setTipeValue] = useState("");
+  const [tingkatanValue, setTingkatanValue] = useState("");
+  const [pelaksanaanValue, setPelaksanaanValue] = useState("");
+  const [daerahValue, setDaerahValue] = useState("");
+  const [kategoriValue, setKategoriValue] = useState("");
+
+  const [filter, setFilter] = useState({
+    title: "",
+    tipe: "",
+    tingkatan: "",
+    pelaksanaan: "",
+    daerah: "",
+    kategori: "",
+  });
 
   const pelaksanaan = [
     {
@@ -37,26 +45,27 @@ function Filter() {
   ];
 
   useEffect(() => {
-    // filterResult();
-    console.log(tipeValue);
-  }, [tingkatanValue, tipeValue]);
+    setFilter({
+      ...filter,
+      title: search,
+      tipe: tipeValue,
+      tingkatan: tingkatanValue,
+      pelaksanaan: pelaksanaanValue,
+      daerah: daerahValue,
+      kategori: kategoriValue,
+    });
+  }, [
+    search,
+    tipeValue,
+    tingkatanValue,
+    pelaksanaanValue,
+    daerahValue,
+    kategoriValue,
+  ]);
 
-  const handleFilter = () => {
-    console.log("test");
-  };
-
-  const filterResult = () => {
-    axios
-      .post("//promotin.herokuapp.com/api/v1/items/all/filter", {
-        tingkatan: tingkatanValue,
-        daerah: daerahValue,
-        pelaksanaan: pelaksanaanValue,
-        kategori: kategoriValue,
-      })
-      .then((result) => {
-        console.log(result);
-      });
-  };
+  useEffect(() => {
+    selectedFilter(filter);
+  }, [filter]);
 
   return (
     <div className="filter-container">
