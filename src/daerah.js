@@ -198,4 +198,79 @@ const Daerah = [
     }
 ]
 
-export { Daerah }
+const Kategori = [
+    {
+        id: 1,
+        value: "Religi"
+    },
+    {
+        id: 2,
+        value: "Sains"
+    },
+    {
+        id: 3,
+        value: "Teknologi"
+    },
+    {
+        id: 4,
+        value: "Makanan"
+    },
+    {
+        id: 5,
+        value: "Ekonomi"
+    },
+    {
+        id: 6,
+        value: "Kesenian"
+    },
+    {
+        id: 7,
+        value:"Seni Digital"
+    },
+    {
+        id: 8, 
+        value:"Desain Arsitektur"
+    },
+    {
+        id: 9,
+        value: "Fotografi"
+    },
+    {
+        id:10,
+        value: "Videografi"
+    },
+    {
+        id:11,
+        value: "Bahasa"
+    },
+    {
+        id: 12,
+        value: "Film"
+    },
+    {
+        id: 13,
+        value: "Agrikultur"
+    },
+    {
+        id: 14,
+        value: "Perikanan dan Kelautan"
+    },
+    {
+        id: 15,
+        value: "Jurnalisme"
+    },
+    {
+        id: 16,
+        value: "Karya Tulis"
+    },
+    {
+        id: 17,
+        value: "Olahraga"
+    },
+    {
+        id: 18,
+        value: "Lainnya"
+    }
+];
+
+export { Daerah, Kategori }

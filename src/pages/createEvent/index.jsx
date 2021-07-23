@@ -3,8 +3,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
-import { Daerah } from "../../daerah"
-import FD from 'form-data'
+import { Daerah, Kategori } from "../../daerah"
+
 import {
   Button,
   Line,
@@ -24,38 +24,44 @@ function CreateEvent() {
   const [faqValue, setFaqValue] = useState([]);
   const [provinsiValue, setProvinsiValue] = useState([]);
   const [kabKotValue, setKabKotValue] = useState([]);
+  const [kategoriValue, setKategoriValue] = useState();
 
+  const [descForm, setDescForm] = useState({
+    desc: "",
+    benefits: [],
+    alur: [],
+    faq: [],
+    tag: "",
+    sk: [],
+    tanggal: "",
+    alamat: "",
+    kategori: ""
+  });
 
   const [form, setForm] = useState({
     title: "",
     daerah: "",
-    description: {
-      desc: "",
-      benefits: [],
-      alur: [],
-      faq: [],
-      tag: "",
-      sk: [],
-      tanggal: "",
-      alamat: "",
-    },
+    description: descForm,
     tingkatan: "",
     jenis: "",
+    pelaksanaan: "",
   });
 
   useEffect(() => {
     setForm({
       ...form,
       daerah: kabKotValue+', '+provinsiValue,
-      description: {
-        sk: skValue,
-        benefits: benefitValue,
-        alur: alurValue,
-        faq: faqValue,
-      }
-      
+      description: descForm
     });
-  }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue]);
+    setDescForm({
+      ...descForm,
+      sk: skValue,
+      benefits: benefitValue,
+      alur: alurValue,
+      faq: faqValue,
+      kategori: kategoriValue
+    })
+  }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue, kategoriValue]);
 
   useEffect(() => {
     console.log("pvalue parent " + provinsiValue);
@@ -70,7 +76,10 @@ function CreateEvent() {
 
     axios
       .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
-      .then((result) => {console.log(result)});
+      .then((result) => {
+        console.log(result)
+        window.location.href = '/item-detail/'+itemId
+      });
   }
 
   function handleSubmitClick() {
@@ -104,12 +113,9 @@ function CreateEvent() {
     const value = target.name === "sebuahtest" ? target.checked : target.value;
     const name = target.name;
 
-    setForm({
-      ...form,
-      description: {
-        [name]: value,
-      }
-      
+    setDescForm({
+      ...descForm,
+      [name]: value,  
     });
   };
   
@@ -182,6 +188,21 @@ function CreateEvent() {
                 onChange={handleInDescChange}
               />
             </div>
+
+            <div className="form-input kategori">
+                <label htmlFor="provinsi">Kategori</label>
+                <Dropdown
+                  title={"Provinsi"}
+                  items={Kategori}
+                  onChange={() => {
+                    
+                  }}
+                  dropdownValue={(data) => {
+                    setKategoriValue(data)
+                  }}
+                  // <AddSk skValue={(data) => setSkValue(data)} />
+                />
+              </div>
 
             <div className="form-tempat">
               <div className="form-input provinsi">
@@ -265,7 +286,7 @@ function CreateEvent() {
                   type="radio"
                   name="tingkatan"
                   id="perguruan-tinggi"
-                  value="perguruan-tinggi"
+                  value="Perguruan Tinggi"
                   onChange={handleChange}
                 />
                 <label htmlFor="perguruan-tinggi">Perguruan Tinggi</label>

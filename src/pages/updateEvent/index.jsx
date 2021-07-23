@@ -27,8 +27,14 @@ function CreateEvent() {
   const [kabKotValue, setKabKotValue] = useState([]);
   const { id } = useParams();
 
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState();
+
   axios.get("//promotin.herokuapp.com/api/v1/items/view/"+id)
-  .then(console.log)
+  .then((result) => {
+    setTitle(result.data.data.title)
+    setDate(result.data.data.description.tanggal)
+  })
 
   const [form, setForm] = useState({
     title: "",
@@ -73,14 +79,14 @@ function CreateEvent() {
     console.log(formdata)
 
     axios
-      .post("//localhost:5000/api/v1/items/new/image", formdata)
+      .post("//promotin.herokuapp.com/api/v1/items/edit/image/"+id, formdata)
       .then((result) => {console.log(result)});
   }
 
   function handleSubmitClick() {
     console.log(form);
      axios
-       .put("//localhost:5000/api/v1/items/new", form)
+       .put("//promotin.herokuapp.com/api/v1/items/view/"+id, form)
        .then((result) => {
          console.log(result);
          submitPoster(result.data.data.itemId);
@@ -137,7 +143,7 @@ function CreateEvent() {
 
   return (
     <div className="create-event-wrapper">
-      <h1 className="title">Buat Event Baru</h1>
+      <h1 className="title">Edit Event {title}</h1>
       <Line width={100} />
 
       <div className="form-wrapper">
@@ -169,7 +175,7 @@ function CreateEvent() {
                 name="title"
                 id="title"
                 onChange={handleChange}
-                placeholder="Seminar IT"
+                placeholder={title}
               />
             </div>
           </div>
