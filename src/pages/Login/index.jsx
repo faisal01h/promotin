@@ -36,7 +36,7 @@ const Login = () => {
               type="email"
               name="email"
               className="input-form"
-              placeholder="Input your email address"
+              placeholder="Email"
             />
           </div>
           <div className="form-group password">
@@ -46,7 +46,7 @@ const Login = () => {
               type="password"
               name="password"
               className="input-form"
-              placeholder="Input your password"
+              placeholder="Password"
             />
           </div>
           <div className="form-options">
