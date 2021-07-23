@@ -1,11 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdown.scss";
 
-<<<<<<< HEAD
-function Dropdown({ title, items = [], provinsiValue, test }) {
-=======
 function Dropdown({ title, items = [], dropdownValue }) {
->>>>>>> abb1e1a52a08959d4448f26c868eab98ae24f0c0
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState(title);
   const [data, setData] = useState([]);
@@ -29,10 +25,7 @@ function Dropdown({ title, items = [], dropdownValue }) {
   }
 
   useEffect(() => {
-    //provinsiValue(data);
-    console.log('dropdown value (child): '+data);
-    console.log(items)
-    // provinsiValue(selection);
+    console.log("dropdown value (child): " + data);
   }, [selection]);
 
   const handleClickOutside = (e) => {

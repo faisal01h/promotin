@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "../../atoms";
 import "./filter.scss";
-import axios from 'axios';
+import axios from "axios";
 
 function Filter() {
   const [tingkatanValue, setTingkatanValue] = useState([]);
   const [pelaksanaanValue, setPelaksanaanValue] = useState([]);
   const [daerahValue, setDaerahValue] = useState([]);
   const [kategoriValue, setKategoriValue] = useState([]);
+  const [tipeValue, setTipeValue] = useState([]);
 
   const pelaksanaan = [
     {
@@ -36,38 +37,64 @@ function Filter() {
   ];
 
   useEffect(() => {
-    filterResult();
-  })
+    // filterResult();
+    console.log(tipeValue);
+  }, [tingkatanValue, tipeValue]);
+
+  const handleFilter = () => {
+    console.log("test");
+  };
 
   const filterResult = () => {
-    axios.post("//promotin.herokuapp.com/api/v1/items/all/filter", {
-      tingkatan: tingkatanValue,
-      daerah: daerahValue,
-      pelaksanaan: pelaksanaanValue,
-      kategori: kategoriValue 
-    })
-    .then(result => {
-      console.log(result)
-    })
-  }
+    axios
+      .post("//promotin.herokuapp.com/api/v1/items/all/filter", {
+        tingkatan: tingkatanValue,
+        daerah: daerahValue,
+        pelaksanaan: pelaksanaanValue,
+        kategori: kategoriValue,
+      })
+      .then((result) => {
+        console.log(result);
+      });
+  };
 
   return (
     <div className="filter-container">
       <h2 className="kategori">Cari yang anda inginkan</h2>
       <div className="filter-wrapper">
         <div className="l-side-f">
-          <div className="menu">Event</div>
-          <div className="menu">Lomba</div>
-          <div className="menu">Seminar</div>
+          <div className="menu" onClick={() => setTipeValue("event")}>
+            Event
+          </div>
+          <div className="menu" onClick={() => setTipeValue("lomba")}>
+            Lomba
+          </div>
+          <div className="menu" onClick={() => setTipeValue("seminar")}>
+            Seminar
+          </div>
         </div>
         <div className="r-side-f">
           <div className="r1">
-            <Dropdown title={"Tingkatan"} items={tingkatan} dropdownValue={(data) => setTingkatanValue(data)} />
-            <Dropdown title={"Pelaksanaan"} items={pelaksanaan} dropdownValue={(data) => setPelaksanaanValue(data)} />
+            <Dropdown
+              title={"Tingkatan"}
+              items={tingkatan}
+              dropdownValue={(data) => setTingkatanValue(data)}
+            />
+            <Dropdown
+              title={"Pelaksanaan"}
+              items={pelaksanaan}
+              dropdownValue={(data) => setPelaksanaanValue(data)}
+            />
           </div>
           <div className="r2">
-            <Dropdown title={"Daerah"} dropdownValue={(data) => setDaerahValue(data)} />
-            <Dropdown title={"Kategori"} dropdownValue={(data) => setKategoriValue(data)} />
+            <Dropdown
+              title={"Daerah"}
+              dropdownValue={(data) => setDaerahValue(data)}
+            />
+            <Dropdown
+              title={"Kategori"}
+              dropdownValue={(data) => setKategoriValue(data)}
+            />
           </div>
         </div>
       </div>
