@@ -4,6 +4,7 @@ import { Header } from "../../components/molecules";
 import "./mainApp.scss";
 import Home from "../Home";
 import ItemDetail from "../ItemDetail";
+import UpdateEvent from "../updateEvent";
 import Login from "../Login";
 import MyEvent from "../MyEvent";
 import SavedEvent from "../SavedEvent";
@@ -38,6 +39,9 @@ function MainApp() {
           </Route>
           <Route path="/item-detail/:id">
             <ItemDetail />
+          </Route>
+          <Route path="/edit/:id">
+            <UpdateEvent />
           </Route>
           <Route path="/login">
             <Login />

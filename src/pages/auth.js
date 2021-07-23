@@ -24,7 +24,6 @@ class AuthenticationService {
   }
 
   register = async (name, email, password) => {
-    console.log("exec register");
     return axios.post("//promotin.herokuapp.com/api/v1/auth/register", {
       name,
       email,

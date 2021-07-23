@@ -1,10 +1,11 @@
 import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { useParams } from 'react-router-dom'
 import { useState } from "react";
 import { Blank_img } from "../../assets";
 import { Daerah } from "../../daerah"
-import FD from 'form-data'
+
 import {
   Button,
   Line,
@@ -13,8 +14,8 @@ import {
   AddSk,
   AddAlur,
   AddFaq,
-} from "../../components/";
-import "./createEvent.scss";
+} from "../../components";
+import "./updateEvent.scss";
 
 function CreateEvent() {
   const [previewImg, setPreviewImg] = useState(Blank_img);
@@ -24,7 +25,10 @@ function CreateEvent() {
   const [faqValue, setFaqValue] = useState([]);
   const [provinsiValue, setProvinsiValue] = useState([]);
   const [kabKotValue, setKabKotValue] = useState([]);
+  const { id } = useParams();
 
+  axios.get("//promotin.herokuapp.com/api/v1/items/view/"+id)
+  .then(console.log)
 
   const [form, setForm] = useState({
     title: "",
@@ -69,14 +73,14 @@ function CreateEvent() {
     console.log(formdata)
 
     axios
-      .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
+      .post("//localhost:5000/api/v1/items/new/image", formdata)
       .then((result) => {console.log(result)});
   }
 
   function handleSubmitClick() {
     console.log(form);
      axios
-       .post("//promotin.herokuapp.com/api/v1/items/new", form)
+       .put("//localhost:5000/api/v1/items/new", form)
        .then((result) => {
          console.log(result);
          submitPoster(result.data.data.itemId);

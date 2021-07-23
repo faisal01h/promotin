@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useHistory } from 'react-router-dom'
 import "./login.scss";
 import AuthenticationService from "../auth";
 import { Button } from "../../components/atoms";
@@ -6,6 +7,7 @@ import { Button } from "../../components/atoms";
 const Login = () => {
   const emailInput = useRef();
   const passInput = useRef();
+  const history = useHistory();
 
   function sendLoginData() {
     console.log("attempting to login...");
@@ -17,7 +19,7 @@ const Login = () => {
 
   if (AuthenticationService.getCurrentUser()) {
     console.log("Already logged in");
-    // redirect jal
+    history.push('/');
   } else console.log("require log in");
 
   //TODO: Button onclick, panggil AuthenticationService.signin
