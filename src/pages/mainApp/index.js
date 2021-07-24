@@ -14,6 +14,7 @@ import Footer from "../../components/molecules/footer";
 import ChatWindow from "../../components/molecules/chatWindow";
 import TermsOfService from "../tos";
 import About from "../aboutUs";
+import Me from "../me"
 
 function MainApp() {
   const [search, setSearch] = useState("");
@@ -43,6 +44,9 @@ function MainApp() {
           </Route>
           <Route path="/edit/:id">
             <UpdateEvent />
+          </Route>
+          <Route exact path="/me">
+            <Me />
           </Route>
           <Route path="/login">
             <Login />

@@ -21,17 +21,38 @@ function ItemDetail() {
   const [info, setInfo] = useState("detail");
   const [itemData, setItemData] = useState([]);
   const [itemDesc, setItemDesc] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
   const { id } = useParams();
 
   function handleFavClick() {
-    if (AuthenticationService.getCurrentUser()) {
+    if (AuthenticationService.getCurrentUser() && isLiked === false) {
       axios.post("//promotin.herokuapp.com/api/v1/event/fav", {
         itemId: id,
-      });
+      })
+      .then((result) => {
+        setIsLiked(true)
+      })
+    } else if(AuthenticationService.getCurrentUser() && isLiked === true) {
+      axios.post("//promotin.herokuapp.com/api/v1/event/fav", {
+        itemId: id,
+      })
+      .then((result) => {
+        setIsLiked(false)
+      })
     } else window.location.href = "/login";
   }
 
   useEffect(() => {
+    axios.get("//promotin.herokuapp.com/api/v1/event/fav")
+    .then(result => {
+      console.log(result.data.data)
+      result.data.data.filter((e) => {
+        if(e === id) setIsLiked(true)
+      })
+      
+      console.log(isLiked)
+    })
+
     let mounted = false;
 
     axios
@@ -40,7 +61,6 @@ function ItemDetail() {
         if (!mounted) {
           setItemData(result.data.data);
           setItemDesc(result.data.data.description);
-          console.log(result.data.data);
         }
       })
       .catch((error) => {
@@ -62,7 +82,7 @@ function ItemDetail() {
 
       <div className="info">
         <h1>{itemData.title}</h1>
-        {itemDesc ? <p className="tag">{itemDesc.tag}</p> : ""}
+        {itemDesc ? <p className="tag">{itemDesc.kategori}</p> : ""}
 
         <Gap height={20} />
         <div className="basic-info">
@@ -76,6 +96,7 @@ function ItemDetail() {
             <div className={`detail ${info === "detail" ? "visible" : ""}`}>
               <p>Tingkat : {itemData.tingkatan}</p>
               <p>Daerah : {itemData.daerah}</p>
+              <p>Alamat : {itemDesc? itemDesc.alamat : ""}</p>
               <p>
                 Tanggal : {itemDesc ? itemDesc.tanggal : "Tidak ditentukan"}
               </p>
@@ -159,7 +180,11 @@ function ItemDetail() {
 
         <div className="item-detail-button">
           <button className="daftar-event" onClick={handleFavClick}>
-            Tambahkan ke Favorit
+            {
+              isLiked === true?
+                "Hapus dari Favorit"
+              : "Tambahkan ke Favorit"
+            }
           </button>
         </div>
       </div>
