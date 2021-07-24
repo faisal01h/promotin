@@ -24,7 +24,7 @@ function Header({ search }) {
 
   return (
     <div id="navbar">
-      <a id="brand" onClick={() => history.push("/")}>
+      <a id="brand" onClick={() => window.location.href = "/"}>
         PromotBox
       </a>
       <div className="search">
