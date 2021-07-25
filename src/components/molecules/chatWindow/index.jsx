@@ -3,10 +3,11 @@ import io from "socket.io-client";
 import "./chatWindow.scss";
 import { Button } from "../..";
 import AuthenticationService from "../../../pages/auth";
+import axios from 'axios'
 
 //const socket = io("//localhost:5000")
 
-const chatWindow = (target_id) => {
+const ChatWindow = (target_id) => {
 
   const [ chatContent, setChatContent ] = useState([]);
   const [ chatTarget, setChatTarget ] = useState({});
@@ -56,4 +57,4 @@ const chatWindow = (target_id) => {
   )
 };
 
-export default chatWindow;
+export default ChatWindow;
