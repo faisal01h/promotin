@@ -1,0 +1,15 @@
+@import "../../../index.scss";
+
+.cw-wrapper {
+    width: 100vw;
+    height: 80vh;
+    border-radius: 7px;
+    background-color: $color-accent-b;
+}
+
+@media (min-width: 720px) {
+    .cw-wrapper {
+        width: 475px;
+        height: 500px;
+    }
+}
