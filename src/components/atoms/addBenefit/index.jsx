@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import "./addBenefit.scss";
 
-function AddBenefit({ benefitValue, updateValue, isUpdate }) {
+function AddBenefit({ benefitValue, updateValue }) {
   const [benefits, setBenefits] = useState([]);
   const [benefit, setBenefit] = useState("");
   const [details, setDetails] = useState([]);
@@ -10,11 +10,10 @@ function AddBenefit({ benefitValue, updateValue, isUpdate }) {
   const [inputed, setInputed] = useState(false);
 
   useEffect(() => {
-    if (isUpdate) {
+    if (updateValue) {
       setBenefits(updateValue);
-      isUpdate = false;
     }
-  }, [isUpdate]);
+  }, [updateValue]);
 
   function handleAddDetail(e) {
     e.preventDefault();

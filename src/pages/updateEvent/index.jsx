@@ -27,28 +27,12 @@ function CreateEvent() {
   const [kabKotValue, setKabKotValue] = useState([]);
   const { id } = useParams();
 
-  useEffect(() => {
-    axios
-      .get("//promotin.herokuapp.com/api/v1/items/view/" + id)
-      .then((result) => {
-        let getData = result.data.data;
-        console.log(getData);
-
-        setForm({
-          ...form,
-          title: getData.title,
-          daerah: getData.daerah,
-          description: getData.description,
-          tingkatan: getData.tingkatan,
-          jenis: getData.jenis,
-        });
-
-        setSkValue(getData.description.sk);
-        setBenefitValue(getData.description.benefits);
-        setAlurValue(getData.description.alur);
-        setFaqValue(getData.description.faq);
-      });
-  }, [id]);
+  const [oldData, setOldData] = useState({
+    sk: [],
+    benefits: [],
+    alur: [],
+    faq: [],
+  });
 
   const [form, setForm] = useState({
     title: "",
@@ -68,6 +52,33 @@ function CreateEvent() {
   });
 
   useEffect(() => {
+    axios
+      .get("//promotin.herokuapp.com/api/v1/items/view/" + id)
+      .then((result) => {
+        if (result) {
+          let getData = result.data.data;
+
+          setForm({
+            ...form,
+            title: getData.title,
+            daerah: getData.daerah,
+            description: getData.description,
+            tingkatan: getData.tingkatan,
+            jenis: getData.jenis,
+          });
+
+          setOldData({
+            ...oldData,
+            sk: getData.description.sk,
+            benefits: getData.description.benefits,
+            alur: getData.description.alur,
+            faq: getData.description.faq,
+          });
+        }
+      });
+  }, [id]);
+
+  useEffect(() => {
     setForm({
       ...form,
       daerah: kabKotValue + ", " + provinsiValue,
@@ -79,10 +90,6 @@ function CreateEvent() {
       },
     });
   }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue]);
-
-  useEffect(() => {
-    console.log("pvalue parent " + provinsiValue);
-  }, [provinsiValue]);
 
   function submitPoster(itemId) {
     let formdata = new FormData();
@@ -111,8 +118,6 @@ function CreateEvent() {
 
   const handleChange = (e) => {
     const target = e.target;
-    // console.log(target.value);
-    // console.log(target.name);
     const value = target.name === "sebuahtest" ? target.checked : target.value;
     const name = target.name;
 
@@ -124,8 +129,6 @@ function CreateEvent() {
 
   const handleInDescChange = (e) => {
     const target = e.target;
-    // console.log(target.value);
-    // console.log(target.name);
     const value = target.name === "sebuahtest" ? target.checked : target.value;
     const name = target.name;
 
@@ -136,10 +139,6 @@ function CreateEvent() {
       },
     });
   };
-
-  // function handleChangeValue(e) {
-  //   console.log(e);
-  // }
 
   function handleProvinsiChange(data) {
     if (provinsiValue.length > 0)
@@ -196,7 +195,6 @@ function CreateEvent() {
                 name="title"
                 id="title"
                 onChange={handleChange}
-                // placeholder={title}
                 value={form.title}
               />
             </div>
@@ -212,7 +210,6 @@ function CreateEvent() {
                 name="tanggal"
                 id="tanggal"
                 onChange={handleInDescChange}
-                value={form.description.tanggal}
               />
             </div>
 
@@ -229,7 +226,6 @@ function CreateEvent() {
                     setProvinsiValue(data);
                     handleProvinsiChange(data);
                   }}
-                  // <AddSk skValue={(data) => setSkValue(data)} />
                 />
               </div>
 
@@ -359,8 +355,7 @@ function CreateEvent() {
             <h2 className="sub-title">Syarat dan Ketentuan</h2>
             <AddSk
               skValue={(data) => setSkValue(data)}
-              updateValue={skValue}
-              isUpdate={true}
+              updateValue={oldData.sk}
             />
           </div>
 
@@ -368,8 +363,7 @@ function CreateEvent() {
             <h2 className="sub-title">Benefit (optional)</h2>
             <AddBenefit
               benefitValue={(data) => setBenefitValue(data)}
-              updateValue={benefitValue}
-              isUpdate={true}
+              updateValue={oldData.benefits}
             />
           </div>
 
@@ -377,8 +371,7 @@ function CreateEvent() {
             <h2 className="sub-title">Alur</h2>
             <AddAlur
               alurValue={(data) => setAlurValue(data)}
-              updateValue={alurValue}
-              isUpdate={true}
+              updateValue={oldData.alur}
             />
           </div>
 
@@ -386,8 +379,7 @@ function CreateEvent() {
             <h2 className="sub-title">FAQ</h2>
             <AddFaq
               faqValue={(data) => setFaqValue(data)}
-              updateValue={faqValue}
-              isUpdate={true}
+              updateValue={oldData.faq}
             />
           </div>
 

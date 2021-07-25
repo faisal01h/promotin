@@ -3,17 +3,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import "./addFaq.scss";
 
-function AddFaq({ faqValue, updateValue, isUpdate }) {
+function AddFaq({ faqValue, updateValue }) {
   const [allFaq, setAllFaq] = useState([]);
   const [faq, setFaq] = useState("");
   const [detail, setDetail] = useState("");
 
   useEffect(() => {
-    if (isUpdate) {
+    if (updateValue) {
       setAllFaq(updateValue);
-      isUpdate = false;
     }
-  }, [isUpdate]);
+  }, [updateValue]);
 
   function handleAddfaq(e) {
     e.preventDefault();

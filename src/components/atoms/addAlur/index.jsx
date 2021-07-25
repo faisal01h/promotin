@@ -3,15 +3,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import "./addAlur.scss";
 
-function AddAlur({ alurValue, updateValue, isUpdate }) {
+function AddAlur({ alurValue, updateValue }) {
   const [allAlur, setAllAlur] = useState([]);
   const [alur, setAlur] = useState("");
   const [detail, setDetail] = useState("");
 
   useEffect(() => {
-    setAllAlur(updateValue);
-    isUpdate = false;
-  }, [isUpdate]);
+    if (updateValue) {
+      setAllAlur(updateValue);
+    }
+  }, [updateValue]);
 
   function handleChangeMonth(v) {
     switch (v) {
