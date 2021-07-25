@@ -3,16 +3,15 @@ import { useEffect } from "react";
 import { useState } from "react";
 import "./addSk.scss";
 
-function AddSk({ skValue, updateValue, isUpdate }) {
+function AddSk({ skValue, updateValue }) {
   const [allsk, setAllSk] = useState([]);
   const [sk, setSk] = useState("");
 
   useEffect(() => {
-    if (isUpdate) {
+    if (updateValue) {
       setAllSk(updateValue);
-      isUpdate = false;
     }
-  }, [isUpdate]);
+  }, [updateValue]);
 
   function handleAddSk(e) {
     e.preventDefault();

@@ -71,10 +71,6 @@ function CreateEvent() {
     kategoriValue,
   ]);
 
-  useEffect(() => {
-    console.log("pvalue parent " + provinsiValue);
-  }, [provinsiValue]);
-
   function submitPoster(itemId) {
     let formdata = new FormData();
     let img = document.querySelector('input[type="file"]').files[0];
@@ -352,38 +348,22 @@ function CreateEvent() {
 
           <div className="f-wp">
             <h2 className="sub-title">Syarat dan Ketentuan</h2>
-            <AddSk
-              skValue={(data) => setSkValue(data)}
-              updateValue={[]}
-              isUpdate={false}
-            />
+            <AddSk skValue={(data) => setSkValue(data)} />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">Benefit (optional)</h2>
-            <AddBenefit
-              benefitValue={(data) => setBenefitValue(data)}
-              updateValue={[]}
-              isUpdate={false}
-            />
+            <AddBenefit benefitValue={(data) => setBenefitValue(data)} />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">Alur</h2>
-            <AddAlur
-              alurValue={(data) => setAlurValue(data)}
-              updateValue={[]}
-              isUpdate={false}
-            />
+            <AddAlur alurValue={(data) => setAlurValue(data)} />
           </div>
 
           <div className="f-wp">
             <h2 className="sub-title">FAQ</h2>
-            <AddFaq
-              faqValue={(data) => setFaqValue(data)}
-              updateValue={[]}
-              isUpdate={false}
-            />
+            <AddFaq faqValue={(data) => setFaqValue(data)} />
           </div>
 
           <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />
