@@ -12,6 +12,7 @@ import Register from "../register";
 import CreateEvent from "../createEvent";
 import Footer from "../../components/molecules/footer";
 import ChatWindow from "../../components/molecules/chatWindow";
+import ResetPassword from '../resetPassword'
 import TermsOfService from "../tos";
 import About from "../aboutUs";
 import Me from "../me"
@@ -54,12 +55,15 @@ function MainApp() {
           <Route path="/register">
             <Register />
           </Route>
+          <Route path="/resetpassword">
+            <ResetPassword />
+          </Route>
           <Route exact path="/">
             <Home search={search} />
           </Route>
         </Switch>
       </div>
-      <ChatWindow />
+      
       <Footer />
     </div>
   );
