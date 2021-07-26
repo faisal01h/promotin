@@ -38,6 +38,17 @@ class AuthenticationService {
   };
 
   getCurrentUser() {
+    if(localStorage.getItem("user") != null) {
+      axios.post("//promotin.herokuapp.com/api/v1/auth/user/find", {
+        _id: JSON.parse(localStorage.getItem("user")).data.id
+      })
+      .then(result => {
+
+      })
+      .catch(err => {
+        this.signOut()
+      })
+    }
     return JSON.parse(localStorage.getItem("user"));
   }
 }
