@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
 import { Daerah, Kategori, Jenis, Tingkatan } from "../../daerah";
-import Markdown from 'react-markdown'
-import gfm from 'remark-gfm'
-import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import { coldarkDark as theme } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { Button, Line, Dropdown } from "../../components/";
+import Markdown from "react-markdown";
+import gfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { coldarkDark as theme } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Button, Line, Dropdown, InputDesc } from "../../components/";
 import "./createEvent.scss";
 
 function CreateEvent() {
@@ -23,7 +23,7 @@ function CreateEvent() {
   const [error, setError] = useState([]);
   const [first, setFirst] = useState(true);
   const [isPreview, setIsPreview] = useState(false);
-  const [previewContent, setPreviewContent] = useState('');
+  const [previewContent, setPreviewContent] = useState("");
   const [tglPel, setTglPel] = useState({
     dari: "",
     sampai: "",
@@ -125,24 +125,31 @@ function CreateEvent() {
   }
 
   const highlighter = {
-    code({node, inline, className, children, ...props}) {
-      const match = /language-(\w+)/.exec(className || '')
+    code({ node, inline, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || "");
       return !inline && match ? (
-        <SyntaxHighlighter className="codeblock" style={theme} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
+        <SyntaxHighlighter
+          className="codeblock"
+          style={theme}
+          language={match[1]}
+          PreTag="div"
+          children={String(children).replace(/\n$/, "")}
+          {...props}
+        />
       ) : (
         <code className={className} {...props}>
           {children}
         </code>
-      )
-    }
-  }
+      );
+    },
+  };
 
   function renderPreview(e) {
-    if(e.target.value.length > 0) {
+    if (e.target.value.length > 0) {
       setIsPreview(true);
-      setPreviewContent(e.target.value)
+      setPreviewContent(e.target.value);
     } else {
-      setIsPreview(false)
+      setIsPreview(false);
     }
   }
 
@@ -157,7 +164,8 @@ function CreateEvent() {
 
     if (!obj.jenis) setError((error) => [...error].concat("jenis"));
 
-    if (!obj.deskripsi.length || obj.deskripsi.length < 10) setError((error) => [...error].concat("deskripsi"));
+    if (!obj.deskripsi.length || obj.deskripsi.length < 10)
+      setError((error) => [...error].concat("deskripsi"));
 
     if (!obj.provinsi.length > 0)
       setError((error) => [...error].concat("provinsi"));
@@ -170,16 +178,23 @@ function CreateEvent() {
       setError((error) => [...error].concat("tanggal sehari"));
     }
 
-    if ( (obj.tanggal.dari === "" && obj.tanggal.sampai === "") || (obj.tanggal.sampai === "" && tglPelaksanaan !== "sehari") ) {
-      console.log((obj.tanggal.dari === "" && obj.tanggal.sampai === "") || (obj.tanggal.sampai === "" && tglPelaksanaan !== "sehari"));
+    if (
+      (obj.tanggal.dari === "" && obj.tanggal.sampai === "") ||
+      (obj.tanggal.sampai === "" && tglPelaksanaan !== "sehari")
+    ) {
+      console.log(
+        (obj.tanggal.dari === "" && obj.tanggal.sampai === "") ||
+          (obj.tanggal.sampai === "" && tglPelaksanaan !== "sehari")
+      );
       setError((error) => [...error].concat("tanggal lebih"));
     }
 
     //console.log(obj.tanggal)
-    if(obj.tanggal.dari > obj.tanggal.sampai) {
-      setError((error) => [...error].concat("Tanggal tidak valid (dari > sampai)"))
+    if (obj.tanggal.dari > obj.tanggal.sampai) {
+      setError((error) =>
+        [...error].concat("Tanggal tidak valid (dari > sampai)")
+      );
     }
-      
   }
 
   const handleChange = (e) => {
@@ -288,16 +303,13 @@ function CreateEvent() {
             </div>
 
             <div
-                className={`form-input tanggal ${
-                  checkError("tanggal sehari") ? "error" : ""
-                } ${
-                  checkError("tanggal lebih") ? "error" : ""
-                } ${
-                  checkError("Tanggal tidak valid (dari > sampai)") ? "error" : ""
-                }`}
-              >
-
-            <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
+              className={`form-input tanggal ${
+                checkError("tanggal sehari") ? "error" : ""
+              } ${checkError("tanggal lebih") ? "error" : ""} ${
+                checkError("Tanggal tidak valid (dari > sampai)") ? "error" : ""
+              }`}
+            >
+              <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
               <Dropdown
                 title={"Pelaksanaan Event"}
                 items={[
@@ -310,10 +322,7 @@ function CreateEvent() {
                 }}
               />
 
-            {tglPelaksanaan === "sehari" ? (
-              
-                
-
+              {tglPelaksanaan === "sehari" ? (
                 <div className="tgl">
                   <input
                     type="date"
@@ -322,9 +331,7 @@ function CreateEvent() {
                     onChange={handleTglChange}
                   />
                 </div>
-              
-            ) : (
-              
+              ) : (
                 <div className="tgl">
                   <div className="tgl-detail">
                     <label htmlFor="dari">Dari</label>
@@ -346,8 +353,7 @@ function CreateEvent() {
                     />
                   </div>
                 </div>
-              
-            )}
+              )}
             </div>
 
             <div
@@ -445,13 +451,7 @@ function CreateEvent() {
               }`}
             >
               <label htmlFor="deskripsi">Deskripsi</label>
-              <Button
-                title="B"
-                onClick={() => {
-                  
-                }}
-              />
-              <textarea
+              {/* <textarea
                 name="deskripsi"
                 id="deskripsi"
                 cols="30"
@@ -467,7 +467,8 @@ function CreateEvent() {
                   </div>
                 </div>
                 : ""
-              }
+              } */}
+              <InputDesc />
             </div>
           </div>
 
