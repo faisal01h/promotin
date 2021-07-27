@@ -58,6 +58,7 @@ const Me = () => {
         <div className="basic-info">
           <h3 className="name">User 1</h3>
           <p className="email">email@email.com</p>
+
         </div>
       </div>
       <div className="account-setting">Account Setting</div>

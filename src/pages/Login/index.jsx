@@ -18,11 +18,9 @@ const Login = () => {
   }
 
   if (AuthenticationService.getCurrentUser()) {
-    console.log("Already logged in");
     history.push('/');
-  } else console.log("require log in");
+  }
 
-  //TODO: Button onclick, panggil AuthenticationService.signin
 
   return (
     <div className="login-page-wrapper">
@@ -52,7 +50,7 @@ const Login = () => {
             />
           </div>
           <div className="form-options">
-            <a href="#" className="lupa-sandi">
+            <a href="/resetpassword" className="lupa-sandi">
               Lupa kata sandi?
             </a>
             <Button title={"Masuk"} onClick={sendLoginData} />
