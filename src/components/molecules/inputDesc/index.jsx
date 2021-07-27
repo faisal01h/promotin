@@ -58,10 +58,6 @@ function InputDesc() {
   };
 
   useEffect(() => {
-    console.log("selected " + selected);
-
-    console.log("inputValue " + inputValue);
-
     console.log("ref", inputField.current.value);
   }, [selected, inputField]);
 
