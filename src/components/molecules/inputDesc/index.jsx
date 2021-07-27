@@ -46,11 +46,15 @@ function InputDesc() {
     let update = "**" + selected + "**";
     console.log("update " + update);
     console.log("selected " + selected);
-    inputField.current.value = inputField.current.value.replace(
-      selected,
-      update
-    );
-    console.log(inputField.current.value);
+    let start = inputField.current.selectionStart;
+    let end = inputField.current.selectionEnd;
+    let val = inputField.current.value;
+    if(start === end) {
+      inputField.current.value = val.slice(0, start)+ '**' + val.slice(start) + '**'
+    } else {
+      inputField.current.value = val.slice(0, start)+ '**' + val.slice(start, end) + '**'
+    }
+    console.log(start, end, val);
   };
 
   useEffect(() => {
@@ -62,11 +66,13 @@ function InputDesc() {
   }, [selected, inputField]);
 
   const handleSelection = (e) => {
-    let select = e.target.value.substring(
-      e.target.selectionStart,
-      e.target.selectionEnd
-    );
-    setSelected(select);
+    let start = e.target.selectionStart;
+    let end = e.target.selectionEnd;
+    if(start !== end) {
+      
+      setSelected(select);
+    }
+    
   };
 
   function renderPreview(e) {
@@ -80,7 +86,7 @@ function InputDesc() {
 
   return (
     <div className="desc-container">
-      <button onClick={() => bold()}>b</button>
+      <button onClick={() => bold()}>B</button>
       <textarea
         name="deskripsi"
         id="deskripsi"
