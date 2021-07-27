@@ -50,9 +50,10 @@ function InputDesc() {
     let end = inputField.current.selectionEnd;
     let val = inputField.current.value;
     if(start === end) {
-      inputField.current.value = val.slice(0, start)+ '**' + val.slice(start) + '**'
+      inputField.current.value = val.slice(0, start)+ '**' + val.slice(start)
+
     } else {
-      inputField.current.value = val.slice(0, start)+ '**' + val.slice(start, end) + '**'
+      inputField.current.value = val.slice(0, start)+ '**' + val.slice(start, end) + '**' +val.slice(end, val.length)
     }
     console.log(start, end, val);
   };
