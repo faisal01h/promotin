@@ -46,7 +46,8 @@ class AuthenticationService {
 
       })
       .catch(err => {
-        this.signOut()
+        console.log(err)
+        //this.signOut()
       })
     }
     return JSON.parse(localStorage.getItem("user"));
