@@ -6,8 +6,77 @@ import calendarWeekFill from "@iconify/icons-bi/calendar-week-fill";
 import circleFill from "@iconify/icons-bi/circle-fill";
 import filePaper2Fill from "@iconify/icons-ri/file-paper-2-fill";
 import { Comments, Line } from "../../components";
+import Markdown from 'react-markdown'
+import gfm from 'remark-gfm'
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import { coldarkDark as theme } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-function ItemDetai() {
+function ItemDetail() {
+
+  // Syntax highlighting gawe <Markdown><pre>
+  const components = {
+    code({node, inline, className, children, ...props}) {
+      const match = /language-(\w+)/.exec(className || '')
+      return !inline && match ? (
+        <SyntaxHighlighter className="codeblock" style={theme} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
+      ) : (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      )
+    }
+  }
+  
+  // Isine markdown
+  const description = `
+  # Hai!
+  ## h2
+  ### h3
+  > blockquote
+  paragraph:
+  Lorem ipsum dolor sit, amet consectetur adipisicing elit.    
+      
+  Ipsa ad aliquam natus officia ab, quo doloribus aspernatur totam maxime ea, commodi blanditiis ullam! Blanditiis, adipisci minima? Suscipit beatae dolores repudiandae.
+
+  &nbsp;
+  
+  Sanitation check  
+  <img onerror="javascript:alert('ok')" src="yes">
+  
+  * [ ] tidak
+  * [x] ya
+   
+  tabel  
+  | Header1 | Header2  | Header3 |
+  --- | --- | ---
+  | data1 |data2 |data3 |
+  | data11|data12|data13|
+
+  *italic* _italic2_ **bold** ~strikethru~
+
+  [Link](http://localhost:3000/)
+  ![Contoh pelarangan penggunaan gambar](http://localhost:3000/promotin/static/media/poster.095d39ca.jpg)
+
+  Kita dapat menggunakan \` \`\`\` \` yang dilanjutkan dengan nama bahasa untuk menulis kode.  
+  Misal: \` \`\`\`jsx \`
+  \`\`\`jsx
+  import React from 'react';
+  import './App.css';
+  
+  function App() {
+    return (
+      <div className="App">
+             Hello World!
+      </div>
+    );
+  }
+  
+  export default App;
+  \`\`\`
+
+  👍
+  `
+
   return (
     <div className="id-container">
       <div className="id-wrapper">
@@ -42,30 +111,9 @@ function ItemDetai() {
             <Icon icon={filePaper2Fill} /> Detail Event
           </h3>
 
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem
-            aspernatur culpa, non expedita deserunt ad nulla corporis beatae
-            minus assumenda, est nobis inventore accusamus aperiam? Voluptatibus
-            voluptates iure tempore neque.
-          </p>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta
-            dolore non optio eaque rem. Sint veniam nisi in quaerat asperiores
-            architecto. Vel sed molestias minima sapiente beatae quas provident
-            incidunt?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
-            esse consequatur aut enim, quasi delectus quisquam ratione sapiente
-            aspernatur itaque. Aliquam, placeat veniam! Nam aperiam saepe, quas
-            at soluta facere?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae
-            tempora distinctio obcaecati fugiat voluptatem. Aut quibusdam fugit
-            dolorem possimus voluptatem quia laborum numquam similique deserunt
-            ab, maxime rerum atque aspernatur.
-          </p>
+          <section style={{width: '100%'}}>
+            <Markdown className="md-content" disallowedElements={["img", "media", "script", "style"]} remarkPlugins={[gfm]} children={description} components={components} />
+          </section>
           <button className="add-fav">Tambahkan ke Favorit</button>
         </div>
       </div>
@@ -77,4 +125,4 @@ function ItemDetai() {
   );
 }
 
-export default ItemDetai;
+export default ItemDetail;
