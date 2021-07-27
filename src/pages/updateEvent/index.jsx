@@ -1,95 +1,79 @@
 import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
-import { Daerah } from "../../daerah";
+import { Daerah, Jenis, Kategori, Tingkatan } from "../../daerah";
 
-import {
-  Button,
-  Line,
-  Dropdown,
-  AddBenefit,
-  AddSk,
-  AddAlur,
-  AddFaq,
-} from "../../components";
+import { Button, Line, Dropdown } from "../../components";
 import "./updateEvent.scss";
 
 function CreateEvent() {
   const [previewImg, setPreviewImg] = useState(Blank_img);
-  const [skValue, setSkValue] = useState([]);
-  const [benefitValue, setBenefitValue] = useState([]);
-  const [alurValue, setAlurValue] = useState([]);
-  const [faqValue, setFaqValue] = useState([]);
+  const [tglPelaksanaan, setTglPelaksanaan] = useState("sehari");
   const [provinsiValue, setProvinsiValue] = useState([]);
   const [kabKotValue, setKabKotValue] = useState([]);
-  const { id } = useParams();
+  const [kategoriValue, setKategoriValue] = useState();
+  const [jenisValue, setJenisValue] = useState();
+  const [tingkatanValue, setTingkatanValue] = useState();
+  const [jenisPelaksanaanValue, setJenisPelaksanaanValue] = useState();
+  const [error, setError] = useState([]);
+  const [first, setFirst] = useState(true);
 
-  const [oldData, setOldData] = useState({
-    sk: [],
-    benefits: [],
-    alur: [],
-    faq: [],
+  const [tglPel, setTglPel] = useState({
+    dari: "",
+    sampai: "",
   });
 
   const [form, setForm] = useState({
     title: "",
-    daerah: "",
-    description: {
-      desc: "",
-      benefits: [],
-      alur: [],
-      faq: [],
-      tag: "",
-      sk: [],
-      tanggal: "",
-      alamat: "",
-    },
+    pelaksanaan: "",
+    tanggal: "",
+    kategori: "",
+    provinsi: "",
+    kabkot: "",
     tingkatan: "",
     jenis: "",
+    deskripsi: "",
   });
-
-  useEffect(() => {
-    axios
-      .get("//promotin.herokuapp.com/api/v1/items/view/" + id)
-      .then((result) => {
-        if (result) {
-          let getData = result.data.data;
-
-          setForm({
-            ...form,
-            title: getData.title,
-            daerah: getData.daerah,
-            description: getData.description,
-            tingkatan: getData.tingkatan,
-            jenis: getData.jenis,
-          });
-
-          setOldData({
-            ...oldData,
-            sk: getData.description.sk,
-            benefits: getData.description.benefits,
-            alur: getData.description.alur,
-            faq: getData.description.faq,
-          });
-        }
-      });
-  }, [id]);
 
   useEffect(() => {
     setForm({
       ...form,
-      daerah: kabKotValue + ", " + provinsiValue,
-      description: {
-        sk: skValue,
-        benefits: benefitValue,
-        alur: alurValue,
-        faq: faqValue,
-      },
+      tanggal: tglPel,
+      kategori: kategoriValue,
+      provinsi: provinsiValue,
+      kabkot: kabKotValue,
+      jenis: jenisValue,
+      tingkatan: tingkatanValue,
+      pelaksanaan: jenisPelaksanaanValue,
     });
-  }, [provinsiValue, kabKotValue, skValue, benefitValue, alurValue, faqValue]);
+  }, [
+    tglPel,
+    kategoriValue,
+    provinsiValue,
+    kabKotValue,
+    jenisValue,
+    tingkatanValue,
+    jenisPelaksanaanValue,
+  ]);
+
+  useEffect(() => {
+    setTglPel({
+      dari: "",
+      sampai: "",
+    });
+  }, [tglPelaksanaan]);
+
+  useEffect(() => {
+    if (!first) {
+      setError([]);
+
+      console.log("notfirst");
+      console.log(form);
+      isEmpty(form);
+    }
+  }, [first, form]);
 
   function submitPoster(itemId) {
     let formdata = new FormData();
@@ -99,21 +83,70 @@ function CreateEvent() {
     console.log(formdata);
 
     axios
-      .post("//promotin.herokuapp.com/api/v1/items/edit/image/" + id, formdata)
+      .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
       .then((result) => {
         console.log(result);
+        window.location.href = "/item-detail/" + itemId;
       });
   }
 
   function handleSubmitClick() {
     console.log(form);
-    axios
-      .put("//promotin.herokuapp.com/api/v1/items/view/" + id, form)
-      .then((result) => {
-        console.log(result);
-        submitPoster(result.data.data.itemId);
-      })
-      .catch(console.log);
+    setError([]);
+    setFirst(false);
+    isEmpty(form);
+    // axios
+    //   .post("//promotin.herokuapp.com/api/v1/items/new", form)
+    //   .then((result) => {
+    //     console.log(result);
+    //     submitPoster(result.data.data.itemId);
+    //   })
+    //   .catch(console.log);
+  }
+
+  function checkError(err) {
+    let errorResult;
+
+    if (error.length > 0) {
+      error.map((item, i) => {
+        if (err === item) {
+          errorResult = "true";
+        }
+      });
+    }
+
+    if (errorResult === "true") return true;
+
+    return false;
+  }
+
+  function isEmpty(obj) {
+    if (!obj.title) setError((error) => [...error].concat("title"));
+
+    if (!obj.pelaksanaan) setError((error) => [...error].concat("pelaksanaan"));
+
+    if (!obj.kategori) setError((error) => [...error].concat("kategori"));
+
+    if (!obj.tingkatan) setError((error) => [...error].concat("tingkatan"));
+
+    if (!obj.jenis) setError((error) => [...error].concat("jenis"));
+
+    if (!obj.deskripsi) setError((error) => [...error].concat("deskripsi"));
+
+    if (!obj.provinsi.length > 0)
+      setError((error) => [...error].concat("provinsi"));
+
+    if (!obj.kabkot.length > 0)
+      setError((error) => [...error].concat("kabkot"));
+
+    if (obj.tanggal.dari === "") {
+      console.log(obj.tanggal.dari === "");
+      setError((error) => [...error].concat("tanggal sehari"));
+    }
+
+    if (obj.tanggal.dari === "" && obj.tanggal.sampai === "")
+      console.log(obj.tanggal.dari === "" && obj.tanggal.sampai === "");
+    setError((error) => [...error].concat("tanggal lebih"));
   }
 
   const handleChange = (e) => {
@@ -127,16 +160,14 @@ function CreateEvent() {
     });
   };
 
-  const handleInDescChange = (e) => {
+  const handleTglChange = (e) => {
     const target = e.target;
     const value = target.name === "sebuahtest" ? target.checked : target.value;
     const name = target.name;
 
-    setForm({
-      ...form,
-      description: {
-        [name]: value,
-      },
+    setTglPel({
+      ...tglPel,
+      [name]: value,
     });
   };
 
@@ -163,7 +194,7 @@ function CreateEvent() {
 
   return (
     <div className="create-event-wrapper">
-      <h1 className="title">Edit Event {form.title}</h1>
+      <h1 className="title">Buat Event Baru</h1>
       <Line width={100} />
 
       <div className="form-wrapper">
@@ -188,14 +219,18 @@ function CreateEvent() {
               />
             </div>
 
-            <div className="form-input judul">
+            <div
+              className={`form-input judul ${
+                checkError("title") ? "error" : ""
+              }`}
+            >
               <label htmlFor="judul">Judul Event</label>
               <input
                 type="text"
                 name="title"
                 id="title"
                 onChange={handleChange}
-                value={form.title}
+                placeholder="Seminar IT"
               />
             </div>
           </div>
@@ -203,18 +238,114 @@ function CreateEvent() {
           <div className="f-wp">
             <h2 className="sub-title">Detail Event</h2>
 
-            <div className="form-input tanggal">
-              <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
-              <input
-                type="date"
-                name="tanggal"
-                id="tanggal"
-                onChange={handleInDescChange}
+            <div
+              className={`form-input jenis ${
+                checkError("jenis") ? "error" : ""
+              }`}
+            >
+              <label htmlFor="jenis">Jenis</label>
+              <Dropdown
+                title={"Pelaksanaan Event"}
+                items={Jenis}
+                onChange={() => {}}
+                dropdownValue={(data) => {
+                  setJenisValue(data);
+                }}
+              />
+            </div>
+
+            {tglPelaksanaan === "sehari" ? (
+              <div
+                className={`form-input tanggal ${
+                  checkError("tanggal sehari") ? "error" : ""
+                }`}
+              >
+                <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
+                <Dropdown
+                  title={"Pelaksanaan Event"}
+                  items={[
+                    { id: 1, value: "sehari" },
+                    { id: 2, value: "lebih dari sehari" },
+                  ]}
+                  onChange={() => {}}
+                  dropdownValue={(data) => {
+                    setTglPelaksanaan(data);
+                  }}
+                />
+
+                <div className="tgl">
+                  <input
+                    type="date"
+                    name="dari"
+                    id="tanggal"
+                    onChange={handleTglChange}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div
+                className={`form-input tanggal ${
+                  checkError("tanggal lebih") ? "error" : ""
+                }`}
+              >
+                <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
+                <Dropdown
+                  title={"Pelaksanaan Event"}
+                  items={[
+                    { id: 1, value: "sehari" },
+                    { id: 2, value: "lebih dari sehari" },
+                  ]}
+                  onChange={() => {}}
+                  dropdownValue={(data) => {
+                    setTglPelaksanaan(data);
+                  }}
+                />
+                <div className="tgl">
+                  <div className="tgl-detail">
+                    <label htmlFor="dari">Dari</label>
+                    <input
+                      type="date"
+                      name="dari"
+                      id="tanggal"
+                      onChange={handleTglChange}
+                    />
+                  </div>
+
+                  <div className="tgl-detail">
+                    <label htmlFor="sampai">Sampai</label>
+                    <input
+                      type="date"
+                      name="sampai"
+                      id="tanggal"
+                      onChange={handleTglChange}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div
+              className={`form-input kategori ${
+                checkError("kategori") ? "error" : ""
+              }`}
+            >
+              <label htmlFor="kategori">Kategori</label>
+              <Dropdown
+                title={"Kategori"}
+                items={Kategori}
+                onChange={() => {}}
+                dropdownValue={(data) => {
+                  setKategoriValue(data);
+                }}
               />
             </div>
 
             <div className="form-tempat">
-              <div className="form-input provinsi">
+              <div
+                className={`form-input provinsi ${
+                  checkError("provinsi") ? "error" : ""
+                }`}
+              >
                 <label htmlFor="provinsi">Provinsi</label>
                 <Dropdown
                   title={"Provinsi"}
@@ -229,7 +360,11 @@ function CreateEvent() {
                 />
               </div>
 
-              <div className="form-input kab-kot">
+              <div
+                className={`form-input kab-kot ${
+                  checkError("kabkot") ? "error" : ""
+                }`}
+              >
                 <label htmlFor="kab-kot">Kabupaten/Kota</label>
 
                 <Dropdown
@@ -243,144 +378,55 @@ function CreateEvent() {
               </div>
             </div>
 
-            <div className="form-input alamat">
-              <label htmlFor="alamat">Alamat Event</label>
-              <input
-                type="text"
-                name="alamat"
-                id="alamat"
-                onChange={handleInDescChange}
-                value={form.daerah}
+            <div
+              className={`form-input tingkatan ${
+                checkError("tingkatan") ? "error" : ""
+              }`}
+            >
+              <label htmlFor="tingkatan">Tingkatan</label>
+              <Dropdown
+                title={"Tingkatan"}
+                items={Tingkatan}
+                onChange={() => {}}
+                dropdownValue={(data) => {
+                  setTingkatanValue(data);
+                }}
               />
             </div>
 
-            <div className="form-input tingkatan">
-              <p>Tingkatan</p>
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  name="tingkatan"
-                  id="sd"
-                  value="SD"
-                  onChange={handleChange}
-                />
-                <label htmlFor="sd">SD</label>
-              </div>
-
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  name="tingkatan"
-                  id="smp"
-                  value="SMP"
-                  onChange={handleChange}
-                />
-                <label htmlFor="smp">SMP</label>
-              </div>
-
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  name="tingkatan"
-                  id="sma"
-                  value="SMA/K"
-                  onChange={handleChange}
-                />
-                <label htmlFor="sma">SMA/K</label>
-              </div>
-
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  name="tingkatan"
-                  id="perguruan-tinggi"
-                  value="perguruan-tinggi"
-                  onChange={handleChange}
-                />
-                <label htmlFor="perguruan-tinggi">Perguruan Tinggi</label>
-              </div>
-
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  name="tingkatan"
-                  id="umum"
-                  value="Umum"
-                  onChange={handleChange}
-                />
-                <label htmlFor="umum">Umum</label>
-              </div>
+            <div
+              className={`form-input jenis ${
+                checkError("pelaksanaan") ? "error" : ""
+              }`}
+            >
+              <label htmlFor="pelaksanaan">Pelaksanaan</label>
+              <Dropdown
+                title={"Pelaksanaan Event"}
+                items={[
+                  { id: 1, value: "On Site/Offline" },
+                  { id: 2, value: "Online" },
+                ]}
+                onChange={() => {}}
+                dropdownValue={(data) => {
+                  setJenisPelaksanaanValue(data);
+                }}
+              />
             </div>
 
-            <div className="form-input jenis">
-              <p>Jenis</p>
-
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  name="jenis"
-                  id="onsite-offline"
-                  value="onsite-offline"
-                  onChange={handleChange}
-                />
-                <label htmlFor="onsite-offline">On Site/Offline</label>
-              </div>
-
-              <div className="radio-option">
-                <input
-                  type="radio"
-                  name="jenis"
-                  id="online"
-                  value="online"
-                  onChange={handleChange}
-                />
-                <label htmlFor="online">Online</label>
-              </div>
-            </div>
-
-            <div className="form-input deskripsi">
+            <div
+              className={`form-input deskripsi ${
+                checkError("deskripsi") ? "error" : ""
+              }`}
+            >
               <label htmlFor="deskripsi">Deskripsi</label>
               <textarea
-                name="desc"
+                name="deskripsi"
                 id="deskripsi"
                 cols="30"
                 rows="10"
-                onChange={handleInDescChange}
-                value={form.description.desc}
+                onChange={handleChange}
               ></textarea>
             </div>
-          </div>
-
-          <div className="f-wp">
-            <h2 className="sub-title">Syarat dan Ketentuan</h2>
-            <AddSk
-              skValue={(data) => setSkValue(data)}
-              updateValue={oldData.sk}
-            />
-          </div>
-
-          <div className="f-wp">
-            <h2 className="sub-title">Benefit (optional)</h2>
-            <AddBenefit
-              benefitValue={(data) => setBenefitValue(data)}
-              updateValue={oldData.benefits}
-            />
-          </div>
-
-          <div className="f-wp">
-            <h2 className="sub-title">Alur</h2>
-            <AddAlur
-              alurValue={(data) => setAlurValue(data)}
-              updateValue={oldData.alur}
-            />
-          </div>
-
-          <div className="f-wp">
-            <h2 className="sub-title">FAQ</h2>
-            <AddFaq
-              faqValue={(data) => setFaqValue(data)}
-              updateValue={oldData.faq}
-            />
           </div>
 
           <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />
