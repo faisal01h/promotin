@@ -103,6 +103,10 @@
       border: none;
       border-radius: 5px;
     }
+
+    .save-btn:hover {
+      cursor: pointer;
+    }
   }
 }
 
@@ -128,4 +132,33 @@
 }
 
 @media screen and (min-width: 720px) {
+}
+
+.update:hover {
+  cursor: pointer;
+}
+
+p.role {
+  margin-top: 5px;
+  border-radius: 7px;
+  padding: 5px;
+  max-width: fit-content;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+}
+
+p.role-admin {
+  background-color: $color-gradient-start;
+  color: #fff;
+}
+
+p.role-insider {
+  color: #fff;
+  background-color: darkmagenta;
+}
+
+p.role-moderator {
+  color: #fff;
+  background-color: dodgerblue;
 }
