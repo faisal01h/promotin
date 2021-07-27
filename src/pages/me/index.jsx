@@ -10,13 +10,20 @@ const Me = () => {
   const nodeEmail = useRef();
   const nodePassword = useRef();
   const nodeDetails = useRef();
+  const [ name, setName ] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ role, setRole ] = useState('user');
 
   useEffect(() => {
     axios
       .post("//promotin.herokuapp.com/api/v1/auth/user/find", {
         _id: Auth.getCurrentUser().data.id,
       })
-      .then(console.log)
+      .then(response => {
+        setName(response.data.data.name)
+        setEmail(response.data.data.email)
+        setRole(response.data.data.role)
+      })
       .catch(console.error);
   }, []);
 
@@ -56,10 +63,14 @@ const Me = () => {
         {/* <img src="" alt="profil-img" /> */}
         <div className="profil-img"></div>
         <div className="basic-info">
-          <h3 className="name">User 1</h3>
-          <p className="email">email@email.com</p>
-
+          <h3 className="name">{name}</h3>
+          <p className="email">{email}</p>
         </div>
+        {
+            role !== "user" ? 
+            <p className={'role role-'+role}>{role.toUpperCase()}</p>
+            :""
+          }
       </div>
       <div className="account-setting">Account Setting</div>
       <div className="setting-menu">
