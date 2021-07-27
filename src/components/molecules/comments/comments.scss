@@ -1,0 +1,133 @@
+.comments-container {
+  margin-top: 20px;
+  padding: 20px 30px;
+
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 0 20px -10px lightgrey;
+
+  .c-head {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 10px;
+
+    .c-count {
+      min-width: 30px;
+      height: 30px;
+      line-height: 30px;
+      margin-right: 10px;
+
+      font-weight: 700;
+      font-size: 18px;
+      background-color: grey;
+    }
+    .c-title {
+      width: 100%;
+      line-height: 50px;
+      text-align: left;
+    }
+  }
+
+  .add-comments {
+    display: flex;
+
+    .user-image {
+      min-width: 50px;
+      height: 50px;
+
+      border-radius: 50%;
+      background-color: lightgrey;
+    }
+
+    .comment-input {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      width: 100%;
+      padding-left: 22px;
+
+      p {
+        width: 100%;
+        text-align: left;
+      }
+
+      textarea {
+        resize: none;
+        height: 60px;
+        width: 100%;
+      }
+
+      .add-comment {
+        margin: 10px 0;
+      }
+    }
+  }
+
+  .all-comments {
+    .user-image {
+      width: 50px;
+      height: 50px;
+
+      border-radius: 50%;
+      background-color: lightgrey;
+    }
+
+    .comment {
+      display: flex;
+      width: 100%;
+      padding: 10px 0;
+      margin-bottom: 5px;
+
+      .comment-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        width: 100%;
+        padding: 0 22px;
+
+        .comment-body {
+          width: 100%;
+          text-align: left;
+        }
+
+        .status-comment {
+          display: flex;
+          align-items: center;
+
+          div {
+            display: flex;
+            align-items: center;
+            margin-right: 5px;
+
+            span {
+              margin: 0 5px;
+            }
+
+            .vote {
+              // height: 10px;
+              font-size: 18px;
+            }
+
+            .dot {
+              font-size: 6px;
+              height: 10px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+    }
+
+    .reply-comment {
+      width: 100%;
+      padding-left: 10%;
+      margin: 0;
+    }
+  }
+}
+
+@media screen and (min-width: 480px) {
+}
