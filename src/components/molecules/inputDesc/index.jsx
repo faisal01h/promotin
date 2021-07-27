@@ -53,7 +53,10 @@ function InputDesc() {
       inputField.current.value = val.slice(0, start)+ '**' + val.slice(start)
 
     } else {
-      inputField.current.value = val.slice(0, start)+ '**' + val.slice(start, end) + '**' +val.slice(end, val.length)
+
+      let stringBuilder = val.slice(start, end).replace(/\s/g, "");
+
+      inputField.current.value = val.slice(0, start) + '**' + stringBuilder + '**' + val.slice(end, val.length)
     }
     console.log(start, end, val);
   };
