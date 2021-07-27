@@ -44,8 +44,6 @@ function InputDesc() {
 
   const bold = () => {
     let update = "**" + selected + "**";
-    console.log("update " + update);
-    console.log("selected " + selected);
     inputField.current.value = inputField.current.value.replace(
       selected,
       update
@@ -54,10 +52,6 @@ function InputDesc() {
   };
 
   useEffect(() => {
-    console.log("selected " + selected);
-
-    console.log("inputValue " + inputValue);
-
     console.log("ref", inputField.current.value);
   }, [selected, inputField]);
 
