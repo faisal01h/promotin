@@ -1,3 +1,4 @@
+@import "../../index.scss";
 .id-container {
   background-color: #fbfbfd;
   padding-bottom: 50px;
@@ -102,4 +103,13 @@
 }
 
 @media screen and (min-width: 720px) {
+}
+
+.md-content > code, p > code {
+  color: #6562ff;
+  background-color: rgba(100,100,100,.07);
+} 
+
+.codeblock {
+  border-radius: 7px;
 }

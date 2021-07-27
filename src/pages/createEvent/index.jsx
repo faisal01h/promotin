@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
 import { Daerah, Kategori, Jenis, Tingkatan } from "../../daerah";
-
+import Markdown from 'react-markdown'
+import gfm from 'remark-gfm'
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import { coldarkDark as theme } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Button, Line, Dropdown } from "../../components/";
 import "./createEvent.scss";
 
@@ -19,7 +22,8 @@ function CreateEvent() {
   const [jenisPelaksanaanValue, setJenisPelaksanaanValue] = useState();
   const [error, setError] = useState([]);
   const [first, setFirst] = useState(true);
-
+  const [isPreview, setIsPreview] = useState(false);
+  const [previewContent, setPreviewContent] = useState('');
   const [tglPel, setTglPel] = useState({
     dari: "",
     sampai: "",
@@ -91,7 +95,7 @@ function CreateEvent() {
   }
 
   function handleSubmitClick() {
-    console.log(form);
+    console.log(form, error);
     setError([]);
     setFirst(false);
     isEmpty(form);
@@ -120,6 +124,28 @@ function CreateEvent() {
     return false;
   }
 
+  const highlighter = {
+    code({node, inline, className, children, ...props}) {
+      const match = /language-(\w+)/.exec(className || '')
+      return !inline && match ? (
+        <SyntaxHighlighter className="codeblock" style={theme} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
+      ) : (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      )
+    }
+  }
+
+  function renderPreview(e) {
+    if(e.target.value.length > 0) {
+      setIsPreview(true);
+      setPreviewContent(e.target.value)
+    } else {
+      setIsPreview(false)
+    }
+  }
+
   function isEmpty(obj) {
     if (!obj.title) setError((error) => [...error].concat("title"));
 
@@ -131,7 +157,7 @@ function CreateEvent() {
 
     if (!obj.jenis) setError((error) => [...error].concat("jenis"));
 
-    if (!obj.deskripsi) setError((error) => [...error].concat("deskripsi"));
+    if (!obj.deskripsi.length || obj.deskripsi.length < 10) setError((error) => [...error].concat("deskripsi"));
 
     if (!obj.provinsi.length > 0)
       setError((error) => [...error].concat("provinsi"));
@@ -144,9 +170,16 @@ function CreateEvent() {
       setError((error) => [...error].concat("tanggal sehari"));
     }
 
-    if (obj.tanggal.dari === "" && obj.tanggal.sampai === "")
-      console.log(obj.tanggal.dari === "" && obj.tanggal.sampai === "");
-    setError((error) => [...error].concat("tanggal lebih"));
+    if ( (obj.tanggal.dari === "" && obj.tanggal.sampai === "") || (obj.tanggal.sampai === "" && tglPelaksanaan !== "sehari") ) {
+      console.log((obj.tanggal.dari === "" && obj.tanggal.sampai === "") || (obj.tanggal.sampai === "" && tglPelaksanaan !== "sehari"));
+      setError((error) => [...error].concat("tanggal lebih"));
+    }
+
+    //console.log(obj.tanggal)
+    if(obj.tanggal.dari > obj.tanggal.sampai) {
+      setError((error) => [...error].concat("Tanggal tidak valid (dari > sampai)"))
+    }
+      
   }
 
   const handleChange = (e) => {
@@ -254,24 +287,32 @@ function CreateEvent() {
               />
             </div>
 
-            {tglPelaksanaan === "sehari" ? (
-              <div
+            <div
                 className={`form-input tanggal ${
                   checkError("tanggal sehari") ? "error" : ""
+                } ${
+                  checkError("tanggal lebih") ? "error" : ""
+                } ${
+                  checkError("Tanggal tidak valid (dari > sampai)") ? "error" : ""
                 }`}
               >
-                <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
-                <Dropdown
-                  title={"Pelaksanaan Event"}
-                  items={[
-                    { id: 1, value: "sehari" },
-                    { id: 2, value: "lebih dari sehari" },
-                  ]}
-                  onChange={() => {}}
-                  dropdownValue={(data) => {
-                    setTglPelaksanaan(data);
-                  }}
-                />
+
+            <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
+              <Dropdown
+                title={"Pelaksanaan Event"}
+                items={[
+                  { id: 1, value: "sehari" },
+                  { id: 2, value: "lebih dari sehari" },
+                ]}
+                onChange={() => {}}
+                dropdownValue={(data) => {
+                  setTglPelaksanaan(data);
+                }}
+              />
+
+            {tglPelaksanaan === "sehari" ? (
+              
+                
 
                 <div className="tgl">
                   <input
@@ -281,25 +322,9 @@ function CreateEvent() {
                     onChange={handleTglChange}
                   />
                 </div>
-              </div>
+              
             ) : (
-              <div
-                className={`form-input tanggal ${
-                  checkError("tanggal lebih") ? "error" : ""
-                }`}
-              >
-                <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
-                <Dropdown
-                  title={"Pelaksanaan Event"}
-                  items={[
-                    { id: 1, value: "sehari" },
-                    { id: 2, value: "lebih dari sehari" },
-                  ]}
-                  onChange={() => {}}
-                  dropdownValue={(data) => {
-                    setTglPelaksanaan(data);
-                  }}
-                />
+              
                 <div className="tgl">
                   <div className="tgl-detail">
                     <label htmlFor="dari">Dari</label>
@@ -321,8 +346,9 @@ function CreateEvent() {
                     />
                   </div>
                 </div>
-              </div>
+              
             )}
+            </div>
 
             <div
               className={`form-input kategori ${
@@ -419,13 +445,29 @@ function CreateEvent() {
               }`}
             >
               <label htmlFor="deskripsi">Deskripsi</label>
+              <Button
+                title="B"
+                onClick={() => {
+                  
+                }}
+              />
               <textarea
                 name="deskripsi"
                 id="deskripsi"
                 cols="30"
                 rows="10"
-                onChange={handleChange}
+                onChange={(e) => {handleChange(e); renderPreview(e);}}
               ></textarea>
+              {
+                isPreview ?
+                <div style={{textAlign: 'left'}}>
+                  Pratinjau
+                  <div className="form-input">
+                    <Markdown components={highlighter} children={previewContent} />
+                  </div>
+                </div>
+                : ""
+              }
             </div>
           </div>
 
