@@ -12,7 +12,7 @@ function SavedEvent() {
  useEffect(() => {
   axios.get("//promotin.herokuapp.com/api/v1/event/fav")
   .then(result => {
-    setItems(result.data.data)
+    setItems(result.data.data.reverse())
   })
   .then(e => {
     setIsLoaded(true)

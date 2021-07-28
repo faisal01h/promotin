@@ -9,6 +9,7 @@ function Home({ search }) {
   const [selectedFilter, setSelectedFilter] = useState();
   const [filterApplied, setFilterApplied] = useState(false);
   const [popularItem, setPopularItem] = useState(undefined);
+  const [popularItemLock, setPopularItemLock] = useState(false);
 
   useEffect(() => {
     if(typeof selectedFilter === "object") {
@@ -34,12 +35,29 @@ function Home({ search }) {
   }, [selectedFilter]);
 
   useEffect(() => {
-    setPopularItem(dataItem)
-  }, [dataItem])
+    axios
+      .get("//promotin.herokuapp.com/api/v1/items/paginated?perPage=4", {})
+      .then((result) => {
+        if (result) {
+          const responseAPI = result.data;
+
+          if(!popularItem) {
+            setPopularItem(responseAPI.data);
+          }
+
+        }
+      })
+      .catch((err) => {
+        console.log("Error ", err);
+      });
+  }, [])
 
   useEffect(() => {
-    if(popularItem) {
-      popularItem.sort((a, b) => b.view - a.view)      
+    if(popularItem && popularItem.length > 0 && !popularItemLock) {
+      if(popularItem[0].view > popularItem[1].view === false) {
+        setPopularItem(popularItem.sort((a, b) => b.view - a.view))
+        setPopularItemLock(true)
+      }
     }
   }, [popularItem])
 
@@ -68,9 +86,8 @@ function Home({ search }) {
           <h1>Populer saat ini</h1>
           <div className="item-container">
             {
-            popularItem ?
-              popularItem.slice(0,5).map((item) => {
-                
+            popularItem && popularItem.length > 0 ?
+              popularItem.slice(0,4).map((item) => {
                 return <Item key={item._id} id={item._id} />;
               })
             :

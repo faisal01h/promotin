@@ -253,9 +253,9 @@ function InputDesc({ deskripsiValue }) {
           <button onClick={() => code(inputField)}>
             <pre>#</pre>
           </button>
-          <button onClick={() => codeBlock(inputField)}>
+          {/*<button onClick={() => codeBlock(inputField)}>
             <pre>[#]</pre>
-          </button>
+          </button>*/}
           <button
             onClick={() => {
               setEmojiToggle(!emojiToggle);
@@ -264,8 +264,8 @@ function InputDesc({ deskripsiValue }) {
             ✋
           </button>
         </div>
-        <div style={{ marginRight: "5px" }} class="md-logo-wrapper">
-          <span class="tooltip">Bantuan mengenai pemformatan Markdown</span>
+        <div style={{ marginRight: "5px" }} className="md-logo-wrapper">
+          <span className="tooltip">Bantuan mengenai pemformatan Markdown</span>
           <svg
             className="md-logo"
             xmlns="http://www.w3.org/2000/svg"

@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
 import { Daerah, Kategori, Jenis, Tingkatan } from "../../data";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coldarkDark as theme } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button, Line, Dropdown, InputDesc } from "../../components/";
 import "./createEvent.scss";
 
@@ -30,9 +28,10 @@ function CreateEvent() {
     kategori: "",
     provinsi: "",
     kabkot: "",
+    daerah: "",
     tingkatan: "",
     jenis: "",
-    deskripsi: "",
+    description: "",
   });
 
   useEffect(() => {
@@ -42,10 +41,11 @@ function CreateEvent() {
       kategori: kategoriValue,
       provinsi: provinsiValue,
       kabkot: kabKotValue,
+      daerah: kabKotValue+', '+provinsiValue,
       jenis: jenisValue,
       tingkatan: tingkatanValue,
       pelaksanaan: jenisPelaksanaanValue,
-      deskripsi: deskripsiValue,
+      description: deskripsiValue,
     });
   }, [
     tglPel,
@@ -58,13 +58,6 @@ function CreateEvent() {
     deskripsiValue,
   ]);
 
-  useEffect(() => {
-    if (!first) {
-      setError([]);
-
-      isEmpty(form);
-    }
-  }, [first, form]);
 
   useEffect(() => {
     setTglPel(["", ""]);
@@ -85,21 +78,21 @@ function CreateEvent() {
   }
 
   function handleSubmitClick() {
-    // console.log(form, error);
+    console.log(form, error);
     // console.log(form.tanggal[0] === "");
     setError([]);
     setFirst(false);
     isEmpty(form);
 
     console.log(first);
-    console.log(form.length);
-    if (!first && !error.length > 0) {
-      // axios
-      //   .post("//promotin.herokuapp.com/api/v1/items/new", form)
-      //   .then((result) => {
-      //     submitPoster(result.data.data.itemId);
-      //   })
-      //   .catch(console.log);
+    if (!error.length > 0) {
+      axios
+        .post("//promotin.herokuapp.com/api/v1/items/new", form)
+        .then((result) => {
+          console.log(result)
+          submitPoster(result.data.data.itemId);
+        })
+        .catch(console.log);
     }
   }
 
@@ -130,7 +123,7 @@ function CreateEvent() {
 
     if (!obj.jenis) setError((error) => [...error].concat("jenis"));
 
-    if (!obj.deskripsi.length || obj.deskripsi.length < 10)
+    if (!obj.description.length || obj.description.length < 10)
       setError((error) => [...error].concat("deskripsi"));
 
     if (!obj.provinsi.length > 0)
