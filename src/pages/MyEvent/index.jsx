@@ -10,8 +10,6 @@ import AuthenticationService from "../auth";
 function MyEvent() {
   const history = useHistory();
   const [myevent, setMyevent] = useState([]);
-  const [isLogin, setLogin] = useState([]);
-  const [user, setUser] = useState("");
 
   function deleteEvent(id) {
     axios.put("//promotin.herokuapp.com/api/v1/items/unlist/"+id, {
@@ -20,13 +18,7 @@ function MyEvent() {
   }
 
   useEffect(() => {
-    if (AuthenticationService.getCurrentUser()) {
-      setLogin(true);
-      setUser(AuthenticationService.getCurrentUser().data.id);
-    } else setLogin(false);
-  }, [isLogin]);
-
-  useEffect(() => {
+    let user = AuthenticationService.getCurrentUser().data.id
     axios
       .post("//promotin.herokuapp.com/api/v1/items/all/filter", {
         authorId: user,
@@ -41,7 +33,7 @@ function MyEvent() {
       .catch((err) => {
         console.log("Error ", err);
       });
-  }, [user]);
+  }, []);
 
   return (
     <div className="myevent-wrapper">
@@ -55,7 +47,7 @@ function MyEvent() {
               <div className="detail">
                 <p>Tingkat : {event.tingkatan}</p>
                 <p>Daerah : {event.daerah}</p>
-                <p>Tanggal : {event.description.tanggal}</p>
+                <p>Tanggal : {event.tanggal}</p>
                 <p>Jenis : {event.jenis}</p>
               </div>
               <div className="btn-wrapper">

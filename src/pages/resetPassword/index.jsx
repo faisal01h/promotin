@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import AuthenticationService from '../auth'
-import { Button } from '../../components/atoms'
+import { Button, Loading } from '../../components/atoms'
 import axios from 'axios'
 import '../Login/login.scss'
 
@@ -119,7 +119,11 @@ const ResetPassword = () => {
                             </a>
                         </div>
                     </div>
-                : <p>{loadStateString}</p>
+                : <div>
+                    <Loading color="#333" />
+                    <p>{loadStateString}</p>
+                    <a href={"/resetpassword"} style={{color: 'blue'}}>Coba lagi?</a>
+                </div>
                 }
             </div>
         </div>

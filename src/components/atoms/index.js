@@ -3,5 +3,6 @@ import Line from "./line";
 import Dropdown from "./dropdown";
 import Button from "./button";
 import Menubar from "./menubar";
+import Loading from "./loading"
 
-export { Gap, Line, Dropdown, Button, Menubar };
+export { Gap, Line, Dropdown, Button, Menubar, Loading };

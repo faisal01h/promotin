@@ -832,4 +832,25 @@ const Tingkatan = [
   },
 ];
 
-export { Daerah, Kategori, Jenis, Tingkatan };
+const Month = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember"
+]
+
+const Day = [
+  "Minggu",
+  "Senin",
+  "Selasa"
+]
+
+export { Daerah, Kategori, Jenis, Tingkatan, Month, Day };
