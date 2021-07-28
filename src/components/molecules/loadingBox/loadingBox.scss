@@ -1,0 +1,13 @@
+div.default-loadingbox {
+    animation-name: loadAnim;
+    animation-duration: 1250ms;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+}
+
+@keyframes loadAnim {
+    0% {background-color: rgb(117, 117, 117);}
+    25% {background-color: rgb(196, 196, 196);}
+    50% {background-color: rgb(196, 196, 196);}
+    100% {background-color: rgb(117, 117, 117);}
+}

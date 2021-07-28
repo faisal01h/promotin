@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Menubar } from "../../atoms";
 import AuthenticationService from "../../../pages/auth";
 import "./header.scss";
-import axios from "axios";
 
 function Header({ search }) {
   const history = useHistory();

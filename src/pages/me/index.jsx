@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Auth from "../auth";
-import { Dropdown } from "../../components";
+import { Dropdown, LoadingBox } from "../../components";
 import "./me.scss";
 
 const Me = () => {
@@ -63,8 +63,8 @@ const Me = () => {
         {/* <img src="" alt="profil-img" /> */}
         <div className="profil-img"></div>
         <div className="basic-info">
-          <h3 className="name">{name}</h3>
-          <p className="email">{email}</p>
+          <h3 className="name">{name !== '' ? name : <LoadingBox height="1.5rem" width="150px" borderRadius="1000px" />}</h3>
+          <p className="email" style={{marginTop: '7px'}}>{email !== '' ? email : <LoadingBox height="1rem" width="200px" borderRadius="1000px" />}</p>
         </div>
         {
             role !== "user" ? 
