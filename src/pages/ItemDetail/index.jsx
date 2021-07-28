@@ -25,6 +25,7 @@ function ItemDetail() {
   const [ isLoaded, setIsLoaded ] = useState(false)
   const [ favIsLoading, setFavIsLoading ] = useState(false);
   const [ stringifiedDate, setStringifiedDate ] = useState(undefined);
+  const [ author, setAuthor ] = useState(undefined);
 
   // Syntax highlighting gawe <Markdown><pre>
   const components = {
@@ -63,10 +64,20 @@ function ItemDetail() {
         if(e === id) setIsLiked(true)
       })
     })
+
+    
   }, [])
 
   useEffect(() => {
-    
+    // Get author data
+    if(data) {
+      axios.post(HOST_URI+'/api/v1/auth/user/find', {
+        _id: data.authorId
+      })
+      .then(res => {
+        setAuthor(res.data.data.name)
+      })
+    }
   }, [data])
 
   function handleFavClick() {
@@ -99,10 +110,19 @@ function ItemDetail() {
           <h1 className="id-title">{isLoaded ? data.title : <LoadingBox height="25px" width="350px" borderRadius="1000px" />}</h1>
           <div className="id-tag">
             <Icon icon={circleFill} className="c-f" />
-            <a href="#">lomba</a>
+            {isLoaded ? <a href="#">{data.jenis} </a> : <LoadingBox height="15px" width="75px" margin="3px 10px 0 0" borderRadius="1000px" />} 
             <Icon icon={circleFill} className="c-f" />
-            <a href="#">Digital Art</a>
+            {isLoaded ? <a href="#">{data.kategori} </a> : <LoadingBox height="15px" width="75px" margin="3px 10px 0 0" borderRadius="1000px" />}
+
+            
+              {isLoaded && author ? 
+                <div className="id-author">
+                  <a href="#">{author}</a>
+                </div> 
+              : <LoadingBox height="15px" width="75px" margin="3px 10px 0 0" borderRadius="1000px" />}
+            
           </div>
+          
 
           <Line width={100} />
 
@@ -112,7 +132,7 @@ function ItemDetail() {
           <div className="tgl-pel-detail">
           {
             isLoaded ?
-              data.tanggal.length == 2 ?
+              data.tanggal.length == 2 && data.tanggal[1] !== "" ?
                 <div>
                   <div className="dari">
                     <p className="ket">Dari</p>
