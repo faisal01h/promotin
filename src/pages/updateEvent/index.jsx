@@ -194,7 +194,7 @@ function CreateEvent() {
 
   return (
     <div className="create-event-wrapper">
-      <h1 className="title">Buat Event Baru</h1>
+      <h1 className="title">Edit Event</h1>
       <Line width={100} />
 
       <div className="form-wrapper">

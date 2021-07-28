@@ -70,6 +70,20 @@
         background-color: rgb(0, 185, 15);
         color: white;
       }
+
+      .rem-fav {
+        height: 40px;
+        padding: 0 20px;
+        margin: 20px auto;
+
+        font-size: 18px;
+
+        border-radius: 10px;
+        border: none;
+
+        background-color: rgb(185, 0, 92);
+        color: white;
+      }
     }
   }
 }
@@ -112,4 +126,8 @@
 
 .codeblock {
   border-radius: 7px;
+}
+
+.add-fav:hover, .rem-fav:hover {
+  cursor: pointer;
 }
