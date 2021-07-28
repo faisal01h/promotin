@@ -84,6 +84,7 @@ function ItemDetail() {
         itemId: id,
       })
       .then((result) => {
+        setIsLiked(false)
         setFavIsLoading(false)
       })
     } else window.location.href = "/login";
