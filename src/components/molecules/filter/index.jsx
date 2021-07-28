@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "../../atoms";
 import "./filter.scss";
-import { Daerah, Kategori } from '../../../daerah'
+import { Daerah, Kategori } from '../../../data'
 
 function Filter({ selectedFilter, search }) {
   const [tipeValue, setTipeValue] = useState("");

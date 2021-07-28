@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
-import { Daerah, Jenis, Kategori, Tingkatan } from "../../daerah";
+import { Daerah, Jenis, Kategori, Tingkatan } from "../../data";
 
 import { Button, Line, Dropdown } from "../../components";
 import "./updateEvent.scss";

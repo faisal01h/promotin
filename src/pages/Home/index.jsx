@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Gap, Line } from "../../components/atoms";
-import { Filter, Item } from "../../components/molecules";
+import { Filter, Item, LoadingBox } from "../../components/molecules";
 import "./home.scss";
 
 function Home({ search }) {
@@ -68,19 +68,34 @@ function Home({ search }) {
           <h1>Populer saat ini</h1>
           <div className="item-container">
             {
-            popularItem ? 
-            popularItem.slice(0,5).map((item) => {
-              return <Item key={item._id} id={item._id} />;
-            })
-            :""
+            popularItem ?
+              popularItem.slice(0,5).map((item) => {
+                
+                return <Item key={item._id} id={item._id} />;
+              })
+            :
+            <div className="flex">
+              <LoadingBox width="192px" height="264px" borderRadius="" margin="0px 10px 10px 0px" />
+              <LoadingBox width="192px" height="264px" borderRadius="" margin="0px 10px 10px 0px" />
+              <LoadingBox width="192px" height="264px" borderRadius="" margin="0px 10px 10px 0px" />
+            </div>
             }
+            
           </div>
           <Gap height={10} />
           <h1>Disarankan untuk anda</h1>
           <div className="item-container">
-            {dataItem.map((item) => {
+          {dataItem ? 
+            dataItem.map((item) => {
               return <Item key={item._id} id={item._id} />;
-            })}
+            })
+            :
+            <div className="flex">
+              <LoadingBox width="192px" height="264px" borderRadius="" margin="0px 10px 10px 0px" />
+              <LoadingBox width="192px" height="264px" borderRadius="" margin="0px 10px 10px 0px" />
+              <LoadingBox width="192px" height="264px" borderRadius="" margin="0px 10px 10px 0px" />
+            </div>
+          }
           </div>
         </div>
       }

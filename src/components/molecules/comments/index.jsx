@@ -27,6 +27,7 @@ function Comments() {
             cols="30"
             rows="8"
             placeholder="tulis komentar"
+            style={{fontFamily: 'sans-serif'}}
           ></textarea>
           <button className="add-comment">Tambahkan Komentar</button>
         </div>
