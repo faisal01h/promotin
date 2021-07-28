@@ -14,23 +14,19 @@ function CreateEvent() {
   const [tglPelaksanaan, setTglPelaksanaan] = useState("sehari");
   const [provinsiValue, setProvinsiValue] = useState([]);
   const [kabKotValue, setKabKotValue] = useState([]);
-  const [kategoriValue, setKategoriValue] = useState();
-  const [jenisValue, setJenisValue] = useState();
-  const [tingkatanValue, setTingkatanValue] = useState();
-  const [jenisPelaksanaanValue, setJenisPelaksanaanValue] = useState();
+  const [kategoriValue, setKategoriValue] = useState("");
+  const [jenisValue, setJenisValue] = useState("");
+  const [tingkatanValue, setTingkatanValue] = useState("");
+  const [jenisPelaksanaanValue, setJenisPelaksanaanValue] = useState("");
+  const [deskripsiValue, setDeskripsiValue] = useState("");
+  const [tglPel, setTglPel] = useState(["", ""]);
   const [error, setError] = useState([]);
   const [first, setFirst] = useState(true);
-  const [isPreview, setIsPreview] = useState(false);
-  const [previewContent, setPreviewContent] = useState("");
-  const [tglPel, setTglPel] = useState({
-    dari: "",
-    sampai: "",
-  });
 
   const [form, setForm] = useState({
     title: "",
     pelaksanaan: "",
-    tanggal: "",
+    tanggal: [],
     kategori: "",
     provinsi: "",
     kabkot: "",
@@ -49,6 +45,7 @@ function CreateEvent() {
       jenis: jenisValue,
       tingkatan: tingkatanValue,
       pelaksanaan: jenisPelaksanaanValue,
+      deskripsi: deskripsiValue,
     });
   }, [
     tglPel,
@@ -58,31 +55,26 @@ function CreateEvent() {
     jenisValue,
     tingkatanValue,
     jenisPelaksanaanValue,
+    deskripsiValue,
   ]);
-
-  useEffect(() => {
-    setTglPel({
-      dari: "",
-      sampai: "",
-    });
-  }, [tglPelaksanaan]);
 
   useEffect(() => {
     if (!first) {
       setError([]);
 
-      console.log("notfirst");
-      console.log(form);
       isEmpty(form);
     }
   }, [first, form]);
+
+  useEffect(() => {
+    setTglPel(["", ""]);
+  }, [tglPelaksanaan]);
 
   function submitPoster(itemId) {
     let formdata = new FormData();
     let img = document.querySelector('input[type="file"]').files[0];
     formdata.append("itemId", itemId);
     formdata.append("image", img);
-    console.log(formdata);
 
     axios
       .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
@@ -93,17 +85,22 @@ function CreateEvent() {
   }
 
   function handleSubmitClick() {
-    console.log(form, error);
+    // console.log(form, error);
+    // console.log(form.tanggal[0] === "");
     setError([]);
     setFirst(false);
     isEmpty(form);
-    // axios
-    //   .post("//promotin.herokuapp.com/api/v1/items/new", form)
-    //   .then((result) => {
-    //     console.log(result);
-    //     submitPoster(result.data.data.itemId);
-    //   })
-    //   .catch(console.log);
+
+    console.log(first);
+    console.log(form.length);
+    if (!first && !error.length > 0) {
+      // axios
+      //   .post("//promotin.herokuapp.com/api/v1/items/new", form)
+      //   .then((result) => {
+      //     submitPoster(result.data.data.itemId);
+      //   })
+      //   .catch(console.log);
+    }
   }
 
   function checkError(err) {
@@ -120,35 +117,6 @@ function CreateEvent() {
     if (errorResult === "true") return true;
 
     return false;
-  }
-
-  const highlighter = {
-    code({ node, inline, className, children, ...props }) {
-      const match = /language-(\w+)/.exec(className || "");
-      return !inline && match ? (
-        <SyntaxHighlighter
-          className="codeblock"
-          style={theme}
-          language={match[1]}
-          PreTag="div"
-          children={String(children).replace(/\n$/, "")}
-          {...props}
-        />
-      ) : (
-        <code className={className} {...props}>
-          {children}
-        </code>
-      );
-    },
-  };
-
-  function renderPreview(e) {
-    if (e.target.value.length > 0) {
-      setIsPreview(true);
-      setPreviewContent(e.target.value);
-    } else {
-      setIsPreview(false);
-    }
   }
 
   function isEmpty(obj) {
@@ -171,28 +139,24 @@ function CreateEvent() {
     if (!obj.kabkot.length > 0)
       setError((error) => [...error].concat("kabkot"));
 
-    if (obj.tanggal.dari === "") {
-      console.log(obj.tanggal.dari === "");
+    // console.log(obj.tanggal);
+    if (obj.tanggal[0] === "") {
       setError((error) => [...error].concat("tanggal sehari"));
     }
 
-    if (
-      (obj.tanggal.dari === "" && obj.tanggal.sampai === "") ||
-      (obj.tanggal.sampai === "" && tglPelaksanaan !== "sehari")
-    ) {
-      console.log(
-        (obj.tanggal.dari === "" && obj.tanggal.sampai === "") ||
-          (obj.tanggal.sampai === "" && tglPelaksanaan !== "sehari")
-      );
-      setError((error) => [...error].concat("tanggal lebih"));
+    if (tglPelaksanaan === "lebih dari sehari") {
+      if (obj.tanggal[1] === "") {
+        setError((error) => [...error].concat("tanggal lebih"));
+      }
+
+      if (obj.tanggal[0] > obj.tanggal[1]) {
+        setError((error) =>
+          [...error].concat("Tanggal tidak valid (dari > sampai)")
+        );
+      }
     }
 
     //console.log(obj.tanggal)
-    if (obj.tanggal.dari > obj.tanggal.sampai) {
-      setError((error) =>
-        [...error].concat("Tanggal tidak valid (dari > sampai)")
-      );
-    }
   }
 
   const handleChange = (e) => {
@@ -210,11 +174,15 @@ function CreateEvent() {
     const target = e.target;
     const value = target.name === "sebuahtest" ? target.checked : target.value;
     const name = target.name;
+    const arr = [...tglPel];
 
-    setTglPel({
-      ...tglPel,
-      [name]: value,
-    });
+    if (name === "0") {
+      arr[0] = value;
+    } else if (name === "1") {
+      arr[1] = value;
+    }
+
+    setTglPel(arr);
   };
 
   function handleProvinsiChange(data) {
@@ -324,7 +292,7 @@ function CreateEvent() {
                 <div className="tgl">
                   <input
                     type="date"
-                    name="dari"
+                    name="0"
                     id="tanggal"
                     onChange={handleTglChange}
                   />
@@ -335,7 +303,7 @@ function CreateEvent() {
                     <label htmlFor="dari">Dari</label>
                     <input
                       type="date"
-                      name="dari"
+                      name="0"
                       id="tanggal"
                       onChange={handleTglChange}
                     />
@@ -345,7 +313,7 @@ function CreateEvent() {
                     <label htmlFor="sampai">Sampai</label>
                     <input
                       type="date"
-                      name="sampai"
+                      name="1"
                       id="tanggal"
                       onChange={handleTglChange}
                     />
@@ -449,24 +417,7 @@ function CreateEvent() {
               }`}
             >
               <label htmlFor="deskripsi">Deskripsi</label>
-              {/* <textarea
-                name="deskripsi"
-                id="deskripsi"
-                cols="30"
-                rows="10"
-                onChange={(e) => {handleChange(e); renderPreview(e);}}
-              ></textarea>
-              {
-                isPreview ?
-                <div style={{textAlign: 'left'}}>
-                  Pratinjau
-                  <div className="form-input">
-                    <Markdown components={highlighter} children={previewContent} />
-                  </div>
-                </div>
-                : ""
-              } */}
-              <InputDesc />
+              <InputDesc deskripsiValue={(data) => setDeskripsiValue(data)} />
             </div>
           </div>
 
