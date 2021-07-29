@@ -36,7 +36,7 @@ function Comments({itemId, comments, user}) {
   function submitComment() {
     setSendInProgress(true)
     setCommentMsg(undefined);
-    axios.post(HOST_URI+'/api/v1/items/'+itemId+'/comment', {
+    axios.post(HOST_URI+'/api/v1/items/view/'+itemId+'/comment', {
       comment: commentInput.current.value
     })
     .then(resp => {
