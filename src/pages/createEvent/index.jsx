@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
 import { Daerah, Kategori, Jenis, Tingkatan } from "../../data";
-import { Button, Line, Dropdown, InputDesc } from "../../components/";
+import { Button, Line, Dropdown, InputDesc, Loading } from "../../components/";
 import Auth from "../auth";
 import "./createEvent.scss";
 
@@ -21,6 +21,8 @@ function CreateEvent() {
   const [tglPel, setTglPel] = useState(["", ""]);
   const [error, setError] = useState([]);
   const [first, setFirst] = useState(true);
+
+  const [submitInProgress, setSubmitInProgress] = useState(false);
 
   const [form, setForm] = useState({
     title: "",
@@ -80,8 +82,12 @@ function CreateEvent() {
       .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
       .then((result) => {
         console.log(result);
+        setSubmitInProgress(false);
         window.location.href = "/item-detail/" + itemId;
-      });
+      })
+      .catch(er => {
+        console.error(er)
+      })
   }
 
   function handleSubmitClick() {
@@ -93,13 +99,16 @@ function CreateEvent() {
 
     console.log(first);
     if (!error.length > 0) {
+      setSubmitInProgress(true);
       axios
         .post("//promotin.herokuapp.com/api/v1/items/new", form)
         .then((result) => {
           console.log(result)
           submitPoster(result.data.data.itemId);
         })
-        .catch(console.log);
+        .catch((er) => {
+          console.error(er)
+        });
     }
   }
 
@@ -421,7 +430,10 @@ function CreateEvent() {
             </div>
           </div>
 
-          <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />
+          {
+            submitInProgress ? <Button title={<Loading />} />
+            : <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />
+          }
         </div>
       </div>
     </div>

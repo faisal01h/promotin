@@ -62,7 +62,7 @@ function Menubar({ login }) {
         <div className="menubar-body">
           {
             login ?
-            <div>
+            <div className="menubar-bl-wrapper">
               <a
                 onClick={() => history.push("/me")}
                 className="menubar-body-list"
