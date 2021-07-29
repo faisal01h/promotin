@@ -19,8 +19,8 @@ function Comments({itemId, comments, user, componentState, reloadComponent}) {
   let map = new Map();
 
   useEffect(() => {
-    console.log(new Date(comments[0].createdAt).getTime() - new Date(comments[comments.length-1].createdAt).getTime())
-    if((new Date(comments[0].createdAt).getTime() - new Date(comments[1].createdAt).getTime()) < 0) {
+    //console.log(new Date(comments[0].createdAt).getTime() - new Date(comments[comments.length-1].createdAt).getTime())
+    if(comments.length > 1 && (new Date(comments[0].createdAt).getTime() - new Date(comments[1].createdAt).getTime()) < 0) {
       console.log('sort')
       comments.reverse()
     } else console.log('in place')

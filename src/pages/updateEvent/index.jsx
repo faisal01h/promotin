@@ -4,11 +4,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Blank_img } from "../../assets";
 import { Daerah, Jenis, Kategori, Tingkatan } from "../../data";
+import { InputDesc } from "../../components";
 
-import { Button, Line, Dropdown } from "../../components";
+import { Button, Line, Dropdown, Loading } from "../../components";
 import "./updateEvent.scss";
+import { useParams } from "react-router-dom";
 
 function CreateEvent() {
+  const HOST_URI = process.env.HOST_URI || '//promotin.herokuapp.com'
+  const { id } = useParams();
+
   const [previewImg, setPreviewImg] = useState(Blank_img);
   const [tglPelaksanaan, setTglPelaksanaan] = useState("sehari");
   const [provinsiValue, setProvinsiValue] = useState([]);
@@ -17,8 +22,10 @@ function CreateEvent() {
   const [jenisValue, setJenisValue] = useState();
   const [tingkatanValue, setTingkatanValue] = useState();
   const [jenisPelaksanaanValue, setJenisPelaksanaanValue] = useState();
+  const [deskripsiValue, setDeskripsiValue] = useState();
   const [error, setError] = useState([]);
   const [first, setFirst] = useState(true);
+  const [detail, setDetail] = useState();
 
   const [tglPel, setTglPel] = useState({
     dari: "",
@@ -75,21 +82,6 @@ function CreateEvent() {
     }
   }, [first, form]);
 
-  function submitPoster(itemId) {
-    let formdata = new FormData();
-    let img = document.querySelector('input[type="file"]').files[0];
-    formdata.append("itemId", itemId);
-    formdata.append("image", img);
-    console.log(formdata);
-
-    axios
-      .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
-      .then((result) => {
-        console.log(result);
-        window.location.href = "/item-detail/" + itemId;
-      });
-  }
-
   function handleSubmitClick() {
     console.log(form);
     setError([]);
@@ -121,23 +113,7 @@ function CreateEvent() {
   }
 
   function isEmpty(obj) {
-    if (!obj.title) setError((error) => [...error].concat("title"));
-
-    if (!obj.pelaksanaan) setError((error) => [...error].concat("pelaksanaan"));
-
-    if (!obj.kategori) setError((error) => [...error].concat("kategori"));
-
-    if (!obj.tingkatan) setError((error) => [...error].concat("tingkatan"));
-
-    if (!obj.jenis) setError((error) => [...error].concat("jenis"));
-
     if (!obj.deskripsi) setError((error) => [...error].concat("deskripsi"));
-
-    if (!obj.provinsi.length > 0)
-      setError((error) => [...error].concat("provinsi"));
-
-    if (!obj.kabkot.length > 0)
-      setError((error) => [...error].concat("kabkot"));
 
     if (obj.tanggal.dari === "") {
       console.log(obj.tanggal.dari === "");
@@ -188,9 +164,14 @@ function CreateEvent() {
       ];
   }
 
-  function handleImagePreview(e) {
-    setPreviewImg(URL.createObjectURL(e.target.files[0]));
-  }
+  useEffect(() => {
+    axios.get(HOST_URI+"/api/v1/items/view/"+id)
+    .then((response) => {
+      setDetail(response.data.data)
+      console.log(detail)
+    })
+    .catch(console.error)
+  }, [])
 
   return (
     <div className="create-event-wrapper">
@@ -200,25 +181,6 @@ function CreateEvent() {
       <div className="form-wrapper">
         <div className="form-inner">
           <div className="f-wp">
-            <h2 className="sub-title">Upload Poster</h2>
-            <div className="form-input poster-image">
-              <label htmlFor="poster-img">
-                <img
-                  src={previewImg}
-                  alt=""
-                  className="preview-img"
-                  onDrop={handleImagePreview}
-                />
-              </label>
-              <input
-                type="file"
-                title=""
-                name="poster-img"
-                id="poster-img"
-                onChange={handleImagePreview}
-              />
-            </div>
-
             <div
               className={`form-input judul ${
                 checkError("title") ? "error" : ""
@@ -229,8 +191,8 @@ function CreateEvent() {
                 type="text"
                 name="title"
                 id="title"
-                onChange={handleChange}
-                placeholder="Seminar IT"
+                value={detail ? detail.title : ""}
+                disabled
               />
             </div>
           </div>
@@ -243,15 +205,8 @@ function CreateEvent() {
                 checkError("jenis") ? "error" : ""
               }`}
             >
-              <label htmlFor="jenis">Jenis</label>
-              <Dropdown
-                title={"Pelaksanaan Event"}
-                items={Jenis}
-                onChange={() => {}}
-                dropdownValue={(data) => {
-                  setJenisValue(data);
-                }}
-              />
+              <label>Jenis</label>
+              <p>{detail ? detail.jenis : <Loading color="#333" />}</p>
             </div>
 
             {tglPelaksanaan === "sehari" ? (
@@ -329,15 +284,8 @@ function CreateEvent() {
                 checkError("kategori") ? "error" : ""
               }`}
             >
-              <label htmlFor="kategori">Kategori</label>
-              <Dropdown
-                title={"Kategori"}
-                items={Kategori}
-                onChange={() => {}}
-                dropdownValue={(data) => {
-                  setKategoriValue(data);
-                }}
-              />
+              <label>Kategori</label>
+              <p>{detail?detail.kategori:""}</p>
             </div>
 
             <div className="form-tempat">
@@ -347,17 +295,8 @@ function CreateEvent() {
                 }`}
               >
                 <label htmlFor="provinsi">Provinsi</label>
-                <Dropdown
-                  title={"Provinsi"}
-                  items={Daerah}
-                  onChange={() => {
-                    console.log("ganti provinsi " + provinsiValue);
-                  }}
-                  dropdownValue={(data) => {
-                    setProvinsiValue(data);
-                    handleProvinsiChange(data);
-                  }}
-                />
+                <p>{detail? detail.provinsi:""}
+                </p>
               </div>
 
               <div
@@ -367,14 +306,8 @@ function CreateEvent() {
               >
                 <label htmlFor="kab-kot">Kabupaten/Kota</label>
 
-                <Dropdown
-                  title={"Kabupaten/Kota"}
-                  items={handleProvinsiChange(provinsiValue)[0].data}
-                  onChange={() => {
-                    console.log("ganti kabkot " + kabKotValue);
-                  }}
-                  dropdownValue={(data) => setKabKotValue(data)}
-                />
+                <p>{detail? detail.kabkot:""}
+                </p>
               </div>
             </div>
 
@@ -384,14 +317,8 @@ function CreateEvent() {
               }`}
             >
               <label htmlFor="tingkatan">Tingkatan</label>
-              <Dropdown
-                title={"Tingkatan"}
-                items={Tingkatan}
-                onChange={() => {}}
-                dropdownValue={(data) => {
-                  setTingkatanValue(data);
-                }}
-              />
+              <p>{detail? detail.tingkatan:""}
+                </p>
             </div>
 
             <div
@@ -400,17 +327,7 @@ function CreateEvent() {
               }`}
             >
               <label htmlFor="pelaksanaan">Pelaksanaan</label>
-              <Dropdown
-                title={"Pelaksanaan Event"}
-                items={[
-                  { id: 1, value: "On Site/Offline" },
-                  { id: 2, value: "Online" },
-                ]}
-                onChange={() => {}}
-                dropdownValue={(data) => {
-                  setJenisPelaksanaanValue(data);
-                }}
-              />
+              <p>{detail? detail.pelaksanaan:""}</p>
             </div>
 
             <div
@@ -419,13 +336,7 @@ function CreateEvent() {
               }`}
             >
               <label htmlFor="deskripsi">Deskripsi</label>
-              <textarea
-                name="deskripsi"
-                id="deskripsi"
-                cols="30"
-                rows="10"
-                onChange={handleChange}
-              ></textarea>
+              <InputDesc deskripsiValue={(data) => setDeskripsiValue(data)} initialValue={detail?detail.description:""} />
             </div>
           </div>
 

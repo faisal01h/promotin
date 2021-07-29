@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import "emoji-picker-element";
 
-function InputDesc({ deskripsiValue }) {
+function InputDesc({ deskripsiValue, initialValue }) {
   const [inputValue, setInputValue] = useState("");
   const [isPreview, setIsPreview] = useState(false);
   const [previewContent, setPreviewContent] = useState("");
@@ -18,6 +18,13 @@ function InputDesc({ deskripsiValue }) {
   const inputField = useRef();
   const [emojiToggle, setEmojiToggle] = useState(false);
   const [charCount, setCharCount] = useState(0);
+
+  useEffect(() => {
+    if(initialValue) {
+      inputField.current.value = initialValue
+      renderPreview(inputField, 'manual')
+    }
+  }, [initialValue])
 
   useEffect(() => {
     deskripsiValue(inputValue);
@@ -285,7 +292,7 @@ function InputDesc({ deskripsiValue }) {
               y="5"
               ry="10"
               stroke="#000"
-              stroke-width="10"
+              strokeWidth="10"
               fill="none"
             />
             <path d="M30 98V30h20l20 25 20-25h20v68H90V59L70 84 50 59v39zm125 0l-30-33h20V30h20v35h20z" />

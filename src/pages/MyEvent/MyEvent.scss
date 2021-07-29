@@ -1,5 +1,6 @@
 .myevent-wrapper {
   margin-top: 20px;
+  margin-bottom: 40px;
   padding: 0 10px;
   width: 100%;
 
@@ -127,11 +128,26 @@
     }
 
     .create-event {
+      
       width: 250px;
       height: 40px;
       margin: 20px 0 30px 0;
 
       font-size: 20px;
     }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .ce-btn-wrap {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    padding-top: 5px;
+    height: 40px;
+    width: 100vw;
+    background-color: white;
+
+    box-shadow: 7px 3px 3px 3px rgba(128, 128, 128, 0.3);
   }
 }

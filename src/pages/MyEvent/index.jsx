@@ -10,11 +10,20 @@ import AuthenticationService from "../auth";
 function MyEvent() {
   const history = useHistory();
   const [myevent, setMyevent] = useState([]);
+  const [refreshList, setRefreshList] = useState(false);
+  const [removeInProgress, setRemoveInProgress] = useState(false);
+
+  const HOST_URI = process.env.HOST_URI || '//promotin.herokuapp.com'
 
   function deleteEvent(id) {
-    axios.put("//promotin.herokuapp.com/api/v1/items/unlist/"+id, {
+    setRemoveInProgress(true)
+    axios.put(HOST_URI+"/api/v1/items/unlist/"+id, {
 
-    }).then(console.log)
+    }).then(response => {
+      setRefreshList(!refreshList);
+      setRemoveInProgress(false)
+    })
+    .catch(console.error)
   }
 
   useEffect(() => {
@@ -37,7 +46,7 @@ function MyEvent() {
       .catch((err) => {
         console.log("Error ", err);
       });
-  }, []);
+  }, [refreshList]);
 
   return (
     <div className="myevent-wrapper">
@@ -53,7 +62,7 @@ function MyEvent() {
                   <div className="detail">
                     <p>Tingkat : {event.tingkatan}</p>
                     <p>Daerah : {event.daerah}</p>
-                    <p>Tanggal : {event.tanggal}</p>
+                    <p>Tanggal : {event.tanggal[1] != "" ? <span>{event.tanggal[0]+' sampai '+event.tanggal[1]}</span>:event.tanggal[0]}</p>
                     <p>Jenis : {event.jenis}</p>
                   </div>
                   <div className="btn-wrapper">
@@ -61,11 +70,19 @@ function MyEvent() {
                       title={"Edit"}
                       onClick={() => history.push(`/edit/${event._id}`)}
                     />
-                    <Button
-                      title={"Hapus"}
-                      style={{ backgroundColor: "#ee1443" }}
-                      onClick={() => deleteEvent(event.id)}
-                    />
+                    {
+                      removeInProgress ?
+                      <Button
+                        title={'Menghapus...'}
+                        style={{ backgroundColor: "#ee1443" }}
+                      />
+                      :
+                      <Button
+                        title={"Hapus"}
+                        style={{ backgroundColor: "#ee1443" }}
+                        onClick={() => deleteEvent(event._id)}
+                      />
+                    }
                   </div>
                 </div>
               </div>
@@ -74,12 +91,14 @@ function MyEvent() {
         :
           <Loading color="#333" />
       }
-
-      <Button
-        title={"Create New Event"}
-        addClass="create-event"
-        onClick={() => history.push("/create-event")}
-      />
+      <div className="ce-btn-wrap">
+        <Button
+          title={"Buat Event Baru"}
+          addClass="create-event"
+          onClick={() => history.push("/create-event")}
+        />
+      </div>
+      
     </div>
   );
 }
