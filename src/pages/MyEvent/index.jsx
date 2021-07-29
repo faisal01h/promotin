@@ -13,7 +13,7 @@ function MyEvent() {
   const [refreshList, setRefreshList] = useState(false);
   const [removeInProgress, setRemoveInProgress] = useState(false);
 
-  const HOST_URI = process.env.HOST_URI || '//localhost:5000'
+  const HOST_URI = process.env.HOST_URI || '//promotin.herokuapp.com'
 
   function deleteEvent(id) {
     setRemoveInProgress(true)
