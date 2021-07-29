@@ -3,6 +3,7 @@ import { Item } from "../../components/molecules";
 import "./SavedEvent.scss";
 import axios from 'axios'
 import { Loading } from "../../components";
+import Auth from '../auth';
 
 function SavedEvent() {
 
@@ -10,6 +11,10 @@ function SavedEvent() {
   const [ isLoaded, setIsLoaded ] = useState(false);
 
  useEffect(() => {
+  if(!Auth.getCurrentUser()) {
+    window.location.href = "/login"
+  }
+
   axios.get("//promotin.herokuapp.com/api/v1/event/fav")
   .then(result => {
     setItems(result.data.data.reverse())
