@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Blank_img } from "../../assets";
 import { Daerah, Kategori, Jenis, Tingkatan } from "../../data";
 import { Button, Line, Dropdown, InputDesc } from "../../components/";
+import Auth from "../auth";
 import "./createEvent.scss";
 
 function CreateEvent() {
@@ -33,6 +34,12 @@ function CreateEvent() {
     jenis: "",
     description: "",
   });
+
+  useEffect(() => {
+    if(!Auth.getCurrentUser()) {
+      window.location.href = "/login"
+    }
+  })
 
   useEffect(() => {
     setForm({

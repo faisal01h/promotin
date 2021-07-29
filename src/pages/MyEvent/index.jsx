@@ -18,6 +18,10 @@ function MyEvent() {
   }
 
   useEffect(() => {
+    if(!AuthenticationService.getCurrentUser()) {
+      window.location.href = "/login"
+    }
+
     let user = AuthenticationService.getCurrentUser().data.id
     axios
       .post("//promotin.herokuapp.com/api/v1/items/all/filter", {

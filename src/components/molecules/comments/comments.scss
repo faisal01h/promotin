@@ -1,3 +1,5 @@
+@import "../../../index.scss";
+
 .comments-container {
   margin-top: 20px;
   padding: 20px 30px;
@@ -5,6 +7,25 @@
   border-radius: 20px;
   background-color: white;
   box-shadow: 0 0 20px -10px lightgrey;
+
+  .comments-not-loggedin {
+    padding: 10px;
+    border: 1px solid $color-secondary;
+    margin-bottom: 15px;
+
+    a {
+      color: $color-secondary;
+    }
+  }
+
+  .comments-not-loggedin:hover {
+    background-color: $color-secondary;
+    cursor: pointer;
+
+    a {
+      color: #fff;
+    }
+  }
 
   .c-head {
     display: flex;
@@ -111,6 +132,10 @@
             .vote {
               // height: 10px;
               font-size: 18px;
+            }
+
+            .vote:hover {
+              cursor: pointer;
             }
 
             .dot {

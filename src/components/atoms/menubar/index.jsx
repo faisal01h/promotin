@@ -60,32 +60,38 @@ function Menubar({ login }) {
         )}
 
         <div className="menubar-body">
-          <a
-            onClick={() => history.push("/me")}
-            className="menubar-body-list"
-          >
-            Akun Saya
-          </a>
-          <a
-            onClick={() => history.push("/myevent")}
-            className="menubar-body-list"
-          >
-            Event Saya
-          </a>
-          <a
-            onClick={() => history.push("/saved-event")}
-            className="menubar-body-list"
-          >
-            Event Favorit saya
-          </a>
+          {
+            login ?
+            <div>
+              <a
+                onClick={() => history.push("/me")}
+                className="menubar-body-list"
+              >
+                Akun Saya
+              </a>
+              <a
+                onClick={() => history.push("/myevent")}
+                className="menubar-body-list"
+              >
+                Event Saya
+              </a>
+              <a
+                onClick={() => history.push("/saved-event")}
+                className="menubar-body-list"
+              >
+                Event Favorit saya
+              </a>
 
-          <a
-            href=""
-            className="menubar-body-list"
-            onClick={() => AuthenticationService.signOut()}
-          >
-            Logout
-          </a>
+              <a
+                href=""
+                className="menubar-body-list"
+                onClick={() => AuthenticationService.signOut()}
+              >
+                Logout
+              </a>
+            </div>
+            : ""
+          }
         </div>
       </div>
     </div>
