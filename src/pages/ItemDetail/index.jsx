@@ -26,6 +26,7 @@ function ItemDetail() {
   const [ favIsLoading, setFavIsLoading ] = useState(false);
   const [ stringifiedDate, setStringifiedDate ] = useState(undefined);
   const [ author, setAuthor ] = useState(undefined);
+  const [ comments, setComments ] =useState([]);
 
   // Syntax highlighting gawe <Markdown><pre>
   const components = {
@@ -47,6 +48,8 @@ function ItemDetail() {
     axios.get(HOST_URI+"/api/v1/items/view/"+id)
     .then((response) => {
       setData(response.data.data)
+      setComments(response.data.data.comment)
+      console.log(comments)
       let date = [new Date(response.data.data.tanggal[0]), new Date(response.data.data.tanggal[1])]
       setStringifiedDate([date[0].getDate() +' '+  Month[date[0].getMonth()] + ' ' + date[0].getFullYear(), date[1].getDate() +' '+  Month[date[1].getMonth()] + ' ' + date[1].getFullYear()])
       
@@ -183,7 +186,10 @@ function ItemDetail() {
       </div>
 
       <div className="comment">
-        <Comments />
+        {
+          isLoaded? <Comments itemId={id} comments={comments} user={AuthenticationService.getCurrentUser().data} />
+          : <Loading color="#333" />
+        }
       </div>
     </div>
   );
