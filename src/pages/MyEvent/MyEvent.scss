@@ -1,3 +1,5 @@
+@import "../../index.scss";
+
 .myevent-wrapper {
   margin-top: 20px;
   margin-bottom: 40px;
@@ -5,11 +7,35 @@
   width: 100%;
 
   .title {
-    margin-bottom: 10px;
     text-align: left;
     font-size: 20px;
-    height: 30px;
+  }
+
+  .myevent-head {
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+    height: 40px;
     border-bottom: 1px solid lightgray;
+
+    .add-event-top-btn {
+      width: 30px;
+      height: 30px;
+      background-color: transparent;
+      border: 1px solid $color-secondary;
+      color: $color-secondary;
+      
+    }
+
+    .add-event-top-btn:hover {
+      color: #fff;
+      background-color: $color-secondary;
+    
+    }
+
   }
 
   .myevent-item {

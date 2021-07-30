@@ -43,6 +43,22 @@
     }
   }
 
+    #brand-mobile {
+      display: block;
+      font-size: 32px;
+      font-weight: 700;
+      width: 45px;
+      margin: auto 0;
+      padding-bottom: 5px;
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+      :hover {
+        color: #000;
+    }
+    }
+
+
   .search {
     height: 55px;
     width: 80%;
@@ -87,6 +103,10 @@
       width: 152px;
       margin: auto 0;
       padding-bottom: 5px;
+    }
+
+    #brand-mobile {
+      display:none;
     }
   }
 }

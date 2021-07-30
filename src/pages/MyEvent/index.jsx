@@ -50,7 +50,11 @@ function MyEvent() {
 
   return (
     <div className="myevent-wrapper">
-      <h1 className="title">Event Saya</h1>
+      <div className="myevent-head">
+        <h1 className="title">Event Saya</h1>
+        <Button title={`+`} addClass={`add-event-top-btn`} onClick={() => history.push("/create-event")} />
+      </div>
+      
       {
         myevent.length > 0 ?
           myevent.map((event) => {

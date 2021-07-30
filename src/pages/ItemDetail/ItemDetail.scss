@@ -3,6 +3,12 @@
   background-color: #fbfbfd;
   padding-bottom: 50px;
   // width: 100%;
+
+  .back-btn {
+    display: flex;
+    justify-self: start;
+  }
+
   .id-wrapper {
     display: flex;
     flex-direction: column;
@@ -151,4 +157,26 @@
 
 .add-fav:hover, .rem-fav:hover {
   cursor: pointer;
+}
+
+.description-wrapper {
+  pre {
+    max-width: 90vw;
+    overflow-x: auto;
+  }
+}
+
+.alert-connection-failed {
+  display: flex;
+  justify-content: center;
+
+  
+
+  p {
+    width: 65vw;
+    padding: 15px;
+    color: #fff;
+    border-radius: 7px;
+    background-color: #b9005c;
+  }
 }
