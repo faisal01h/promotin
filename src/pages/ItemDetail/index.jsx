@@ -11,7 +11,7 @@ import gfm from 'remark-gfm'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { coldarkDark as theme } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AuthenticationService from "../auth"
 import { Month, Day } from "../../data"
 
@@ -28,6 +28,8 @@ function ItemDetail() {
   const [ author, setAuthor ] = useState(undefined);
   const [ comments, setComments ] =useState([]);
   const [ reloadComment, setReloadComment ] = useState(false);
+  const [ isConnectionFailed, setIsConnectionFailed ] = useState(false);
+  const [ reconnect, setReconnect ] = useState(false);
 
   // Syntax highlighting gawe <Markdown><pre>
   const components = {
@@ -64,21 +66,28 @@ function ItemDetail() {
       
     })
     .then((e) => {
+      setIsConnectionFailed(false)
       setIsLoaded(true)
       setIsLiked(false)
     })
-    .catch(console.error)
-
-    // Get favorite data
-    axios.get(HOST_URI+"/api/v1/event/fav")
-    .then(result => {
-      result.data.data.filter((e) => {
-        if(e === id) setIsLiked(true)
-      })
+    .catch(e => {
+      setIsConnectionFailed(true);
+      setReconnect(!reconnect);
     })
 
+    // Get favorite data
+    if(AuthenticationService.getCurrentUser()) {
+      axios.get(HOST_URI+"/api/v1/event/fav")
+      .then(result => {
+        result.data.data.filter((e) => {
+          if(e === id) setIsLiked(true)
+        })
+      })
+    }
     
-  }, [])
+
+    
+  }, [reconnect])
 
   useEffect(() => {
     // Get author data
@@ -114,6 +123,13 @@ function ItemDetail() {
 
   return (
     <div className="id-container">
+      {
+        isConnectionFailed ?
+        <div className="alert-connection-failed">
+          <p>Koneksi terputus. Menghubungkan ke server...</p>
+        </div>
+        :""
+      }
       <div className="id-wrapper">
         <img src={poster} alt="poster" className="poster" />
         <div className="content-wrapper">
@@ -166,7 +182,7 @@ function ItemDetail() {
             <Icon icon={filePaper2Fill} /> Detail Event
           </h3>
 
-          <section style={{width: '100%'}}>
+          <section className="description-wrapper" style={{width: '100%'}}>
             {
               isLoaded ?
                 <Markdown className="md-content" disallowedElements={["img", "media", "script"]} remarkPlugins={[gfm]} children={data.description} components={components} />

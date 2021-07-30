@@ -26,6 +26,9 @@ function Header({ search }) {
       <a id="brand" onClick={() => window.location.href = "/"}>
         PromotBox
       </a>
+      <a id="brand-mobile" onClick={() => window.location.href = "/"}>
+        P
+      </a>
       <div className="search">
         <input
           className="search-input"
