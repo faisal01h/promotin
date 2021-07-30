@@ -9,60 +9,84 @@ import axios from "axios";
 import data from "@iconify/icons-bi/chevron-up";
 import { Loading } from "../../atoms";
 
-function Comments({itemId, comments, user, componentState, reloadComponent}) {
-
-  const HOST_URI = process.env.HOST_URI || '//promotin.herokuapp.com'
-  const [ sendInProgress, setSendInProgress ] = useState(false)
-  const [ commentMsg, setCommentMsg ] = useState();
+function Comments({ itemId, comments, user, componentState, reloadComponent }) {
+  const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
+  const [sendInProgress, setSendInProgress] = useState(false);
+  const [commentMsg, setCommentMsg] = useState();
+  const [reversed, setReversed] = useState([]);
+  const [owner, setOwner] = useState([]);
 
   const commentInput = useRef();
   let map = new Map();
 
   useEffect(() => {
     //console.log(new Date(comments[0].createdAt).getTime() - new Date(comments[comments.length-1].createdAt).getTime())
-    if(comments.length > 1 && (new Date(comments[0].createdAt).getTime() - new Date(comments[1].createdAt).getTime()) < 0) {
-      console.log('sort')
-      comments.reverse()
-    } else console.log('in place')
-      
-  }, [])
+    if (
+      comments.length > 1 &&
+      new Date(comments[0].createdAt).getTime() -
+        new Date(comments[1].createdAt).getTime() <
+        0
+    ) {
+      console.log("sort");
+      setReversed(comments.reverse());
+    } else console.log("in place");
+  }, [comments]);
 
-  function getUserNameById (id) {
-    return ( axios.get(HOST_URI+'/api/v1/auth/user/find?_id='+id)
+  useEffect(() => {
+    // reversed.map((e) => console.log(getUserNameById(e.userId)));
+    console.log(reversed);
+    reversed.map((e, i) => {
+      console.log(e.userId);
+      axios
+        .get(HOST_URI + "/api/v1/auth/user/find?_id=" + e.userId)
+        .then((e) => {
+          console.log(e.data.data.name);
+          setOwner((old) => [...old, e.data.data.name]);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  }, [reversed]);
+
+  useEffect(() => {
+    console.log(owner);
+  }, [owner]);
+
+  function getUserNameById(id) {
+    axios
+      .get(HOST_URI + "/api/v1/auth/user/find?_id=" + id)
       .then((e) => {
-        map.set(id, e.data.data.name)
-        return e.data.data.name;
+        console.log(e.data.data.name);
+        setOwner((old) => [...old, e.data.data.name]);
       })
       .catch((err) => {
-        console.error(err)
-        return false;
-      })
-    )
+        console.error(err);
+      });
   }
 
-  
-
   function submitComment() {
-    if(commentInput.current.value.length < 3) {
-      setCommentMsg('Komentar terlalu pendek!')
-      return
+    if (commentInput.current.value.length < 3) {
+      setCommentMsg("Komentar terlalu pendek!");
+      return;
     }
 
-    setSendInProgress(true)
+    setSendInProgress(true);
     setCommentMsg(undefined);
-    axios.post(HOST_URI+'/api/v1/items/view/'+itemId+'/comment', {
-      comment: commentInput.current.value
-    })
-    .then(resp => {
-      setSendInProgress(false)
-      commentInput.current.value = ''
-      setCommentMsg('Berhasil mengirim komentar!')
-      reloadComponent(!componentState)
-    })
-    .catch(err  => {
-      setSendInProgress(false)
-      setCommentMsg('Gagal mengirim komentar!')
-    })
+    axios
+      .post(HOST_URI + "/api/v1/items/view/" + itemId + "/comment", {
+        comment: commentInput.current.value,
+      })
+      .then((resp) => {
+        setSendInProgress(false);
+        commentInput.current.value = "";
+        setCommentMsg("Berhasil mengirim komentar!");
+        reloadComponent(!componentState);
+      })
+      .catch((err) => {
+        setSendInProgress(false);
+        setCommentMsg("Gagal mengirim komentar!");
+      });
   }
 
   return (
@@ -73,8 +97,7 @@ function Comments({itemId, comments, user, componentState, reloadComponent}) {
       </div>
 
       <Line width={100} />
-      {
-        user ?
+      {user ? (
         <div className="add-comments">
           {/* <img src="" alt="user-image" /> */}
           <div className="user-image"></div>
@@ -87,106 +110,105 @@ function Comments({itemId, comments, user, componentState, reloadComponent}) {
               cols="30"
               rows="8"
               placeholder="Tulis komentar"
-              style={{fontFamily: 'sans-serif'}}
+              style={{ fontFamily: "sans-serif" }}
               ref={commentInput}
             ></textarea>
-            {
-              sendInProgress ?
-                <Loading color="#333" />
-              : <button className="add-comment" onClick={submitComment}>Tambahkan Komentar</button>
-            }
-            {
-              commentMsg ? commentMsg : ""
-            }
+            {sendInProgress ? (
+              <Loading color="#333" />
+            ) : (
+              <button className="add-comment" onClick={submitComment}>
+                Tambahkan Komentar
+              </button>
+            )}
+            {commentMsg ? commentMsg : ""}
           </div>
         </div>
-        :
-        <div className="comments-not-loggedin" onClick={() => window.location.href="/login"}>
+      ) : (
+        <div
+          className="comments-not-loggedin"
+          onClick={() => (window.location.href = "/login")}
+        >
           <a>Login untuk memberi komentar</a>
         </div>
-      }
+      )}
 
       <div className="all-comments">
-        { comments.length > 0 ?
-          comments.map((e) => {
-            
-            getUserNameById(e.userId)
-            return (
-              <div>
-                <div className="comment main-comment" key={e.id}>
-                  {/* <img src="" alt="user-image" /> */}
-                  <div className="user-image"></div>
+        {comments.length > 0
+          ? reversed.map((e) => {
+              // getUserNameById(e.userId);
+              // let tes = getUserNameById(e.userId);
+              // console.log(map.get("162756604901160bdb71ee6412523bc96dbf6"));
+              return (
+                <div>
+                  <div className="comment main-comment" key={e.id}>
+                    {/* <img src="" alt="user-image" /> */}
+                    <div className="user-image"></div>
 
-                  <div className="comment-content">
-                    <p className="username">{ map.get(e.userId) }</p>
-                    <p className="comment-body">
-                      {e.comment}
-                    </p>
-                    <div className="status-comment">
-                      <div className="up">
-                        <span>{ e.upvotes.length }</span>
-                        <Icon icon={chevronUp} className="vote" />
-                      </div>
+                    <div className="comment-content">
+                      <p className="username">{map.get(e.userId)}</p>
+                      <p className="comment-body">{e.comment}</p>
+                      <div className="status-comment">
+                        <div className="up">
+                          <span>{e.upvotes.length}</span>
+                          <Icon icon={chevronUp} className="vote" />
+                        </div>
 
-                      <span>|</span>
+                        <span>|</span>
 
-                      <div className="down">
-                        <span>{ e.downvotes.length }</span>
-                        <Icon icon={chevronDown} className="vote" />
-                      </div>
+                        <div className="down">
+                          <span>{e.downvotes.length}</span>
+                          <Icon icon={chevronDown} className="vote" />
+                        </div>
 
-                      <div className="reply">
-                        <Icon icon={circleFill} className="dot" />
-                        <span>reply</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {
-                  e.child.length > 0 ?
-                  <div>
-                    <Line width={100} />
-
-                    <div className="comment reply-comment">
-                      {/* <img src="" alt="user-image" /> */}
-                      <div className="user-image"></div>
-                      <div className="comment-content">
-                        <p className="username">
-                          User 2 <span>@user1</span>
-                        </p>
-                        <p className="comment-body">
-                          Apakah mungkin akan ada penambahan kuota?
-                        </p>
-                        <div className="status-comment">
-                          <div className="up">
-                            <span>3</span>
-                            <Icon icon={chevronUp} className="vote" />
-                          </div>
-
-                          <span>|</span>
-
-                          <div className="down">
-                            <span>0</span>
-                            <Icon icon={chevronDown} className="vote" />
-                          </div>
-
-                          <div className="reply">
-                            <Icon icon={circleFill} className="dot" />
-                            <span>reply</span>
-                          </div>
+                        <div className="reply">
+                          <Icon icon={circleFill} className="dot" />
+                          <span>reply</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  : ""
-                }
-              </div>
-            )
-          })
-        : ""
-        }
+                  {e.child.length > 0 ? (
+                    <div>
+                      <Line width={100} />
 
-        
+                      <div className="comment reply-comment">
+                        {/* <img src="" alt="user-image" /> */}
+                        <div className="user-image"></div>
+                        <div className="comment-content">
+                          <p className="username">
+                            User 2 <span>@user1</span>
+                          </p>
+                          <p className="comment-body">
+                            Apakah mungkin akan ada penambahan kuota?
+                          </p>
+                          <div className="status-comment">
+                            <div className="up">
+                              <span>3</span>
+                              <Icon icon={chevronUp} className="vote" />
+                            </div>
+
+                            <span>|</span>
+
+                            <div className="down">
+                              <span>0</span>
+                              <Icon icon={chevronDown} className="vote" />
+                            </div>
+
+                            <div className="reply">
+                              <Icon icon={circleFill} className="dot" />
+                              <span>reply</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              );
+            })
+          : ""}
 
         <Line width={100} />
       </div>
