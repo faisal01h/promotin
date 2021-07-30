@@ -8,6 +8,7 @@ import { Line } from "../../../components";
 import axios from "axios";
 import data from "@iconify/icons-bi/chevron-up";
 import { Loading } from "../../atoms";
+import Auth from "../../../pages/auth";
 
 function Comments({itemId, comments, user, componentState, reloadComponent}) {
 
@@ -65,6 +66,26 @@ function Comments({itemId, comments, user, componentState, reloadComponent}) {
     })
   }
 
+  function submitReply(e, commentId, mention) {
+    if(e.length > 0 && Auth.getCurrentUser()) {
+      axios.post(HOST_URI+'/api/v1/items/view/'+itemId+'/comment/'+commentId, {
+        comment: e,
+        repliesTo: mention || ""
+      })
+      .then(console.log)
+      .catch(console.error)
+    }
+  }
+
+  function upvoteMainComment(commentId) {
+    if(Auth.getCurrentUser()) {
+      axios.post(HOST_URI+'/api/v1/items/view/'+itemId+'/comment/'+commentId, {
+      })
+      .then(console.log)
+      .catch(console.error)
+    }
+  }
+
   return (
     <div className="comments-container">
       <div className="c-head">
@@ -109,11 +130,10 @@ function Comments({itemId, comments, user, componentState, reloadComponent}) {
       <div className="all-comments">
         { comments.length > 0 ?
           comments.map((e) => {
-            
             getUserNameById(e.userId)
             return (
-              <div>
-                <div className="comment main-comment" key={e.id}>
+              <div key={e.commentId}>
+                <div className="comment main-comment">
                   {/* <img src="" alt="user-image" /> */}
                   <div className="user-image"></div>
 
@@ -144,40 +164,45 @@ function Comments({itemId, comments, user, componentState, reloadComponent}) {
                 </div>
                 {
                   e.child.length > 0 ?
-                  <div>
-                    <Line width={100} />
+                  e.child.map((el) => {
+                    return (
+                      <div>
+                        <Line width={100} />
 
-                    <div className="comment reply-comment">
-                      {/* <img src="" alt="user-image" /> */}
-                      <div className="user-image"></div>
-                      <div className="comment-content">
-                        <p className="username">
-                          User 2 <span>@user1</span>
-                        </p>
-                        <p className="comment-body">
-                          Apakah mungkin akan ada penambahan kuota?
-                        </p>
-                        <div className="status-comment">
-                          <div className="up">
-                            <span>3</span>
-                            <Icon icon={chevronUp} className="vote" />
-                          </div>
+                        <div className="comment reply-comment">
+                          {/* <img src="" alt="user-image" /> */}
+                          <div className="user-image"></div>
+                          <div className="comment-content">
+                            <p className="username">
+                              {el.userId} <span>@user1</span>
+                            </p>
+                            <p className="comment-body">
+                              {el.comment}
+                            </p>
+                            <div className="status-comment">
+                              <div className="up">
+                                <span>{el.upvotes ? el.upvotes.length : 0}</span>
+                                <Icon icon={chevronUp} className="vote" />
+                              </div>
 
-                          <span>|</span>
+                              <span>|</span>
 
-                          <div className="down">
-                            <span>0</span>
-                            <Icon icon={chevronDown} className="vote" />
-                          </div>
+                              <div className="down">
+                                <span>0</span>
+                                <Icon icon={chevronDown} className="vote" />
+                              </div>
 
-                          <div className="reply">
-                            <Icon icon={circleFill} className="dot" />
-                            <span>reply</span>
+                              <div className="reply">
+                                <Icon icon={circleFill} className="dot" />
+                                <span>reply</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                
+                    )
+                  })
                   : ""
                 }
               </div>
