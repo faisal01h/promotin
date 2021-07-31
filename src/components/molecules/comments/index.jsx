@@ -9,16 +9,16 @@ import axios from "axios";
 import data from "@iconify/icons-bi/chevron-up";
 import { Loading } from "../../atoms";
 import Auth from "../../../pages/auth";
+import LoadingBox from "../loadingBox";
 
 function Comments({ itemId, comments, user, componentState, reloadComponent }) {
   const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
   const [sendInProgress, setSendInProgress] = useState(false);
   const [commentMsg, setCommentMsg] = useState();
   const [reversed, setReversed] = useState([]);
-  const [owner, setOwner] = useState([]);
+  const [nameMap, setNameMap] = useState(new Map());
 
   const commentInput = useRef();
-  let map = new Map();
 
   useEffect(() => {
     //console.log(new Date(comments[0].createdAt).getTime() - new Date(comments[comments.length-1].createdAt).getTime())
@@ -28,21 +28,17 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
         new Date(comments[1].createdAt).getTime() <
         0
     ) {
-      console.log("sort");
       setReversed(comments.reverse());
-    } else console.log("in place");
+    }
   }, [comments]);
 
   useEffect(() => {
-    // reversed.map((e) => console.log(getUserNameById(e.userId)));
-    console.log(reversed);
     reversed.map((e, i) => {
-      console.log(e.userId);
       axios
         .get(HOST_URI + "/api/v1/auth/user/find?_id=" + e.userId)
-        .then((e) => {
-          console.log(e.data.data.name);
-          setOwner((old) => [...old, e.data.data.name]);
+        .then((res) => {
+          setNameMap(nameMap.set(e.userId, res.data.data.name))
+          reloadComponent(!componentState)
         })
         .catch((err) => {
           console.error(err);
@@ -50,21 +46,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
     });
   }, [reversed]);
 
-  useEffect(() => {
-    console.log(owner);
-  }, [owner]);
 
-  function getUserNameById(id) {
-    axios
-      .get(HOST_URI + "/api/v1/auth/user/find?_id=" + id)
-      .then((e) => {
-        console.log(e.data.data.name);
-        setOwner((old) => [...old, e.data.data.name]);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
 
   function submitComment() {
     if (commentInput.current.value.length < 3) {
@@ -100,7 +82,9 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
             repliesTo: mention || "",
           }
         )
-        .then(console.log)
+        .then(e => {
+          reloadComponent(!componentState)
+        })
         .catch(console.error);
     }
   }
@@ -109,11 +93,15 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
     if (Auth.getCurrentUser()) {
       axios
         .post(
-          HOST_URI + "/api/v1/items/view/" + itemId + "/comment/" + commentId,
+          HOST_URI + "/api/v1/items/view/" + itemId + "/comment/" + commentId + "/upvote",
           {}
         )
-        .then(console.log)
-        .catch(console.error);
+        .then(e => {
+          reloadComponent(!componentState)
+        })
+        .catch(e => {
+          console.error(e)
+        });
     }
   }
 
@@ -163,22 +151,19 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
       <div className="all-comments">
         {comments.length > 0
           ? reversed.map((e) => {
-              // getUserNameById(e.userId);
-              // let tes = getUserNameById(e.userId);
-              // console.log(map.get("162756604901160bdb71ee6412523bc96dbf6"));
               return (
-                <div>
-                  <div className="comment main-comment" key={e.id}>
+                <div key={e.commentId}>
+                  <div className="comment main-comment">
                     {/* <img src="" alt="user-image" /> */}
                     <div className="user-image"></div>
 
                     <div className="comment-content">
-                      <p className="username">{map.get(e.userId)}</p>
+                      <p className="username">{nameMap.get(e.userId) ? nameMap.get(e.userId) : <LoadingBox height="15px" width="50px" />}</p>
                       <p className="comment-body">{e.comment}</p>
                       <div className="status-comment">
                         <div className="up">
                           <span>{e.upvotes.length}</span>
-                          <Icon icon={chevronUp} className="vote" />
+                          <Icon icon={chevronUp} className="vote" onClick={()=>{upvoteMainComment(e.commentId)}} />
                         </div>
 
                         <span>|</span>
