@@ -46,9 +46,9 @@ function ItemDetail() {
   }
 
   useEffect(() => {
-    axios.get(HOST_URI+"/api/v1/items/view/"+id)
+    axios.get(HOST_URI+"/api/v1/items/view/"+id+"/comments")
     .then((response) => {
-      setComments(response.data.data.comment)
+      setComments(response.data.data)
     })
     .catch(console.error)
   }, [reloadComment])
@@ -120,6 +120,25 @@ function ItemDetail() {
     } else window.location.href = "/login";
   }
 
+  function viewCount() {
+    if(!data) return false
+    let count;
+    if(data.view < 20) return false
+    else if(data.view > 19 && data.view < 100) {
+      count = 'puluhan'
+    } else if(data.view > 99 && data.view < 1000) {
+      count = 'ratusan'
+    } else if(data.view > 999 && data.view < 10000) {
+      count = 'ribuan'
+    } else if(data.view > 9999 && data.view < 100000) {
+      count = 'lebih dari '+(data.view/10000)+'0 ribu'
+    } else {
+      count = 'banyak'
+    }
+
+    return 'Dilihat '+count+' kali'
+  }
+
 
   return (
     <div className="id-container">
@@ -147,6 +166,11 @@ function ItemDetail() {
                 </div> 
               : <LoadingBox height="15px" width="75px" margin="3px 10px 0 0" borderRadius="1000px" />}
             
+          </div>
+          <div className="viewcount">
+          {/*
+            viewCount() !== false ? viewCount() : ""
+          */}
           </div>
           
 

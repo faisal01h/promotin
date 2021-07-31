@@ -7,7 +7,9 @@ import { useState } from "react";
 import "./inputDesc.scss";
 import { useEffect } from "react";
 import { useRef } from "react";
-import "emoji-picker-element";
+import "emoji-mart/css/emoji-mart.css"
+import emoji from 'emoji-mart/data/facebook.json'
+import { NimblePicker } from "emoji-mart";
 
 function InputDesc({ deskripsiValue, initialValue }) {
   const [inputValue, setInputValue] = useState("");
@@ -232,6 +234,21 @@ function InputDesc({ deskripsiValue, initialValue }) {
     }
   }
 
+  function printEmoji(emoji) {
+    let start = inputField.current.selectionStart;
+    let end = inputField.current.selectionEnd;
+    let val = inputField.current.value;
+    if (start === end) {
+      inputField.current.value = val.slice(0, start) + emoji + val.slice(start);
+    } else {
+      inputField.current.value =
+        val.slice(0, start) +
+        emoji +
+        val.slice(end, val.length);
+    }
+    renderPreview(inputField, "manual");
+  }
+
   return (
     <div className="desc-container">
       <div className="button-row">
@@ -300,7 +317,7 @@ function InputDesc({ deskripsiValue, initialValue }) {
         </div>
       </div>
 
-      {emojiToggle ? <emoji-picker></emoji-picker> : ""}
+      {emojiToggle ? <NimblePicker set='apple' data={emoji} onSelect={(e) => {printEmoji(e.native)}} /> : ""}
       <textarea
         name="deskripsi"
         id="deskripsi"
