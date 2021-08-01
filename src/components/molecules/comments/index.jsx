@@ -29,6 +29,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
         0
     ) {
       console.log("sort");
+      console.log(comments);
       setReversed(comments.reverse());
     } else console.log("in place");
   }, [comments]);
@@ -38,11 +39,13 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
     console.log(reversed);
     reversed.map((e, i) => {
       console.log(e.userId);
+
       axios
         .get(HOST_URI + "/api/v1/auth/user/find?_id=" + e.userId)
         .then((e) => {
-          console.log(e.data.data.name);
-          setOwner((old) => [...old, e.data.data.name]);
+          console.log(e.data.data._id, e.data.data.name);
+          setOwner((old) => [e.data.data.name, ...old]);
+          // setReversed((reversed) => [...reversed, e.data.data.name]);
         })
         .catch((err) => {
           console.error(err);
@@ -51,7 +54,11 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
   }, [reversed]);
 
   useEffect(() => {
-    console.log(owner);
+    console.log(reversed);
+    // setReversed({
+    //   ...reversed,
+    //   username: owner,
+    // });
   }, [owner]);
 
   function getUserNameById(id) {
@@ -162,7 +169,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
 
       <div className="all-comments">
         {comments.length > 0
-          ? reversed.map((e) => {
+          ? reversed.map((e, i) => {
               // getUserNameById(e.userId);
               // let tes = getUserNameById(e.userId);
               // console.log(map.get("162756604901160bdb71ee6412523bc96dbf6"));
@@ -173,7 +180,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
                     <div className="user-image"></div>
 
                     <div className="comment-content">
-                      <p className="username">{map.get(e.userId)}</p>
+                      <p className="username">{owner[i]}</p>
                       <p className="comment-body">{e.comment}</p>
                       <div className="status-comment">
                         <div className="up">
