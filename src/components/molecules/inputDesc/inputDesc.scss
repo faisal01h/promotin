@@ -83,3 +83,12 @@ div.md-logo-wrapper:hover .tooltip {
   display: contents;
 }
 
+section.emoji-mart {
+  position: absolute;
+}
+
+@media screen and (min-width: 720px) {
+  section.emoji-mart {
+    left: 150px
+  }
+}
