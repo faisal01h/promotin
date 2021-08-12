@@ -11,40 +11,52 @@ import { Loading } from "../../atoms";
 import Auth from "../../../pages/auth";
 import LoadingBox from "../loadingBox";
 
-function Comments({ itemId, comments, user, componentState, reloadComponent }) {
-  const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
+function Comments({ itemId, user, componentState, reloadComponent }) {
+  const HOST_URI = process.env.HOST_URI || "//promotin-front.herokuapp.com";
   const [sendInProgress, setSendInProgress] = useState(false);
   const [commentMsg, setCommentMsg] = useState();
-  const [reversed, setReversed] = useState([]);
   const [nameMap, setNameMap] = useState(new Map());
+  const [comments, setComments] = useState([]);
 
   const commentInput = useRef();
 
-  useEffect(() => {
-    //console.log(new Date(comments[0].createdAt).getTime() - new Date(comments[comments.length-1].createdAt).getTime())
-    if (
-      comments.length > 1 &&
-      new Date(comments[0].createdAt).getTime() -
-        new Date(comments[1].createdAt).getTime() <
-        0
-    ) {
-      setReversed(comments.reverse());
+  function fetchComments() {
+    axios.get(HOST_URI+"/api/v1/items/view/"+itemId+"/comments")
+    .then((response) => {
+      console.log(response.data.data)
+      setComments(response.data.data)
+      reloadComponent(!componentState)
+    })
+    .catch(console.error)
+  }
+
+  function fetchName(e) {
+    console.log(nameMap.get(e.userId))
+
+    if(!nameMap.get(e.userId)) {
+      axios
+      .get(HOST_URI + "/api/v1/auth/user/find?_id=" + e.userId)
+      .then((res) => {
+        
+        setNameMap(nameMap.set(e.userId, res.data.data.name))
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     }
-  }, [comments]);
+    
+    
+  }
 
   useEffect(() => {
-    reversed.map((e, i) => {
-      axios
-        .get(HOST_URI + "/api/v1/auth/user/find?_id=" + e.userId)
-        .then((res) => {
-          setNameMap(nameMap.set(e.userId, res.data.data.name))
-          reloadComponent(!componentState)
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    fetchComments()
+  }, [nameMap])
+
+  useEffect(() => {
+    comments.map((e, i) => {
+      fetchName(e)
     });
-  }, [reversed]);
+  }, [comments]);
 
 
 
@@ -64,7 +76,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
         setSendInProgress(false);
         commentInput.current.value = "";
         setCommentMsg("Berhasil mengirim komentar!");
-        reloadComponent(!componentState);
+        fetchComments()
       })
       .catch((err) => {
         setSendInProgress(false);
@@ -83,7 +95,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
           }
         )
         .then(e => {
-          reloadComponent(!componentState)
+          fetchComments()
         })
         .catch(console.error);
     }
@@ -97,7 +109,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
           {}
         )
         .then(e => {
-          reloadComponent(!componentState)
+          fetchComments()
         })
         .catch(e => {
           console.error(e)
@@ -150,7 +162,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
 
       <div className="all-comments">
         {comments.length > 0
-          ? reversed.map((e) => {
+          ? comments.map((e) => {
               return (
                 <div key={e.commentId}>
                   <div className="comment main-comment">

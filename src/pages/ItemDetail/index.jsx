@@ -17,7 +17,7 @@ import { Month, Day } from "../../data"
 
 function ItemDetail() {
 
-  const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
+  const HOST_URI = process.env.HOST_URI || "//promotin-front.herokuapp.com";
   const { id } = useParams();
 
   const [ data, setData ] = useState();
@@ -31,7 +31,6 @@ function ItemDetail() {
   const [ isConnectionFailed, setIsConnectionFailed ] = useState(false);
   const [ reconnect, setReconnect ] = useState(false);
 
-  // Syntax highlighting gawe <Markdown><pre>
   const components = {
     code({node, inline, className, children, ...props}) {
       const match = /language-(\w+)/.exec(className || '')
@@ -210,7 +209,8 @@ function ItemDetail() {
             {
               isLoaded ?
                 <Markdown className="md-content" disallowedElements={["img", "media", "script"]} remarkPlugins={[gfm]} children={data.description} components={components} />
-              : 
+                //data.description
+                : 
                 <div style={{marginBottom: '150px'}}>
                   <LoadingBox height="15px" width="370px" borderRadius="1000px" margin="0 0 15px 0" />
                   <LoadingBox height="15px" width="300px" borderRadius="1000px" margin="0 0 15px 0" />
