@@ -26,7 +26,6 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
   function fetchComments() {
     axios.get(HOST_URI+"/api/v1/items/view/"+itemId+"/comments")
     .then((response) => {
-      console.log(response.data.data)
       setComments(response.data.data)
       reloadComponent(!componentState)
     })
@@ -34,7 +33,6 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
   }
 
   function fetchName(e) {
-    console.log(nameMap.get(e.userId))
 
     if(!nameMap.get(e.userId)) {
       axios
@@ -42,6 +40,7 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
       .then((res) => {
         
         setNameMap(nameMap.set(e.userId, res.data.data.name))
+        fetchComments()
       })
       .catch((err) => {
         console.error(err);
@@ -120,6 +119,23 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
         });
     }
   }
+
+  function upvoteReply(commentId, replyId) {
+    if (Auth.getCurrentUser()) {
+      axios
+        .post(
+          HOST_URI + "/api/v1/items/view/" + itemId + "/comment/" + commentId + "/" + replyId + "/upvote",
+          {}
+        )
+        .then(e => {
+          fetchComments()
+        })
+        .catch(e => {
+          console.error(e)
+        });
+    }
+  }
+  
 
   return (
     <div className="comments-container">
@@ -223,13 +239,25 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
                                     <span>
                                       {el.upvotes ? el.upvotes.length : 0}
                                     </span>
-                                    <Icon icon={chevronUp} className="vote" />
+                                    <Icon onClick={()=>{upvoteReply(e.commentId, el.replyId)}} icon={chevronUp} className="vote" />
                                   </div>
 
                                   <div className="reply">
                                     <Icon icon={circleFill} className="dot" />
-                                    <span>reply</span>
+                                    <span className="reply-btn unselectable" onClick={()=>{setCmtReply(!cmtReply); setCmtReplyParent(el.replyId)}}>reply</span>
                                   </div>
+                                  {
+                                    cmtReply === true && cmtReplyParent === el.replyId ?
+                                    <div>
+                                      <input type="text" ref={replyInput}></input>
+                                      <button type="submit" onClick={()=>{
+                                        submitReply(replyInput.current.value, e.commentId, el.userId)
+                                        setCmtReply(!cmtReply)
+                                        setCmtReplyParent(undefined)
+                                      }}>Balas</button>
+                                    </div>
+                                    : ""
+                                  }
                                 </div>
                               </div>
                             </div>
