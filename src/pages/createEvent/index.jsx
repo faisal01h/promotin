@@ -10,7 +10,7 @@ import "./createEvent.scss";
 
 function CreateEvent() {
   const [previewImg, setPreviewImg] = useState(Blank_img);
-  const [tglPelaksanaan, setTglPelaksanaan] = useState("sehari");
+  const [tglPelaksanaan, setTglPelaksanaan] = useState(undefined);
   const [provinsiValue, setProvinsiValue] = useState([]);
   const [kabKotValue, setKabKotValue] = useState([]);
   const [kategoriValue, setKategoriValue] = useState("");
@@ -277,12 +277,13 @@ function CreateEvent() {
               />
             </div>
 
+            
             <div
-              className={`form-input tanggal ${
-                checkError("tanggal sehari") ? "error" : ""
-              } ${checkError("tanggal lebih") ? "error" : ""} ${
-                checkError("Tanggal tidak valid (dari > sampai)") ? "error" : ""
-              }`}
+            className={`form-input tanggal ${
+              checkError("tanggal sehari") ? "error" : ""
+            } ${checkError("tanggal lebih") ? "error" : ""} ${
+              checkError("Tanggal tidak valid (dari > sampai)") ? "error" : ""
+            }`}
             >
               <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
               <Dropdown
@@ -296,8 +297,9 @@ function CreateEvent() {
                   setTglPelaksanaan(data);
                 }}
               />
-
-              {tglPelaksanaan === "sehari" ? (
+            {
+              tglPelaksanaan ? (
+              tglPelaksanaan === "sehari" ? (
                 <div className="tgl">
                   <input
                     type="date"
@@ -328,7 +330,10 @@ function CreateEvent() {
                     />
                   </div>
                 </div>
-              )}
+              )
+            )
+            : ""
+            }
             </div>
 
             <div
@@ -367,22 +372,26 @@ function CreateEvent() {
                 />
               </div>
 
-              <div
+              {
+                provinsiValue.length > 0 ?
+                <div
                 className={`form-input kab-kot ${
                   checkError("kabkot") ? "error" : ""
                 }`}
               >
-                <label htmlFor="kab-kot">Kabupaten/Kota</label>
+                  <label htmlFor="kab-kot">Kabupaten/Kota</label>
 
-                <Dropdown
-                  title={"Kabupaten/Kota"}
-                  items={handleProvinsiChange(provinsiValue)[0].data}
-                  onChange={() => {
-                    console.log("ganti kabkot " + kabKotValue);
-                  }}
-                  dropdownValue={(data) => setKabKotValue(data)}
-                />
-              </div>
+                  <Dropdown
+                    title={"Kabupaten/Kota"}
+                    items={handleProvinsiChange(provinsiValue)[0].data}
+                    onChange={() => {
+                      console.log("ganti kabkot " + kabKotValue);
+                    }}
+                    dropdownValue={(data) => setKabKotValue(data)}
+                  />
+                </div>
+                : ""
+              }
             </div>
 
             <div

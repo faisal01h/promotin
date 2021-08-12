@@ -29,13 +29,17 @@ function Menubar({ login }) {
     setOpen(false);
   };
 
+  function getFirstName(fullname) {
+    return fullname.split(" ")[0]
+  }
+
   return (
     <div>
       <div className="menubar-container">
         <Hamburger toggled={isOpen} toggle={setOpen} />
         {login ? (
           <div className="menubar-btn" onClick={() => setOpen(!isOpen)}>
-            {AuthenticationService.getCurrentUser().data.name}
+            {getFirstName(AuthenticationService.getCurrentUser().data.name)}
           </div>
         ) : (
           ""

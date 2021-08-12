@@ -17,7 +17,7 @@ import { Month, Day } from "../../data"
 
 function ItemDetail() {
 
-  const HOST_URI = process.env.HOST_URI || "//promotin-front.herokuapp.com";
+  const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
   const { id } = useParams();
 
   const [ data, setData ] = useState();

@@ -340,7 +340,7 @@ function CreateEvent() {
             </div>
           </div>
 
-          <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />
+          <Button title={"Simpan Perubahan"} onClick={handleSubmitClick} />
         </div>
       </div>
     </div>

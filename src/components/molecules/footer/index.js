@@ -27,9 +27,9 @@ const Footer = () => {
             </div>
             
             <div className="footer-branding">
-                <h1>Promotbox</h1>
+                <h1>PromotBox</h1>
                 <Line width="100%"/>
-                <span>&copy; {new Date().getFullYear()} Promotbox</span>
+                <span>&copy; {new Date().getFullYear()} PromotBox</span>
             </div>
         </div>
     )
