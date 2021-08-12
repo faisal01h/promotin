@@ -12,7 +12,7 @@ import Auth from "../../../pages/auth";
 import LoadingBox from "../loadingBox";
 
 function Comments({ itemId, user, componentState, reloadComponent }) {
-  const HOST_URI = process.env.HOST_URI || "//promotin-front.herokuapp.com";
+  const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
   const [sendInProgress, setSendInProgress] = useState(false);
   const [commentMsg, setCommentMsg] = useState();
   const [nameMap, setNameMap] = useState(new Map());
