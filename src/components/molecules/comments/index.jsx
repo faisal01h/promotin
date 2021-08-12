@@ -17,8 +17,11 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
   const [commentMsg, setCommentMsg] = useState();
   const [nameMap, setNameMap] = useState(new Map());
   const [comments, setComments] = useState([]);
+  const [cmtReply, setCmtReply] = useState(false);
+  const [cmtReplyParent, setCmtReplyParent] = useState(undefined);
 
   const commentInput = useRef();
+  const replyInput = useRef();
 
   function fetchComments() {
     axios.get(HOST_URI+"/api/v1/items/view/"+itemId+"/comments")
@@ -95,6 +98,7 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
           }
         )
         .then(e => {
+          console.log(e)
           fetchComments()
         })
         .catch(console.error);
@@ -163,6 +167,10 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
       <div className="all-comments">
         {comments.length > 0
           ? comments.map((e) => {
+              let upvote_style = {}
+              e.upvotes.find((uid) => {
+                if(e.userId === uid) upvote_style = {color: "red"}
+              })
               return (
                 <div key={e.commentId}>
                   <div className="comment main-comment">
@@ -173,22 +181,26 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
                       <p className="username">{nameMap.get(e.userId) ? nameMap.get(e.userId) : <LoadingBox height="15px" width="50px" />}</p>
                       <p className="comment-body">{e.comment}</p>
                       <div className="status-comment">
-                        <div className="up">
+                        <div className="up" style={upvote_style}>
                           <span>{e.upvotes.length}</span>
                           <Icon icon={chevronUp} className="vote" onClick={()=>{upvoteMainComment(e.commentId)}} />
                         </div>
-
-                        <span>|</span>
-
-                        <div className="down">
-                          <span>{e.downvotes.length}</span>
-                          <Icon icon={chevronDown} className="vote" />
-                        </div>
-
                         <div className="reply">
                           <Icon icon={circleFill} className="dot" />
-                          <span>reply</span>
+                          <span className="reply-btn unselectable" onClick={()=>{setCmtReply(!cmtReply); setCmtReplyParent(e.commentId)}}>reply</span>
                         </div>
+                        {
+                          cmtReply === true && cmtReplyParent === e.commentId ?
+                          <div>
+                            <input type="text" ref={replyInput}></input>
+                            <button type="submit" onClick={()=>{
+                              submitReply(replyInput.current.value, e.commentId, e.userId)
+                              setCmtReply(!cmtReply)
+                              setCmtReplyParent(undefined)
+                            }}>Balas</button>
+                          </div>
+                          : ""
+                        }
                       </div>
                     </div>
                   </div>
@@ -203,7 +215,7 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
                               <div className="user-image"></div>
                               <div className="comment-content">
                                 <p className="username">
-                                  {el.userId} <span>@user1</span>
+                                  {nameMap.get(el.userId)} <span style={{color: "gray"}}>@{nameMap.get(el.repliesTo)}</span>
                                 </p>
                                 <p className="comment-body">{el.comment}</p>
                                 <div className="status-comment">
@@ -212,13 +224,6 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
                                       {el.upvotes ? el.upvotes.length : 0}
                                     </span>
                                     <Icon icon={chevronUp} className="vote" />
-                                  </div>
-
-                                  <span>|</span>
-
-                                  <div className="down">
-                                    <span>0</span>
-                                    <Icon icon={chevronDown} className="vote" />
                                   </div>
 
                                   <div className="reply">
