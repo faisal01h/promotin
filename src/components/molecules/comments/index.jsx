@@ -57,6 +57,9 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
   useEffect(() => {
     comments.map((e, i) => {
       fetchName(e)
+      e.child.map(el => {
+        fetchName(el)
+      })
     });
   }, [comments]);
 
