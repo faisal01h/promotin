@@ -1,23 +1,24 @@
 @import "../../../index.scss";
 
 .footer-wrapper {
-    border-top: solid 1px #EEE;
-    background: #FFF;
-    color: #000;
-    padding-top:20px;
-    padding-bottom:20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    text-align: left;
+  border-top: solid 1px #eee;
+  background: #fff;
+  color: #000;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: left;
+  width: 100%;
 }
 
 a {
-    color: #000;
+  color: #000;
 }
 
 @media (max-width: 720px) {
-    .footer-wrapper {
-        display: none;
-    }
+  .footer-wrapper {
+    display: none;
+  }
 }

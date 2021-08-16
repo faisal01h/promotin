@@ -4,8 +4,19 @@
   width: 100%;
   height: 100vh;
 
+  .register-view {
+    display: none;
+  }
+
   .register-card {
-    width: 80%;
+    z-index: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100vh;
     margin: 14vh auto;
 
     .form-title {
@@ -17,14 +28,17 @@
         display: flex;
         font-size: small;
         background-color: rgb(231, 64, 64);
-        color: #FFF;
+        color: #fff;
         padding-top: 7px;
         padding-bottom: 7px;
       }
       .form-group {
         display: flex;
-        margin: 20px 0;
-        border-bottom: 1px solid grey;
+        flex-direction: column;
+
+        margin: 10px 0;
+        width: 225pt;
+        // border-bottom: 1px solid grey;
 
         i {
           width: 40px;
@@ -35,13 +49,21 @@
           color: $color-gradient-start;
         }
 
+        label {
+          text-align: left;
+          margin-bottom: 5px;
+        }
+
         input {
           width: 100%;
           height: 40px;
+          padding-left: 5px;
           line-height: 40px;
+
           font-size: 14px;
           font-weight: 300;
-          border: none;
+
+          border: 1px solid lightgray;
           outline: none;
         }
 
@@ -68,8 +90,8 @@
 
         a {
           text-decoration: none;
-          color: grey;
-          font-weight: 400;
+          color: rgb(60, 60, 255);
+          font-weight: 500;
         }
 
         .snk {
@@ -81,6 +103,7 @@
           label {
             padding-left: 5px;
             font-size: 12px;
+            color: grey;
           }
         }
 
@@ -94,13 +117,17 @@
           font-size: 20px;
           font-weight: 500;
           margin: 10px 0 10px 0;
+          background-color: #005eb5;
         }
 
         .login {
-          
           display: flex;
           justify-content: center;
           font-size: 12px;
+
+          p {
+            color: grey;
+          }
         }
       }
     }
@@ -113,7 +140,7 @@
   }
 
   .register-page-wrapper {
-    height: calc(100vh - 55px);
+    height: 100vh;
     background-color: rgb(235, 235, 235);
     display: flex;
     justify-content: center;
@@ -122,9 +149,8 @@
     .register-card {
       background-color: white;
       width: 337px;
-      
+
       padding: 30px 50px;
-      margin-top: 15vh;
 
       .form-title {
         margin-bottom: 5vh;
@@ -141,12 +167,58 @@
     }
   }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 420px) {
   .content-wrapper {
     .register-page-wrapper {
+      .register-view {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: calc(100% - 245pt);
+        height: 100vh;
+
+        background-color: #1b9ab4;
+
+        .random-pic {
+          position: absolute;
+          right: 15pt;
+
+          opacity: 0.5;
+          width: 100%;
+          height: 100vh;
+
+          background-image: url("../../assets/images/bg.png");
+          background-color: #1b9ab4;
+          background-blend-mode: multiply;
+        }
+
+        .lv-text {
+          z-index: 1;
+          width: 350pt;
+          margin: auto;
+
+          text-align: left;
+
+          color: white;
+
+          h1 {
+            font-size: 27pt;
+          }
+
+          .line {
+            margin: 1pt auto;
+            background-color: white;
+          }
+
+          p {
+            font-size: 12pt;
+          }
+        }
+      }
+
       .register-card {
-        width: 345px;
-        
+        width: 315pt;
       }
     }
   }

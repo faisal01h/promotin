@@ -12,42 +12,63 @@ import Register from "../register";
 import CreateEvent from "../createEvent";
 import Footer from "../../components/molecules/footer";
 import ChatWindow from "../../components/molecules/chatWindow";
-import ResetPassword from '../resetPassword'
+import ResetPassword from "../resetPassword";
 import TermsOfService from "../tos";
 import About from "../aboutUs";
-import Me from "../me"
+import Me from "../me";
 
 function MainApp() {
   const [search, setSearch] = useState("");
   return (
     <div className="main-app wrapper">
-      <Header search={(data) => setSearch(data)} />
-
       <div className="content-wrapper">
         <Switch>
           <Route path="/aboutus">
+            <Header search={(data) => setSearch(data)} />
             <About />
+            <Footer />
           </Route>
           <Route path="/termsofservice">
+            <Header search={(data) => setSearch(data)} />
+
             <TermsOfService />
+            <Footer />
           </Route>
           <Route path="/saved-event">
+            <Header search={(data) => setSearch(data)} />
+
             <SavedEvent />
+            <Footer />
           </Route>
           <Route path="/create-event">
+            <Header search={(data) => setSearch(data)} />
+
             <CreateEvent />
+            <Footer />
           </Route>
           <Route path="/myevent">
+            <Header search={(data) => setSearch(data)} />
+
             <MyEvent />
+            <Footer />
           </Route>
           <Route path="/item-detail/:id">
+            <Header search={(data) => setSearch(data)} />
+
             <ItemDetail />
+            <Footer />
           </Route>
           <Route path="/edit/:id">
+            <Header search={(data) => setSearch(data)} />
+
             <UpdateEvent />
+            <Footer />
           </Route>
           <Route exact path="/me">
+            <Header search={(data) => setSearch(data)} />
+
             <Me />
+            <Footer />
           </Route>
           <Route path="/login">
             <Login />
@@ -59,12 +80,13 @@ function MainApp() {
             <ResetPassword />
           </Route>
           <Route exact path="/">
+            <Header search={(data) => setSearch(data)} />
+
             <Home search={search} />
+            <Footer />
           </Route>
         </Switch>
       </div>
-      
-      <Footer />
     </div>
   );
 }

@@ -29,12 +29,21 @@
       cursor: pointer;
 
       .menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         width: 60px;
         height: 60px;
         margin: 10px;
 
         border-radius: 7px;
         border: 1px solid rgb(223, 223, 223);
+
+        .icon {
+          width: 60px;
+          height: 60px;
+        }
       }
     }
 

@@ -1,177 +1,101 @@
-@import "../../index.scss";
-
 .me-container {
-  width: 100%;
-  min-height: 100vh;
+  width: 70%;
+  min-height: 80vh;
 
-  background-color: rgb(244, 245, 248);
+  margin: 20pt auto;
 
-  .head {
+  .edit {
+    padding: 0 3pt;
+    font-size: 9pt;
+    font-weight: 400;
+
+    cursor: pointer;
+
+    border: 1px solid lightgray;
+  }
+
+  .user {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-items: center;
-    justify-content: center;
-    align-content: center;
+    column-gap: 15pt;
 
-    padding: 20px 0;
-    margin-bottom: 5px;
+    .u-i {
+      position: relative;
 
-    background-color: white;
-    box-shadow: 0px 10px 15px -20px lightslategrey;
+      .user-img {
+        width: 75pt;
+        border-radius: 50%;
+      }
 
-    .profil-img {
-      width: 100px;
-      height: 100px;
-      margin-bottom: 10px;
+      .edit {
+        position: relative;
+        right: 20pt;
+        bottom: 10pt;
 
-      border-radius: 50%;
-      background-color: lime;
+        background-color: white;
+      }
     }
 
-    .basic-info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-items: center;
-      justify-content: center;
-      align-content: center;
-      text-align: center;
+    .user-info {
+      text-align: left;
+
+      h1 {
+        font-size: 16pt;
+      }
+      p {
+        font-size: 10pt;
+      }
     }
   }
 
-  .account-setting {
-    padding: 5px 10px;
+  .bio {
+    padding-left: 3pt;
     text-align: left;
   }
 
-  .setting-menu {
-    padding: 10px;
+  .poster {
+    text-align: left;
 
-    .update {
+    .poster-t {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
 
-      height: 50px;
-      padding: 10px 20px;
-      margin-bottom: 5px;
+      h2 {
+        line-height: 18pt;
+      }
 
-      font-size: 18px;
-      text-align: left;
+      span {
+        padding: 3pt 7pt 5pt 7pt;
+        margin-left: 2pt;
 
-      border-radius: 5px;
-      background-color: white;
-    }
-  }
+        font-size: 10pt;
+        font-weight: 600;
 
-  .pop-up {
-    display: none;
-  }
-
-  .show {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    position: absolute;
-    top: 30vh;
-
-    width: 95%;
-    height: 30vh;
-    margin: 0 2.5%;
-    padding: 20px;
-
-    background-color: white;
-    border-radius: 10px;
-    border: 1px solid rgb(48, 155, 255);
-    box-shadow: 0px 10px 20px -15px rgb(48, 155, 255);
-
-    label {
-      margin-bottom: 3px;
+        border-radius: 7pt;
+        background-color: #24bfde;
+        color: white;
+      }
     }
 
-    input {
-      width: 100%;
-      height: 25px;
-      margin-bottom: 8px;
-      line-height: 25px;
-    }
-    input:focus {
-      outline: none;
-    }
-
-    .save-btn {
-      position: absolute;
-      right: 6%;
-      bottom: 6%;
-
-      width: 100px;
-      height: 30px;
-
-      font-size: 16px;
-
-      color: white;
-      background-color: rgb(24, 142, 253);
-
-      border: none;
-      border-radius: 5px;
-    }
-
-    .save-btn:hover {
-      cursor: pointer;
+    .poster-img {
+      width: 120pt;
     }
   }
 }
 
 @media screen and (min-width: 480px) {
   .me-container {
-    width: 500px;
-    margin: 20px auto;
+    .user {
+      .user-img {
+        width: 85pt;
+        border-radius: 50%;
+      }
 
-    .account-setting {
-      padding: 10px 20px;
-    }
-
-    .setting-menu {
-      padding: 0 20px;
-    }
-
-    .show {
-      width: 500px;
-      height: 300px;
-      margin: 0;
+      .user-info {
+        h1 {
+          font-size: 20pt;
+        }
+      }
     }
   }
-}
-
-@media screen and (min-width: 720px) {
-}
-
-.update:hover {
-  cursor: pointer;
-}
-
-p.role {
-  margin-top: 5px;
-  border-radius: 7px;
-  padding: 5px;
-  max-width: fit-content;
-  text-align: center;
-  align-self: center;
-  justify-self: center;
-}
-
-p.role-admin {
-  background-color: $color-gradient-start;
-  color: #fff;
-}
-
-p.role-insider {
-  color: #fff;
-  background-color: darkmagenta;
-}
-
-p.role-moderator {
-  color: #fff;
-  background-color: dodgerblue;
 }

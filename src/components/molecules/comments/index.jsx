@@ -28,6 +28,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
         new Date(comments[1].createdAt).getTime() <
         0
     ) {
+      console.log("tess");
       setReversed(comments.reverse());
     }
   }, [comments]);

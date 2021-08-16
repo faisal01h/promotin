@@ -3,6 +3,7 @@ import { Squash as Hamburger } from "hamburger-react";
 import AuthenticationService from "../../../pages/auth";
 import "./menubar.scss";
 import { useHistory } from "react-router-dom";
+import { user } from "../../../assets";
 
 function Menubar({ login }) {
   const [isOpen, setOpen] = useState(false);
@@ -45,7 +46,7 @@ function Menubar({ login }) {
       <div className={`menubar ${isOpen ? "menubar-visible" : ""}`}>
         {login ? (
           <div className="menubar-head">
-            <img src="" alt="gambar" />
+            <img src={user} alt="gambar" className="user-img" />
             <h2>{AuthenticationService.getCurrentUser().data.name}</h2>
           </div>
         ) : (
@@ -60,8 +61,7 @@ function Menubar({ login }) {
         )}
 
         <div className="menubar-body">
-          {
-            login ?
+          {login ? (
             <div className="menubar-bl-wrapper">
               <a
                 onClick={() => history.push("/me")}
@@ -90,8 +90,9 @@ function Menubar({ login }) {
                 Logout
               </a>
             </div>
-            : ""
-          }
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

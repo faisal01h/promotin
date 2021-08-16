@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "../../atoms";
 import "./filter.scss";
-import { Daerah, Kategori } from '../../../data'
+import { Daerah, Kategori } from "../../../data";
+import { Event_icon, Seminar_icon, Trophy_icon } from "../../../assets";
 
 function Filter({ selectedFilter, search }) {
   const [tipeValue, setTipeValue] = useState("");
@@ -82,13 +83,13 @@ function Filter({ selectedFilter, search }) {
       <div className="filter-wrapper">
         <div className="l-side-f">
           <div className="menu" onClick={() => setTipeValue("event")}>
-            Event
+            <img src={Event_icon} alt="" className="icon" />
           </div>
           <div className="menu" onClick={() => setTipeValue("lomba")}>
-            Lomba
+            <img src={Trophy_icon} alt="" className="icon" />
           </div>
           <div className="menu" onClick={() => setTipeValue("seminar")}>
-            Seminar
+            <img src={Seminar_icon} alt="" className="icon" />
           </div>
         </div>
         <div className="r-side-f">
