@@ -5,6 +5,8 @@ import { Filter, Item, LoadingBox } from "../../components/molecules";
 import "./home.scss";
 
 function Home({ search }) {
+  const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com"
+
   const [dataItem, setDataItem] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState();
   const [filterApplied, setFilterApplied] = useState(false);
@@ -21,7 +23,7 @@ function Home({ search }) {
         selectedFilter.title != "") setFilterApplied(true);
     }
     axios
-      .post("//promotin.herokuapp.com/api/v1/items/all/filter", selectedFilter)
+      .post(HOST_URI+"/api/v1/items/all/filter", selectedFilter)
       .then((result) => {
         if (result) {
           const responseAPI = result.data;
@@ -36,7 +38,7 @@ function Home({ search }) {
 
   useEffect(() => {
     axios
-      .get("//promotin.herokuapp.com/api/v1/items/paginated?perPage=4", {})
+      .get(HOST_URI+"/api/v1/items/paginated?perPage=4", {})
       .then((result) => {
         if (result) {
           const responseAPI = result.data;

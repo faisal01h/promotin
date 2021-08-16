@@ -9,6 +9,8 @@ import Auth from "../auth";
 import "./createEvent.scss";
 
 function CreateEvent() {
+  const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com"
+
   const [previewImg, setPreviewImg] = useState(Blank_img);
   const [tglPelaksanaan, setTglPelaksanaan] = useState(undefined);
   const [provinsiValue, setProvinsiValue] = useState([]);
@@ -79,7 +81,7 @@ function CreateEvent() {
     formdata.append("image", img);
 
     axios
-      .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
+      .post(HOST_URI+"/api/v1/items/new/image", formdata)
       .then((result) => {
         console.log(result);
         setSubmitInProgress(false);
@@ -101,7 +103,7 @@ function CreateEvent() {
     if (!error.length > 0) {
       setSubmitInProgress(true);
       axios
-        .post("//promotin.herokuapp.com/api/v1/items/new", form)
+        .post(HOST_URI+"/api/v1/items/new", form)
         .then((result) => {
           console.log(result)
           submitPoster(result.data.data.itemId);

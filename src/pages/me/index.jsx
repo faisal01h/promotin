@@ -14,9 +14,11 @@ const Me = () => {
   const [ email, setEmail ] = useState('');
   const [ role, setRole ] = useState('user');
 
+  const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com"
+
   useEffect(() => {
     axios
-      .post("//promotin.herokuapp.com/api/v1/auth/user/find", {
+      .post(HOST_URI+"/api/v1/auth/user/find", {
         _id: Auth.getCurrentUser().data.id,
       })
       .then(response => {
