@@ -15,13 +15,13 @@ const ResetPassword = () => {
     const [ loadStateString, setLoadStateString ] = useState('Memproses data...');
     const history = useHistory();
 
-    const uri = "promotin.herokuapp.com"
+    const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com"
 
     function handleSubmit() {
         console.log(email,token,password,stage)
         setLoadState(true)
         if(stage === undefined) {
-            axios.post("//"+uri+"/api/v1/auth/passwordreset", {
+            axios.post(HOST_URI + "/api/v1/auth/passwordreset", {
                 email: email
             })
             .then(response => {
@@ -33,7 +33,7 @@ const ResetPassword = () => {
             })
             
         } else if(stage === 1) {
-            axios.post("//"+uri+"/api/v1/auth/passwordreset/reset", {
+            axios.post(HOST_URI+"/api/v1/auth/passwordreset/reset", {
                 email: email,
                 token: token,
                 password: password

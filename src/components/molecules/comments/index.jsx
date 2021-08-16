@@ -12,7 +12,7 @@ import Auth from "../../../pages/auth";
 import LoadingBox from "../loadingBox";
 
 function Comments({ itemId, user, componentState, reloadComponent }) {
-  const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
+  const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com";
   const [sendInProgress, setSendInProgress] = useState(false);
   const [commentMsg, setCommentMsg] = useState();
   const [nameMap, setNameMap] = useState(new Map());
@@ -188,7 +188,7 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
           ? comments.map((e) => {
               let upvote_style = {}
               e.upvotes.find((uid) => {
-                if(e.userId === uid) upvote_style = {color: "red"}
+                if(Auth.getLocalCurrentuser().data.id === uid) upvote_style = {color: "red"}
               })
               return (
                 <div key={e.commentId}>
