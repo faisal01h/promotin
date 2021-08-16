@@ -6,6 +6,7 @@ import { Loading } from "../../components";
 import Auth from '../auth';
 
 function SavedEvent() {
+  const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com"
 
   const [ items, setItems ] = useState([])
   const [ isLoaded, setIsLoaded ] = useState(false);
@@ -15,7 +16,7 @@ function SavedEvent() {
     window.location.href = "/login"
   }
 
-  axios.get("//promotin.herokuapp.com/api/v1/event/fav")
+  axios.get(HOST_URI+"/api/v1/event/fav")
   .then(result => {
     setItems(result.data.data.reverse())
   })

@@ -16,7 +16,7 @@ import AuthenticationService from "../auth";
 import { Month, Day } from "../../data";
 
 function ItemDetail() {
-  const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
+  const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com";
   const { id } = useParams();
 
   const [data, setData] = useState();
@@ -30,7 +30,6 @@ function ItemDetail() {
   const [isConnectionFailed, setIsConnectionFailed] = useState(false);
   const [reconnect, setReconnect] = useState(false);
 
-  // Syntax highlighting gawe <Markdown><pre>
   const components = {
     code({ node, inline, className, children, ...props }) {
       const match = /language-(\w+)/.exec(className || "");
@@ -269,6 +268,7 @@ function ItemDetail() {
                 components={components}
               />
             ) : (
+              //data.description
               <div style={{ marginBottom: "150px" }}>
                 <LoadingBox
                   height="15px"

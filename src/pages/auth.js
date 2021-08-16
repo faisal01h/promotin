@@ -1,9 +1,13 @@
 import axios from "axios";
 
 class AuthenticationService {
+  constructor() {
+    this.HOST_URI = process.env.REACT_APP_HOST_URI
+  }
+
   signin = (email, password) => {
     return axios
-      .post("//promotin.herokuapp.com/api/v1/auth/login", { email, password })
+      .post(this.HOST_URI+"/api/v1/auth/login", { email, password })
       .then((response) => {
         console.log(response.data);
         if (response.data.token) {
@@ -24,7 +28,7 @@ class AuthenticationService {
   }
 
   register = async (name, email, password) => {
-    return axios.post("//promotin.herokuapp.com/api/v1/auth/register", {
+    return axios.post(this.HOST_URI+"/api/v1/auth/register", {
       name,
       email,
       password,
@@ -39,7 +43,7 @@ class AuthenticationService {
 
   getCurrentUser() {
     if(localStorage.getItem("user") != null) {
-      axios.post("//promotin.herokuapp.com/api/v1/auth/user/find", {
+      axios.post(this.HOST_URI+"/api/v1/auth/user/find", {
         _id: JSON.parse(localStorage.getItem("user")).data.id
       })
       .then(result => {
@@ -50,6 +54,12 @@ class AuthenticationService {
       })
     }
     return JSON.parse(localStorage.getItem("user"));
+  }
+
+  getLocalCurrentuser() {
+    if(localStorage.getItem("user") != null) {
+      return JSON.parse(localStorage.getItem("user"));
+    }
   }
 }
 

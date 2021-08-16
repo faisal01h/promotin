@@ -9,8 +9,10 @@ import Auth from "../auth";
 import "./createEvent.scss";
 
 function CreateEvent() {
+  const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com"
+
   const [previewImg, setPreviewImg] = useState(Blank_img);
-  const [tglPelaksanaan, setTglPelaksanaan] = useState("sehari");
+  const [tglPelaksanaan, setTglPelaksanaan] = useState(undefined);
   const [provinsiValue, setProvinsiValue] = useState([]);
   const [kabKotValue, setKabKotValue] = useState([]);
   const [kategoriValue, setKategoriValue] = useState("");
@@ -79,7 +81,7 @@ function CreateEvent() {
     formdata.append("image", img);
 
     axios
-      .post("//promotin.herokuapp.com/api/v1/items/new/image", formdata)
+      .post(HOST_URI+"/api/v1/items/new/image", formdata)
       .then((result) => {
         console.log(result);
         setSubmitInProgress(false);
@@ -101,7 +103,7 @@ function CreateEvent() {
     if (!error.length > 0) {
       setSubmitInProgress(true);
       axios
-        .post("//promotin.herokuapp.com/api/v1/items/new", form)
+        .post(HOST_URI+"/api/v1/items/new", form)
         .then((result) => {
           console.log(result)
           submitPoster(result.data.data.itemId);
@@ -277,12 +279,13 @@ function CreateEvent() {
               />
             </div>
 
+            
             <div
-              className={`form-input tanggal ${
-                checkError("tanggal sehari") ? "error" : ""
-              } ${checkError("tanggal lebih") ? "error" : ""} ${
-                checkError("Tanggal tidak valid (dari > sampai)") ? "error" : ""
-              }`}
+            className={`form-input tanggal ${
+              checkError("tanggal sehari") ? "error" : ""
+            } ${checkError("tanggal lebih") ? "error" : ""} ${
+              checkError("Tanggal tidak valid (dari > sampai)") ? "error" : ""
+            }`}
             >
               <label htmlFor="tanggal">Tanggal Pelaksanaan</label>
               <Dropdown
@@ -296,8 +299,9 @@ function CreateEvent() {
                   setTglPelaksanaan(data);
                 }}
               />
-
-              {tglPelaksanaan === "sehari" ? (
+            {
+              tglPelaksanaan ? (
+              tglPelaksanaan === "sehari" ? (
                 <div className="tgl">
                   <input
                     type="date"
@@ -328,7 +332,10 @@ function CreateEvent() {
                     />
                   </div>
                 </div>
-              )}
+              )
+            )
+            : ""
+            }
             </div>
 
             <div
@@ -367,22 +374,26 @@ function CreateEvent() {
                 />
               </div>
 
-              <div
+              {
+                provinsiValue.length > 0 ?
+                <div
                 className={`form-input kab-kot ${
                   checkError("kabkot") ? "error" : ""
                 }`}
               >
-                <label htmlFor="kab-kot">Kabupaten/Kota</label>
+                  <label htmlFor="kab-kot">Kabupaten/Kota</label>
 
-                <Dropdown
-                  title={"Kabupaten/Kota"}
-                  items={handleProvinsiChange(provinsiValue)[0].data}
-                  onChange={() => {
-                    console.log("ganti kabkot " + kabKotValue);
-                  }}
-                  dropdownValue={(data) => setKabKotValue(data)}
-                />
-              </div>
+                  <Dropdown
+                    title={"Kabupaten/Kota"}
+                    items={handleProvinsiChange(provinsiValue)[0].data}
+                    onChange={() => {
+                      console.log("ganti kabkot " + kabKotValue);
+                    }}
+                    dropdownValue={(data) => setKabKotValue(data)}
+                  />
+                </div>
+                : ""
+              }
             </div>
 
             <div

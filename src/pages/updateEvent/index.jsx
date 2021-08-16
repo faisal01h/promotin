@@ -11,7 +11,7 @@ import "./updateEvent.scss";
 import { useParams } from "react-router-dom";
 
 function CreateEvent() {
-  const HOST_URI = process.env.HOST_URI || '//promotin.herokuapp.com'
+  const HOST_URI = process.env.REACT_APP_HOST_URI || '//promotin.herokuapp.com'
   const { id } = useParams();
 
   const [previewImg, setPreviewImg] = useState(Blank_img);
@@ -340,7 +340,7 @@ function CreateEvent() {
             </div>
           </div>
 
-          <Button title={"Daftarkan Event"} onClick={handleSubmitClick} />
+          <Button title={"Simpan Perubahan"} onClick={handleSubmitClick} />
         </div>
       </div>
     </div>

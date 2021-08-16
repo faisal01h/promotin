@@ -251,72 +251,7 @@ function InputDesc({ deskripsiValue, initialValue }) {
 
   return (
     <div className="desc-container">
-      <div className="button-row">
-        <div>
-          <button onClick={() => heading(1, inputField)}>
-            <b>H1</b>
-          </button>
-          <button onClick={() => heading(2, inputField)}>
-            <b>H2</b>
-          </button>
-          <button onClick={() => heading(3, inputField)}>
-            <b>H3</b>
-          </button>
-          <button onClick={() => heading(4, inputField)}>
-            <b>H4</b>
-          </button>
-          <button onClick={() => heading(5, inputField)}>
-            <b>H5</b>
-          </button>
-          <button onClick={() => bold(inputField)}>
-            <b>B</b>
-          </button>
-          <button onClick={() => italic(inputField)}>
-            <i>i</i>
-          </button>
-          <button onClick={() => code(inputField)}>
-            <pre>#</pre>
-          </button>
-          {/*<button onClick={() => codeBlock(inputField)}>
-            <pre>[#]</pre>
-          </button>*/}
-          <button
-            onClick={() => {
-              setEmojiToggle(!emojiToggle);
-            }}
-          >
-            ✋
-          </button>
-        </div>
-        <div style={{ marginRight: "5px" }} className="md-logo-wrapper">
-          <span className="tooltip">Bantuan mengenai pemformatan Markdown</span>
-          <svg
-            className="md-logo"
-            xmlns="http://www.w3.org/2000/svg"
-            height="17px"
-            viewBox="0 0 208 128"
-            onClick={() =>
-              window.open(
-                "https://guides.github.com/features/mastering-markdown/",
-                "_blank"
-              )
-            }
-          >
-            <rect
-              width="198"
-              height="118"
-              x="5"
-              y="5"
-              ry="10"
-              stroke="#000"
-              strokeWidth="10"
-              fill="none"
-            />
-            <path d="M30 98V30h20l20 25 20-25h20v68H90V59L70 84 50 59v39zm125 0l-30-33h20V30h20v35h20z" />
-          </svg>
-        </div>
-      </div>
-
+      
       {emojiToggle ? <NimblePicker set='apple' data={emoji} onSelect={(e) => {printEmoji(e.native)}} /> : ""}
       <textarea
         name="deskripsi"
@@ -334,7 +269,7 @@ function InputDesc({ deskripsiValue, initialValue }) {
         onSelect={(e) => handleSelection(e)}
         ref={inputField}
       ></textarea>
-      <div className="detail-row">{charCount} karakter</div>
+      
       {isPreview ? (
         <div style={{ textAlign: "left" }}>
           Pratinjau

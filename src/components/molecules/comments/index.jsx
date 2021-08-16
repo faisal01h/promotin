@@ -11,41 +11,54 @@ import { Loading } from "../../atoms";
 import Auth from "../../../pages/auth";
 import LoadingBox from "../loadingBox";
 
-function Comments({ itemId, comments, user, componentState, reloadComponent }) {
-  const HOST_URI = process.env.HOST_URI || "//promotin.herokuapp.com";
+function Comments({ itemId, user, componentState, reloadComponent }) {
+  const HOST_URI = process.env.REACT_APP_HOST_URI || "//promotin.herokuapp.com";
   const [sendInProgress, setSendInProgress] = useState(false);
   const [commentMsg, setCommentMsg] = useState();
-  const [reversed, setReversed] = useState([]);
   const [nameMap, setNameMap] = useState(new Map());
+  const [comments, setComments] = useState([]);
+  const [cmtReply, setCmtReply] = useState(false);
+  const [cmtReplyParent, setCmtReplyParent] = useState(undefined);
 
   const commentInput = useRef();
+  const replyInput = useRef();
 
-  useEffect(() => {
-    //console.log(new Date(comments[0].createdAt).getTime() - new Date(comments[comments.length-1].createdAt).getTime())
-    if (
-      comments.length > 1 &&
-      new Date(comments[0].createdAt).getTime() -
-        new Date(comments[1].createdAt).getTime() <
-        0
-    ) {
-      console.log("tess");
-      setReversed(comments.reverse());
-    }
-  }, [comments]);
+  function fetchComments() {
+    axios
+      .get(HOST_URI + "/api/v1/items/view/" + itemId + "/comments")
+      .then((response) => {
+        setComments(response.data.data);
+        reloadComponent(!componentState);
+      })
+      .catch(console.error);
+  }
 
-  useEffect(() => {
-    reversed.map((e, i) => {
+  function fetchName(e) {
+    if (!nameMap.get(e.userId)) {
       axios
         .get(HOST_URI + "/api/v1/auth/user/find?_id=" + e.userId)
         .then((res) => {
           setNameMap(nameMap.set(e.userId, res.data.data.name));
-          reloadComponent(!componentState);
+          fetchComments();
         })
         .catch((err) => {
           console.error(err);
         });
+    }
+  }
+
+  useEffect(() => {
+    fetchComments();
+  }, [nameMap]);
+
+  useEffect(() => {
+    comments.map((e, i) => {
+      fetchName(e);
+      e.child.map((el) => {
+        fetchName(el);
+      });
     });
-  }, [reversed]);
+  }, [comments]);
 
   function submitComment() {
     if (commentInput.current.value.length < 3) {
@@ -63,7 +76,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
         setSendInProgress(false);
         commentInput.current.value = "";
         setCommentMsg("Berhasil mengirim komentar!");
-        reloadComponent(!componentState);
+        fetchComments();
       })
       .catch((err) => {
         setSendInProgress(false);
@@ -82,7 +95,8 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
           }
         )
         .then((e) => {
-          reloadComponent(!componentState);
+          console.log(e);
+          fetchComments();
         })
         .catch(console.error);
     }
@@ -101,7 +115,30 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
           {}
         )
         .then((e) => {
-          reloadComponent(!componentState);
+          fetchComments();
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  }
+
+  function upvoteReply(commentId, replyId) {
+    if (Auth.getCurrentUser()) {
+      axios
+        .post(
+          HOST_URI +
+            "/api/v1/items/view/" +
+            itemId +
+            "/comment/" +
+            commentId +
+            "/" +
+            replyId +
+            "/upvote",
+          {}
+        )
+        .then((e) => {
+          fetchComments();
         })
         .catch((e) => {
           console.error(e);
@@ -154,7 +191,12 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
 
       <div className="all-comments">
         {comments.length > 0
-          ? reversed.map((e) => {
+          ? comments.map((e) => {
+              let upvote_style = {};
+              e.upvotes.find((uid) => {
+                if (Auth.getLocalCurrentuser().data.id === uid)
+                  upvote_style = { color: "red" };
+              });
               return (
                 <div key={e.commentId}>
                   <div className="comment main-comment">
@@ -171,7 +213,7 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
                       </p>
                       <p className="comment-body">{e.comment}</p>
                       <div className="status-comment">
-                        <div className="up">
+                        <div className="up" style={upvote_style}>
                           <span>{e.upvotes.length}</span>
                           <Icon
                             icon={chevronUp}
@@ -181,18 +223,39 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
                             }}
                           />
                         </div>
-
-                        <span>|</span>
-
-                        <div className="down">
-                          <span>{e.downvotes.length}</span>
-                          <Icon icon={chevronDown} className="vote" />
-                        </div>
-
                         <div className="reply">
                           <Icon icon={circleFill} className="dot" />
-                          <span>reply</span>
+                          <span
+                            className="reply-btn unselectable"
+                            onClick={() => {
+                              setCmtReply(!cmtReply);
+                              setCmtReplyParent(e.commentId);
+                            }}
+                          >
+                            reply
+                          </span>
                         </div>
+                        {cmtReply === true && cmtReplyParent === e.commentId ? (
+                          <div>
+                            <input type="text" ref={replyInput}></input>
+                            <button
+                              type="submit"
+                              onClick={() => {
+                                submitReply(
+                                  replyInput.current.value,
+                                  e.commentId,
+                                  e.userId
+                                );
+                                setCmtReply(!cmtReply);
+                                setCmtReplyParent(undefined);
+                              }}
+                            >
+                              Balas
+                            </button>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   </div>
@@ -207,7 +270,10 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
                               <div className="user-image"></div>
                               <div className="comment-content">
                                 <p className="username">
-                                  {el.userId} <span>@user1</span>
+                                  {nameMap.get(el.userId)}{" "}
+                                  <span style={{ color: "gray" }}>
+                                    @{nameMap.get(el.repliesTo)}
+                                  </span>
                                 </p>
                                 <p className="comment-body">{el.comment}</p>
                                 <div className="status-comment">
@@ -215,20 +281,52 @@ function Comments({ itemId, comments, user, componentState, reloadComponent }) {
                                     <span>
                                       {el.upvotes ? el.upvotes.length : 0}
                                     </span>
-                                    <Icon icon={chevronUp} className="vote" />
-                                  </div>
-
-                                  <span>|</span>
-
-                                  <div className="down">
-                                    <span>0</span>
-                                    <Icon icon={chevronDown} className="vote" />
+                                    <Icon
+                                      onClick={() => {
+                                        upvoteReply(e.commentId, el.replyId);
+                                      }}
+                                      icon={chevronUp}
+                                      className="vote"
+                                    />
                                   </div>
 
                                   <div className="reply">
                                     <Icon icon={circleFill} className="dot" />
-                                    <span>reply</span>
+                                    <span
+                                      className="reply-btn unselectable"
+                                      onClick={() => {
+                                        setCmtReply(!cmtReply);
+                                        setCmtReplyParent(el.replyId);
+                                      }}
+                                    >
+                                      reply
+                                    </span>
                                   </div>
+                                  {cmtReply === true &&
+                                  cmtReplyParent === el.replyId ? (
+                                    <div>
+                                      <input
+                                        type="text"
+                                        ref={replyInput}
+                                      ></input>
+                                      <button
+                                        type="submit"
+                                        onClick={() => {
+                                          submitReply(
+                                            replyInput.current.value,
+                                            e.commentId,
+                                            el.userId
+                                          );
+                                          setCmtReply(!cmtReply);
+                                          setCmtReplyParent(undefined);
+                                        }}
+                                      >
+                                        Balas
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
                               </div>
                             </div>
