@@ -10,11 +10,15 @@ const Login = () => {
   const history = useHistory();
 
   function sendLoginData() {
-    console.log("attempting to login...");
     AuthenticationService.signin(
       emailInput.current.value,
       passInput.current.value
-    );
+    ).then(e=> {
+      window.location.href = "/"
+    }).catch(e=>{
+      console.log("Wrong credentials")
+    })
+    
   }
 
   if (AuthenticationService.getCurrentUser()) {

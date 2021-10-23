@@ -17,6 +17,8 @@ const Me = () => {
   const [detail, setDetail] = useState({});
   const [myevent, setMyevent] = useState([]);
   const [removeInProgress, setRemoveInProgress] = useState(false);
+  const [editName, setEditName] = useState(false);
+  const [name, setName] = useState();
 
   useState(() => {
     const u = auth.getCurrentUser() || undefined;
@@ -26,6 +28,7 @@ const Me = () => {
         name: auth.getLocalCurrentuser().data.name,
         email: auth.getLocalCurrentuser().data.email
       })
+      setName(detail.name);
     }
 
     axios
@@ -44,6 +47,11 @@ const Me = () => {
       });
   }, [])
 
+  function saveName() {
+    let newName = name;
+    setEditName(false);
+  }
+
   return (
     <div className="me-container">
       <div className="user">
@@ -52,14 +60,14 @@ const Me = () => {
           {me ? <span className="edit">Ubah</span> : ""}
         </div>
         <div className="user-info">
-          <h1>
-            {detail.name+" "}
-            {me ? (
-              <span className="edit" onClick={() => setEdit("name")}>
+          <h1 className="flex">
+            {!editName ? detail.name+" " : <div><input type="text" placeholder={detail.name} onChange={e => setName(e.currentTarget.value)} /></div>}
+            {me && !editName ? (
+              <span className="edit ml-5" onClick={() => setEditName(true)}>
                 Ubah
               </span>
             ) : (
-              ""
+              <span className="edit ml-5" onClick={() => saveName()}>Simpan</span>
             )}
           </h1>
           <p>{detail.email}</p>

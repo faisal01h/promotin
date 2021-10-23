@@ -12,12 +12,9 @@ class AuthenticationService {
         console.log(response.data);
         if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data));
-          window.location.href = "/";
         }
-        return response.data;
       })
       .catch((err) => {
-        console.log(err);
         throw err;
       });
   };

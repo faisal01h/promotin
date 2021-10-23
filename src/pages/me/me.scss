@@ -50,6 +50,29 @@
     .user-info {
       text-align: left;
 
+      .flex {
+        display: flex;
+        align-items: baseline;
+      }
+
+      .ml-5 {
+        margin-left: 5px;
+      }
+
+      input {
+        border: 1px solid rgb(200,200,200);
+        border-radius: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: #24bfde;
+      }
+
       h1 {
         font-size: 16pt;
       }
