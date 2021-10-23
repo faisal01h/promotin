@@ -194,7 +194,7 @@ function Comments({ itemId, user, componentState, reloadComponent }) {
           ? comments.map((e) => {
               let upvote_style = {};
               e.upvotes.find((uid) => {
-                if (Auth.getLocalCurrentuser().data.id === uid)
+                if (Auth.getLocalCurrentuser() && Auth.getLocalCurrentuser().data.id === uid)
                   upvote_style = { color: "red" };
               });
               return (

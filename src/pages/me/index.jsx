@@ -1,13 +1,48 @@
 import React from "react";
 import "./me.scss";
 import { poster, user } from "../../assets";
-import { Gap } from "../../components";
+import { Gap, Button, Loading, LoadingBox } from "../../components";
 import { useState } from "react";
 import { render } from "react-dom";
+import auth from "../auth";
+import data from "@iconify/icons-bi/chevron-up";
+import axios from 'axios';
+import { Link } from "react-router-dom";
+
 
 const Me = () => {
+  const HOST_URI = process.env.REACT_APP_HOST_URI
   const [me, setMe] = useState(true);
   const [edit, setEdit] = useState("");
+  const [detail, setDetail] = useState({});
+  const [myevent, setMyevent] = useState([]);
+  const [removeInProgress, setRemoveInProgress] = useState(false);
+
+  useState(() => {
+    const u = auth.getCurrentUser() || undefined;
+    if(u) {
+      setDetail({
+        id: auth.getLocalCurrentuser().data.id,
+        name: auth.getLocalCurrentuser().data.name,
+        email: auth.getLocalCurrentuser().data.email
+      })
+    }
+
+    axios
+      .post(HOST_URI+"/api/v1/items/all/filter", {
+        authorId: auth.getLocalCurrentuser().data.id,
+      })
+      .then((result) => {
+        if (result) {
+          const responseAPI = result.data;
+
+          setMyevent(responseAPI.data);
+        }
+      })
+      .catch((err) => {
+        console.log("Error ", err);
+      });
+  }, [])
 
   return (
     <div className="me-container">
@@ -18,7 +53,7 @@ const Me = () => {
         </div>
         <div className="user-info">
           <h1>
-            Fahrizal{" "}
+            {detail.name+" "}
             {me ? (
               <span className="edit" onClick={() => setEdit("name")}>
                 Ubah
@@ -27,7 +62,7 @@ const Me = () => {
               ""
             )}
           </h1>
-          <p>fahrizalm84@gmail.com</p>
+          <p>{detail.email}</p>
         </div>
       </div>
 
@@ -55,7 +90,20 @@ const Me = () => {
         </div>
 
         <Gap height={10} />
-        <img src={poster} alt="" className="poster-img" />
+        <div className="me-myevent">
+        {
+          myevent.length > 0 ?
+          myevent.map((event) => {
+            return (
+              <Link className="me-poster-wrap" key={event._id} to={"/item-detail/"+event._id}>
+                <img src={poster} alt="" className="poster-img" />
+              </Link>
+            );
+          })
+          :
+          <Loading color="#333" />
+        }
+        </div>
       </div>
     </div>
   );

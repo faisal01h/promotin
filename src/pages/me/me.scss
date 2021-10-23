@@ -14,6 +14,17 @@
     border: 1px solid lightgray;
   }
 
+  .me-poster-wrap {
+    cursor: pointer;
+  }
+  
+  .me-myevent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: 10px;
+  }
+
   .user {
     display: flex;
     align-items: center;
